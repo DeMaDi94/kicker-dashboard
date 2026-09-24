@@ -1,8 +1,8 @@
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { LucideIcon } from 'lucide-react';
-import { Trophy, Users } from 'lucide-react';
+import { Medal, Trophy, Users } from 'lucide-react';
 import { i18nKey } from '@/lib/i18n';
-import { home } from '@/routes';
+import { home, records } from '@/routes';
 import { index as players } from '@/routes/players';
 
 /**
@@ -29,6 +29,13 @@ export const NAV_ITEMS: ShellNavItem[] = [
         href: home(),
         icon: Trophy,
         sections: ['/', '/seasons'],
+    },
+    {
+        // STAT-10
+        title: i18nKey('Records'),
+        href: records(),
+        icon: Medal,
+        sections: ['/records'],
     },
     {
         title: i18nKey('Players'),

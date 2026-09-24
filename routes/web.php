@@ -14,6 +14,9 @@ use App\Http\Seasons\ShowSeason\ShowSeasonController;
 use App\Http\Seasons\StoreSeason\StoreSeasonController;
 use App\Http\Seasons\UpdateSeasonPlayers\UpdateSeasonPlayersController;
 use App\Http\Seasons\UpdateSeasonSettlement\UpdateSeasonSettlementController;
+use App\Http\Statistics\ComparePlayers\ComparePlayersController;
+use App\Http\Statistics\ShowPlayer\ShowPlayerController;
+use App\Http\Statistics\ShowRecords\ShowRecordsController;
 use Illuminate\Support\Facades\Route;
 
 // D1 / ACC-01 — `/` is the public season view; no sign-in needed to read.
@@ -61,5 +64,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // ACC-01 — every season is readable without signing in.
 Route::get('seasons/{season}', ShowSeasonController::class)->name('seasons.show');
+
+// STAT-01, STAT-09, STAT-10 — the statistics are public too.
+Route::get('players/{player}', ShowPlayerController::class)->whereNumber('player')->name('players.show');
+Route::get('seasons/{season}/compare', ComparePlayersController::class)->name('seasons.compare');
+Route::get('records', ShowRecordsController::class)->name('records');
 
 require __DIR__.'/settings.php';

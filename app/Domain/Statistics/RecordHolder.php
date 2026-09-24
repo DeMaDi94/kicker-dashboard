@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Domain\Statistics;
+
+/**
+ * Who holds a record, and where (STAT-10). The closest matchday has no
+ * player; the season records have no matchday.
+ */
+final readonly class RecordHolder
+{
+    public function __construct(
+        public int $seasonId,
+        public string $seasonName,
+        public ?int $playerId = null,
+        public ?string $playerName = null,
+        public ?int $matchday = null,
+    ) {}
+}

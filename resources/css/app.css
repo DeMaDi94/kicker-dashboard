@@ -107,8 +107,11 @@
     --border: #e4e4e7;
     --input: #e4e4e7;
     --ring: #cc423c;
-    --chart-1: #1c1d21;
-    --chart-2: #b3362f;
+    /* D10 — the graphs' two series hues, validated for colour-vision
+       deficiency against the page; --chart-4 is the neutral for reference
+       lines such as the league average. */
+    --chart-1: #cc423c;
+    --chart-2: #3f6fb0;
     --chart-3: #cc423c;
     --chart-4: #71717a;
     --chart-5: #a1a1aa;
@@ -145,8 +148,8 @@
     --border: #2a2e36;
     --input: #2a2e36;
     --ring: #cc423c;
-    --chart-1: #cc423c;
-    --chart-2: #b3362f;
+    --chart-1: #d95a54;
+    --chart-2: #4f86d0;
     --chart-3: #f29a95;
     --chart-4: #a1a1aa;
     --chart-5: #71717a;

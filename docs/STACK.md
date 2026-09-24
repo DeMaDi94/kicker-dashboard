@@ -42,6 +42,7 @@ on macOS / darwin 25.3.0.
 | `@playwright/test` | 1.63.0 | Chromium only |
 | `@dnd-kit/core` / `sortable` / `utilities` | 6.3.1 / 10.0.0 / 3.2.2 | `<SortableList>` |
 | `date-fns` | 4.4.0 | |
+| `recharts` | 3.10.1 | The statistics graphs (STAT-04–06, STAT-09); approved by the product owner, D10 |
 | `sonner` | 2.0.8 | Starter kit — behind `toast()` in `components/core` |
 | `lucide-react` | 0.475.0 | The only icon set |
 | `@testing-library/react` | 16.3.3 | With `jest-dom` and `user-event` |

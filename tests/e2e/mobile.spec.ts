@@ -30,7 +30,7 @@ for (const path of PAGES) {
 test.describe('signed out', () => {
     test.use({ storageState: { cookies: [], origins: [] } });
 
-    for (const path of ['/', '/login']) {
+    for (const path of ['/', '/login', '/records']) {
         test(`${path} fits a 320 px phone`, async ({ page }) => {
             await page.goto(path);
 

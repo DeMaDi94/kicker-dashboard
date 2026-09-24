@@ -7,7 +7,7 @@ unless a requirement says so.
 | | |
 | --- | --- |
 | Product | Vivalaraza — Tabellen und Strafen der internen kicker-Manager-Liga |
-| Requirements | 18 |
+| Requirements | 30 |
 | Last reviewed | 2026-09-24 (Q1–Q8 eingearbeitet) |
 
 Decisions and open questions live in [`DECISIONS.md`](DECISIONS.md); the domain vocabulary in
@@ -58,6 +58,7 @@ bold id and an em dash; continuation lines are indented two spaces:
 4. Spieltage (`MD`)
 5. Strafen (`PEN`)
 6. Gesamttabelle (`STD`)
+7. Statistiken (`STAT`)
 
 ---
 
@@ -152,3 +153,41 @@ erfasst die App nicht.*
   die meisten Punkte zuerst. Es zählen nur abgeschlossene Spieltage (MD-02). Gleiche Punktesumme
   ergibt den gleichen Platz; innerhalb eines Platzes steht der Mitspieler mit der geringeren
   Strafensumme zuerst.
+
+## 7. Statistiken (`STAT`)
+
+*Öffentliche Auswertungen je Mitspieler und für die ganze Liga.*
+
+- **STAT-01** — Jeder Mitspieler hat eine eigene Seite, ohne Anmeldung lesbar; sein Name in
+  Gesamttabelle und Spieltag führt dorthin. Sie zeigt eine Saison, wählbar unter den Saisons, an
+  denen er teilnimmt; vorausgewählt ist die zuletzt angelegte davon.
+- **STAT-02** — Alle Statistiken zählen nur abgeschlossene Spieltage (MD-02). Durchschnitte
+  werden auf eine Nachkommastelle gerundet angezeigt.
+- **STAT-03** — Kennzahlen je Saison: Gesamtpunkte, Ø Punkte je Spieltag, bester und
+  schlechtester Spieltag (Punkte und Spieltag), aktueller Platz in der Gesamttabelle und die
+  Strafen (Hinrunde, Rückrunde und Gesamt, wie PEN-04).
+- **STAT-04** — Ein Graph zeigt die Punkte je Spieltag und als Vergleichslinie den
+  Liga-Durchschnitt des Spieltags (Ø Punkte aller Mitspieler der Saison).
+- **STAT-05** — Ein Graph zeigt den Platzierungsverlauf: den Platz in der Gesamttabelle nach
+  jedem Spieltag.
+- **STAT-06** — Ein Graph zeigt die Strafen je Spieltag und kumuliert über die Saison; der
+  Spieltag der Zwischenabrechnung (PEN-04) ist markiert.
+- **STAT-07** — Erfolge und Serien je Saison: Spieltagssiege (Platz 1), „Rote Laterne“ (letzter
+  Platz) – bei Gleichstand zählt beides für jeden –, strafenfreie Spieltage, die längste Serie
+  aufeinanderfolgender strafenfreier Spieltage und die Formkurve: der Tagesplatz der letzten fünf
+  Spieltage, bewertet als gut, mittel oder schlecht nach oberem, mittlerem oder unterem Drittel der
+  Plätze dieses Spieltags.
+- **STAT-08** — Die ewige Bilanz eines Mitspielers über alle Saisons: gespielte Saisons, Ø Platz
+  in der Gesamttabelle (je Saison der aktuelle bzw. letzte Platz), Punkte und Strafen insgesamt und
+  Spieltagssiege insgesamt.
+- **STAT-09** — Direktvergleich zweier Mitspieler einer Saison: beide Punkte-Verläufe
+  übereinander und an wie vielen Spieltagen der eine mehr, gleich viele oder weniger Punkte hatte
+  als der andere.
+- **STAT-10** — Liga-Rekorde, über alle Saisons oder für eine gewählte Saison: höchste und
+  niedrigste Punktzahl an einem Spieltag, meiste Spieltagssiege in einer Saison, höchste
+  Strafensumme in einer Saison und der knappste Spieltag (kleinster Abstand zwischen höchster und
+  niedrigster Punktzahl) – jeweils mit Mitspieler, Saison und Spieltag; bei Gleichstand alle.
+- **STAT-11** — Spieltags-Highlights: zu jedem Spieltag der Tagessieger, die „Rote Laterne“ und
+  der Liga-Durchschnitt.
+- **STAT-12** — Die Strafenkasse einer Saison: die Summe aller Strafen (Hinrunde, Rückrunde,
+  Gesamt) und die Mitspieler nach eingezahlter Summe, die höchste zuerst.

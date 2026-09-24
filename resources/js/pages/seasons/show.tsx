@@ -11,9 +11,11 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { MatchdayTable } from '@/features/seasons/matchday-table';
+import { PenaltyBox } from '@/features/seasons/penalty-box';
 import { StandingsTable } from '@/features/seasons/standings-table';
 import type {
     MatchdayBlock,
+    PenaltyBox as PenaltyBoxData,
     SeasonOption,
     SeasonSummary,
     StandingLine,
@@ -23,7 +25,7 @@ import { i18nKey } from '@/lib/i18n';
 import { formatCents } from '@/lib/money';
 import { home } from '@/routes';
 import { edit as editMatchday } from '@/routes/matchdays';
-import { create, show } from '@/routes/seasons';
+import { compare, create, show } from '@/routes/seasons';
 import { edit as editPlayers } from '@/routes/seasons/players';
 import { edit as editSettlement } from '@/routes/seasons/settlement';
 
@@ -32,6 +34,7 @@ type ShowSeasonProps = {
     season: SeasonSummary | null;
     standings: StandingLine[];
     matchdays: MatchdayBlock[];
+    penaltyBox: PenaltyBoxData | null;
 };
 
 /*
@@ -59,6 +62,7 @@ export default function ShowSeason({
     season,
     standings,
     matchdays,
+    penaltyBox,
 }: ShowSeasonProps) {
     const { t, locale } = useTranslation();
     const { url, props } = usePage();
@@ -126,6 +130,13 @@ export default function ShowSeason({
                             </SelectContent>
                         </Select>
                     )}
+                    {season !== null && (
+                        <Button variant="outline" asChild>
+                            <Link href={compare(season.id)}>
+                                {t('Head-to-head')}
+                            </Link>
+                        </Button>
+                    )}
                     {season !== null && can('seasons.set-settlement') && (
                         <Button variant="outline" asChild>
                             <Link href={editSettlement(season.id)}>
@@ -159,6 +170,7 @@ export default function ShowSeason({
                     <Panel>
                         <PanelHeader title={t('Overall table')} />
                         <StandingsTable
+                            seasonId={season.id}
                             rows={standings}
                             split={season.settlementMatchday !== null}
                         />
@@ -204,8 +216,20 @@ export default function ShowSeason({
                                 </Button>
                             )}
                         </PanelHeader>
-                        {matchday && <MatchdayTable matchday={matchday} />}
+                        {matchday && (
+                            <MatchdayTable
+                                seasonId={season.id}
+                                matchday={matchday}
+                            />
+                        )}
                     </Panel>
+
+                    {penaltyBox && (
+                        <Panel>
+                            <PanelHeader title={t('Penalty box')} />
+                            <PenaltyBox seasonId={season.id} box={penaltyBox} />
+                        </Panel>
+                    )}
                 </div>
             )}
         </>

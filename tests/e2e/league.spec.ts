@@ -57,4 +57,14 @@ test('an admin sets up a season, points are entered and a guest reads the table'
     await expect(rows.nth(1)).toContainText(players[0]);
     await expect(rows.nth(1)).toContainText('4,50');
     await expect(guest.getByRole('link', { name: 'Anmelden' })).toBeVisible();
+
+    // STAT-01 — the name leads to the player's own page, open to guests too.
+    await rows.first().getByRole('link', { name: players[1] }).click();
+    await expect(
+        guest.getByRole('heading', { name: players[1], level: 1 }),
+    ).toBeVisible();
+    await expect(
+        guest.getByRole('heading', { name: 'Punkte je Spieltag' }),
+    ).toBeVisible();
+    await expect(guest.locator('.recharts-surface').first()).toBeVisible();
 });

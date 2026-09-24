@@ -21,6 +21,7 @@ namespace column — do not invent an area name.
 | MD | Spieltage | `Matchdays` | `pages/matchdays` |
 | PEN | Strafen | `Penalties` (domain only) | — |
 | STD | Gesamttabelle | `Standings` (domain only) | — |
+| STAT | Statistiken | `Statistics` | `features/statistics`, `pages/statistics` |
 
 ## Core entities
 
@@ -38,6 +39,13 @@ namespace column — do not invent an area name.
 | Startbetrag / Schrittweite | `penaltyStartCents` / `penaltyStepCents` — `PenaltyScale` | The lowest score's penalty and the amount each higher score pays less (PEN-01). |
 | Zwischenabrechnung (interim settlement) | `settlementMatchday` | The last matchday of the „Hinrunde“; the penalty box is settled after it (PEN-04). Nullable: no settlement set yet. |
 | Hinrunde / Rückrunde | first half / second half — `firstHalfPenaltyCents` / `secondHalfPenaltyCents` | Penalties up to and including the settlement matchday / after it (PEN-04). Not the Bundesliga's fixed halves. |
+| Spieltagssieg (matchday win) | `wins`, `CompletedMatchday::winners()` | First place on a matchday; a tie counts for each (STAT-07). |
+| Rote Laterne | `lanterns`, `CompletedMatchday::lanterns()` | Last place on a matchday; a tie counts for each (STAT-07). Kept in German in the UI. |
+| Formkurve (form) | `form`, `FormGrade` | The day's places of the last five complete matchdays, graded good / middle / bad (STAT-07). |
+| Ewige Bilanz (all-time balance) | `CareerStats` | A player's figures over all seasons (STAT-08). |
+| Direktvergleich (head-to-head) | `HeadToHead` | Two players of one season, matchday by matchday (STAT-09). |
+| Liga-Rekorde (league records) | `LeagueRecords`, `LeagueRecord`, `RecordHolder` | STAT-10. |
+| Strafenkasse (penalty box) | `PenaltyBox` | What a season's penalties add up to, and who paid what (STAT-12). |
 | Gesamttabelle (overall table) | `Standings` | The season's ranking by points over the complete matchdays (STD-01). |
 | Benutzer (user) | `User` | An account that can sign in. Also the name of the plain role — the enum case `Role::User`. |
 | Rolle (role) | `Role` | What a user is, exactly one per user (B13). Not a permission: code never checks a role. |

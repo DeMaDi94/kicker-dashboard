@@ -1,5 +1,7 @@
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCents } from '@/lib/money';
+import { formatNumber } from '@/lib/number';
+import { show } from '@/routes/players';
 import { PlayerName } from './player-name';
 import type { MatchdayBlock } from './types';
 
@@ -7,8 +9,17 @@ import type { MatchdayBlock } from './types';
  * One matchday's points, and — MD-02 — its places and penalties once every
  * player has points.
  */
-export function MatchdayTable({ matchday }: { matchday: MatchdayBlock }) {
+export function MatchdayTable({
+    seasonId,
+    matchday,
+}: {
+    seasonId: number;
+    matchday: MatchdayBlock;
+}) {
     const { t, locale } = useTranslation();
+    const highlights = matchday.highlights;
+    const names = (players: { name: string }[]) =>
+        players.map((player) => player.name).join(', ');
 
     if (!matchday.hasPoints) {
         return (
@@ -19,7 +30,36 @@ export function MatchdayTable({ matchday }: { matchday: MatchdayBlock }) {
     }
 
     return (
-        <div className="overflow-x-auto">
+        <div className="relative overflow-x-auto">
+            {/* STAT-11 — the day's winners, „Rote Laterne“ and average. */}
+            {highlights && (
+                <dl className="grid grid-cols-3 gap-2 border-b border-brand-line-soft px-4 py-3 text-sm">
+                    <div className="min-w-0">
+                        <dt className="brand-label text-brand-label">
+                            {t('Matchday winner')}
+                        </dt>
+                        <dd className="truncate font-medium text-brand-ink">
+                            {names(highlights.winners)}
+                        </dd>
+                    </div>
+                    <div className="min-w-0">
+                        <dt className="brand-label text-brand-label">
+                            {t('Rote Laterne')}
+                        </dt>
+                        <dd className="truncate font-medium text-brand-ink">
+                            {names(highlights.lanterns)}
+                        </dd>
+                    </div>
+                    <div className="min-w-0">
+                        <dt className="brand-label text-brand-label">
+                            {t('League average')}
+                        </dt>
+                        <dd className="brand-figure font-medium text-brand-ink">
+                            {formatNumber(highlights.average, locale, 1)}
+                        </dd>
+                    </div>
+                </dl>
+            )}
             {!matchday.complete && (
                 <p className="px-4 pt-3 text-sm text-brand-muted">
                     {t(
@@ -66,7 +106,13 @@ export function MatchdayTable({ matchday }: { matchday: MatchdayBlock }) {
                                 {row.place === null ? '–' : `${row.place}.`}
                             </td>
                             <td className="px-1.5 py-2 phone:px-3">
-                                <PlayerName name={row.name} alias={row.alias} />
+                                <PlayerName
+                                    name={row.name}
+                                    alias={row.alias}
+                                    href={show(row.playerId, {
+                                        query: { season: seasonId },
+                                    })}
+                                />
                             </td>
                             <td className="px-2 py-2 text-right brand-figure phone:px-3">
                                 {row.points ?? '–'}

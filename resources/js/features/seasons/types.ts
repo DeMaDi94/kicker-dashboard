@@ -33,6 +33,20 @@ export type MatchdayBlock = {
     complete: boolean;
     hasPoints: boolean;
     rows: MatchdayLine[];
+    /** STAT-11 — null until the matchday is complete. */
+    highlights: {
+        winners: { playerId: number; name: string }[];
+        lanterns: { playerId: number; name: string }[];
+        average: number;
+    } | null;
+};
+
+/** Mirrors App\Domain\Statistics\PenaltyBox (STAT-12). */
+export type PenaltyBox = {
+    totalCents: number;
+    firstHalfCents: number | null;
+    secondHalfCents: number | null;
+    payers: { playerId: number; name: string; penaltyCents: number }[];
 };
 
 /** A player to pick for a season (SEA-02). */

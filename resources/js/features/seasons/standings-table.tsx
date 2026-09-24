@@ -1,6 +1,7 @@
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCents } from '@/lib/money';
 import { cn } from '@/lib/utils';
+import { show } from '@/routes/players';
 import { PlayerName } from './player-name';
 import type { StandingLine } from './types';
 
@@ -16,9 +17,11 @@ const HALF = 'max-phone:hidden';
  * into the total's cell, so the table keeps to the screen (D7).
  */
 export function StandingsTable({
+    seasonId,
     rows,
     split,
 }: {
+    seasonId: number;
     rows: StandingLine[];
     split: boolean;
 }) {
@@ -106,7 +109,13 @@ export function StandingsTable({
                                 {row.place}.
                             </td>
                             <td className={CELL}>
-                                <PlayerName name={row.name} alias={row.alias} />
+                                <PlayerName
+                                    name={row.name}
+                                    alias={row.alias}
+                                    href={show(row.playerId, {
+                                        query: { season: seasonId },
+                                    })}
+                                />
                             </td>
                             <td className={cn(CELL, 'text-right brand-figure')}>
                                 {row.points}

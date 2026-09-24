@@ -77,7 +77,7 @@ describe('ACC-03 · only admins create players', function () {
     it('offers no route to edit or delete a player', function () {
         $player = Player::factory()->create();
 
-        $this->actingAs(admin())->patch("/players/{$player->id}", ['name' => 'X'])->assertNotFound();
-        $this->actingAs(admin())->delete("/players/{$player->id}")->assertNotFound();
+        $this->actingAs(admin())->patch("/players/{$player->id}", ['name' => 'X'])->assertMethodNotAllowed();
+        $this->actingAs(admin())->delete("/players/{$player->id}")->assertMethodNotAllowed();
     });
 });
