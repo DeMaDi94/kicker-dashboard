@@ -1,9 +1,17 @@
 import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/react';
+import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { useConfirm } from '@/components/core/dialogs';
 import { PageTitle } from '@/components/core/page-title';
 import { Panel, PanelHeader } from '@/components/core/panel';
 import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
     Select,
     SelectContent,
@@ -160,52 +168,72 @@ export default function ShowSeason({
                             </SelectContent>
                         </Select>
                     )}
-                    {season !== null && (
-                        <Button variant="outline" asChild>
-                            <Link href={compare(season.id)}>
-                                {t('Head-to-head')}
-                            </Link>
-                        </Button>
-                    )}
-                    {season !== null && can('seasons.set-settlement') && (
-                        <Button variant="outline" asChild>
-                            <Link href={editSettlement(season.id)}>
-                                {t('Interim settlement')}
-                            </Link>
-                        </Button>
-                    )}
-                    {season !== null && auth.user !== null && (
-                        <Button variant="outline" asChild>
-                            <Link href={editPenaltyScale(season.id)}>
-                                {t('Penalty scale')}
-                            </Link>
-                        </Button>
-                    )}
-                    {season !== null && can('seasons.set-players') && (
-                        <Button variant="outline" asChild>
-                            <Link href={editPlayers(season.id)}>
-                                {t('Players of the season')}
-                            </Link>
-                        </Button>
-                    )}
-                    {can('seasons.delete') && (
-                        <Button variant="outline" asChild>
-                            <Link href={deleted()}>{t('Deleted seasons')}</Link>
-                        </Button>
-                    )}
-                    {season !== null && can('seasons.delete') && (
-                        <Button
-                            variant="destructive"
-                            onClick={() => deleteSeason(season)}
-                        >
-                            {t('Delete season')}
-                        </Button>
-                    )}
-                    {can('seasons.create') && (
-                        <Button asChild>
-                            <Link href={create()}>{t('Create season')}</Link>
-                        </Button>
-                    )}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline">
+                                {t('Actions')}
+                                <ChevronDown />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="min-w-56">
+                            {season !== null && (
+                                <DropdownMenuItem asChild>
+                                    <Link href={compare(season.id)}>
+                                        {t('Head-to-head')}
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            {season !== null &&
+                                can('seasons.set-settlement') && (
+                                    <DropdownMenuItem asChild>
+                                        <Link href={editSettlement(season.id)}>
+                                            {t('Interim settlement')}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                )}
+                            {season !== null && auth.user !== null && (
+                                <DropdownMenuItem asChild>
+                                    <Link href={editPenaltyScale(season.id)}>
+                                        {t('Penalty scale')}
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            {season !== null && can('seasons.set-players') && (
+                                <DropdownMenuItem asChild>
+                                    <Link href={editPlayers(season.id)}>
+                                        {t('Players of the season')}
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            {can('seasons.create') && (
+                                <DropdownMenuItem asChild>
+                                    <Link href={create()}>
+                                        {t('Create season')}
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            {can('seasons.delete') && (
+                                <>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild>
+                                        <Link href={deleted()}>
+                                            {t('Deleted seasons')}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    {season !== null && (
+                                        <DropdownMenuItem
+                                            variant="destructive"
+                                            onSelect={() =>
+                                                deleteSeason(season)
+                                            }
+                                        >
+                                            {t('Delete season')}
+                                        </DropdownMenuItem>
+                                    )}
+                                </>
+                            )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </PageTitle>
 

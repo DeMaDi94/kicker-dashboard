@@ -84,7 +84,7 @@ export function MatchdayTable({
                     )}
                 </p>
             )}
-            <table className="w-full text-sm">
+            <table className="w-full text-sm phone:w-auto">
                 <thead className="border-b border-brand-line-soft text-brand-muted">
                     <tr>
                         <th
