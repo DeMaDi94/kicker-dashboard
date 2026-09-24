@@ -32,6 +32,26 @@ describe('PLY-01 · an admin creates a player', function () {
     });
 });
 
+describe('D8 · no duplicate players', function () {
+    it('refuses a second player with the same name and alias', function () {
+        Player::factory()->create(['name' => 'Paul', 'alias' => 'paul_kicker']);
+
+        $this->actingAs(admin())->post(route('players.store'), ['name' => 'Paul', 'alias' => 'paul_kicker'])
+            ->assertInvalid(['name' => 'Einen Mitspieler mit diesem Namen und Alias gibt es schon.']);
+
+        expect(Player::count())->toBe(1);
+    });
+
+    it('allows the same name with another alias', function () {
+        Player::factory()->create(['name' => 'Paul', 'alias' => 'paul_kicker']);
+
+        $this->actingAs(admin())->post(route('players.store'), ['name' => 'Paul', 'alias' => 'paul2'])
+            ->assertValid();
+
+        expect(Player::count())->toBe(2);
+    });
+});
+
 // ACC-04 — a player needs no account; players and users are separate.
 it('creates no user account for a player (ACC-04)', function () {
     $admin = admin();

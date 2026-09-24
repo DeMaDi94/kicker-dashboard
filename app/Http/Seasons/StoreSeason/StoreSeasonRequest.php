@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Seasons\StoreSeason;
 
 use App\Models\Player;
+use App\Models\Season;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -23,7 +24,8 @@ final class StoreSeasonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            // D8 — no two seasons share a name.
+            'name' => ['required', 'string', 'max:255', Rule::unique(Season::class)],
             'penalty_start' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:'.self::MAX_EUROS],
             'penalty_step' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:'.self::MAX_EUROS],
             'player_ids' => ['present', 'array'],
