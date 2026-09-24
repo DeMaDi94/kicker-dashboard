@@ -54,6 +54,12 @@ export default function PenaltyScale({ season }: PenaltyScaleProps) {
                             );
                         }}
                     >
+                        {/* SEA-05 — the new values apply to every matchday. */}
+                        <p className="text-[13px] text-brand-muted">
+                            {t(
+                                'The penalties of every matchday of this season are recalculated with the new values.',
+                            )}
+                        </p>
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="grid gap-2">
                                 <Label htmlFor="penalty_start">

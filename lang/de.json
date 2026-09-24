@@ -230,6 +230,7 @@
     "The last admin cannot be deleted or lose the admin role.": "Der letzte Administrator kann weder gelöscht werden noch die Administratorrolle verlieren.",
     "The new user receives an email with a link to choose a password.": "Der neue Benutzer bekommt eine E-Mail mit einem Link, über den er sein Passwort wählt.",
     "The penalties are settled once after this matchday. Points and places carry on.": "Nach diesem Spieltag werden die Strafen einmal abgerechnet. Punkte und Platzierung laufen weiter.",
+    "The penalties of every matchday of this season are recalculated with the new values.": "Die Strafen aller Spieltage dieser Saison werden mit den neuen Werten neu berechnet.",
     "The provided password was incorrect.": "Das Passwort ist falsch.",
     "The provided two factor authentication code was invalid.": "Der Code der Zwei-Faktor-Authentifizierung ist ungültig.",
     "The provided two factor recovery code was invalid.": "Der Wiederherstellungscode ist ungültig.",
