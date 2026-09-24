@@ -42,7 +42,15 @@ Questions the requirements do not answer yet. Code stops at these boundaries and
 
 | Id | Question | Blocks |
 | --- | --- | --- |
-| | _none yet_ | |
+| Q1 | Gleichstand in der Gesamttabelle: teilen sich Mitspieler mit gleicher Punktesumme den Platz, oder entscheidet etwas anderes? | STD-01 |
+| Q2 | Dürfen Startbetrag und Schrittweite in einer laufenden Saison noch geändert werden (alle Strafen neu berechnet), oder sind sie nach dem ersten Spieltag gesperrt? | SEA-01, PEN-01 |
+| Q3 | Anzeige der Spieltags-Platzierung bei Gleichstand: 1, 2, 3, 3, 4 oder 1, 2, 3, 3, 5? (Die Strafe zählt Plätze in jedem Fall wie PEN-02.) | MD-03 |
+| Q4 | Was zeigt die öffentliche Seite genau — Gesamttabelle mit Punkte- und Strafensumme, Ergebnisse je Spieltag, Auswahl früherer Saisons? | ACC-01, PEN-03, STD-01 |
+| Q5 | Wie heißt eine Saison (z. B. „2025/26“), und hat sie mehr als diese Bezeichnung? | SEA-01 |
+| Q6 | Ab wann ist die Mitspielerliste einer Saison gesperrt — ab dem ersten eingetragenen Punkt? | SEA-03 |
+| Q7 | Punkte: nur ganze Zahlen? Können sie negativ sein? | MD-01 |
+| Q8 | Zählen in der Gesamttabelle nur abgeschlossene Spieltage? | STD-01 |
+| Q9 | Punkte automatisch aus dem kicker Manager holen — gewünscht, aber nicht für den ersten PoC. Quelle und Weg offen. | — |
 
 ## Spec notes
 

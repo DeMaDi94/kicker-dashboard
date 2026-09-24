@@ -6,9 +6,9 @@ unless a requirement says so.
 
 | | |
 | --- | --- |
-| Product | _not yet named — see the `start-project` skill_ |
-| Requirements | 0 |
-| Last reviewed | — |
+| Product | Vivalaraza — Tabellen und Strafen der internen kicker-Manager-Liga |
+| Requirements | 17 |
+| Last reviewed | 2026-09-24 (Entwurf) |
 
 Decisions and open questions live in [`DECISIONS.md`](DECISIONS.md); the domain vocabulary in
 [`GLOSSARY.md`](GLOSSARY.md).
@@ -52,6 +52,88 @@ bold id and an em dash; continuation lines are indented two spaces:
 
 ## Table of contents
 
-_The areas, once there are any._
+1. Zugriff (`ACC`)
+2. Mitspieler (`PLY`)
+3. Saisons (`SEA`)
+4. Spieltage (`MD`)
+5. Strafen (`PEN`)
+6. Gesamttabelle (`STD`)
 
 ---
+
+## 1. Zugriff (`ACC`)
+
+*Wer was sehen und wer was eintragen darf.*
+
+- **ACC-01** — Die Ergebnisse jeder Saison (Spieltage, Gesamttabelle, Strafen) sind **ohne
+  Anmeldung** lesbar.
+- **ACC-02** — Punkte eintragen und ändern dürfen nur angemeldete Benutzer.
+- **ACC-03** — Mitspieler und Saisons anlegen sowie die Mitspieler einer Saison festlegen dürfen
+  nur Admins.
+- **ACC-04** — Ein Mitspieler braucht kein Benutzerkonto; Mitspieler und Benutzer sind getrennt.
+
+## 2. Mitspieler (`PLY`)
+
+*Die Teilnehmer der internen Liga im kicker Manager.*
+
+- **PLY-01** — Ein Mitspieler hat einen Namen und seinen Alias aus dem kicker Manager.
+
+## 3. Saisons (`SEA`)
+
+*Eine Bundesliga-Saison der internen Liga.*
+
+### Constants
+
+| Constant | Value |
+| --- | --- |
+| Spieltage je Saison | 34 (Bundesliga) |
+
+- **SEA-01** — Ein Admin legt eine Saison an und legt dabei Startbetrag und Schrittweite der
+  Strafenstaffel fest (PEN-01).
+- **SEA-02** — Ein Admin legt fest, welche Mitspieler an einer Saison teilnehmen.
+- **SEA-03** — Die Mitspieler einer Saison ändern sich während der Saison nicht.
+- **SEA-04** — Eine Saison hat 34 Spieltage.
+
+## 4. Spieltage (`MD`)
+
+*Die Punkte eines Bundesliga-Spieltags, von Hand aus dem kicker Manager übernommen.*
+
+- **MD-01** — Ein Benutzer trägt je Spieltag für jeden Mitspieler der Saison dessen Punkte aus dem
+  kicker Manager ein. Es werden immer für alle Mitspieler Punkte eingetragen.
+- **MD-02** — Ein Spieltag ist abgeschlossen, wenn für alle Mitspieler der Saison Punkte
+  eingetragen sind. Erst dann zeigt die App Platzierungen und Strafen des Spieltags.
+- **MD-03** — Die Platzierung am Spieltag berechnet die App aus den Punkten: mehr Punkte ergeben
+  einen besseren Platz, gleiche Punktzahl ergibt den gleichen Platz.
+- **MD-04** — Benutzer dürfen eingetragene Punkte ändern; Platzierung, Strafen und Gesamttabelle
+  folgen der Änderung.
+
+## 5. Strafen (`PEN`)
+
+*Nach jedem Spieltag zahlen die schwächeren Plätze in die Kasse. Ob eine Strafe bezahlt ist,
+erfasst die App nicht.*
+
+- **PEN-01** — Die Strafe je Mitspieler und abgeschlossenem Spieltag ergibt sich aus den
+  **Plätzen, nicht aus den Mitspielern**: Die niedrigste Punktzahl des Spieltags zahlt den
+  Startbetrag der Saison, jede nächsthöhere Punktzahl die Schrittweite weniger. Mitspieler mit
+  gleicher Punktzahl zahlen denselben Betrag. Kein Betrag fällt unter 0 €.
+- **PEN-02** — Beispiel mit Startbetrag 4,50 € und Schrittweite 0,50 € (vom Product Owner
+  bestätigt):
+
+  | Punkte | Platz von unten | Strafe |
+  | --- | --- | --- |
+  | 40 | 1. | 4,50 € |
+  | 40 | 1. | 4,50 € |
+  | 55 | 2. | 4,00 € |
+  | 60 | 3. | 3,50 € |
+  | 60 | 3. | 3,50 € |
+  | 72 | 4. | 3,00 € |
+  | 80 | 5. | 2,50 € |
+
+- **PEN-03** — Die App zeigt je Mitspieler die Summe seiner Strafen in der Saison.
+
+## 6. Gesamttabelle (`STD`)
+
+*Die Rangliste einer Saison, gebildet wie im kicker Manager.*
+
+- **STD-01** — Die Gesamttabelle ordnet die Mitspieler einer Saison nach der Summe ihrer Punkte,
+  die meisten Punkte zuerst.
