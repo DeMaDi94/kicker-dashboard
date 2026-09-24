@@ -7,20 +7,20 @@ Generated 2026-09-24 from `docs/REQUIREMENTS.md`.
 
 | Requirement | Status | Cited by | Summary |
 | --- | --- | --- | --- |
-| `ACC-01` | planned | – | Die Ergebnisse jeder Saison (Spieltage, Gesamttabelle, Strafen) sind **ohne Anmeldung** l… |
-| `ACC-02` | planned | – | Punkte eintragen und ändern dürfen nur angemeldete Benutzer. |
-| `ACC-03` | planned | – | Mitspieler und Saisons anlegen sowie die Mitspieler einer Saison festlegen dürfen nur Adm… |
-| `ACC-04` | planned | – | Ein Mitspieler braucht kein Benutzerkonto; Mitspieler und Benutzer sind getrennt. |
-| `PLY-01` | planned | – | Ein Mitspieler hat einen Namen und seinen Alias aus dem kicker Manager. |
-| `SEA-01` | planned | – | Ein Admin legt eine Saison an und legt dabei ihre Bezeichnung (z. B. „2025/26“) sowie Sta… |
-| `SEA-02` | planned | – | Ein Admin legt fest, welche Mitspieler an einer Saison teilnehmen. |
-| `SEA-03` | planned | – | Die Mitspieler einer Saison ändern sich während der Saison nicht: Die Mitspielerliste ist… |
-| `SEA-04` | planned | – | Eine Saison hat 34 Spieltage. |
-| `MD-01` | planned | – | Ein Benutzer trägt je Spieltag für jeden Mitspieler der Saison dessen Punkte aus dem kick… |
-| `MD-02` | planned | – | Ein Spieltag ist abgeschlossen, wenn für alle Mitspieler der Saison Punkte eingetragen si… |
-| `MD-03` | planned | – | Die Platzierung am Spieltag berechnet die App aus den Punkten: mehr Punkte ergeben einen … |
-| `MD-04` | planned | – | Benutzer dürfen eingetragene Punkte ändern; Platzierung, Strafen und Gesamttabelle folgen… |
-| `PEN-01` | planned | – | Die Strafe je Mitspieler und abgeschlossenem Spieltag ergibt sich aus den **Plätzen, nich… |
-| `PEN-02` | planned | – | Beispiel mit Startbetrag 4,50 € und Schrittweite 0,50 € (vom Product Owner bestätigt): |
-| `PEN-03` | planned | – | Die App zeigt je Mitspieler die Summe seiner Strafen in der Saison. |
-| `STD-01` | planned | – | Die Gesamttabelle ordnet die Mitspieler einer Saison nach der Summe ihrer Punkte, die mei… |
+| `ACC-01` | done | `resources/js/layouts/shell/user-chip.test.tsx`<br>`tests/Feature/Seasons/ShowSeasonTest.php`<br>`tests/e2e/league.spec.ts` | Die Ergebnisse jeder Saison (Spieltage, Gesamttabelle, Strafen) sind **ohne Anmeldung** l… |
+| `ACC-02` | done | `tests/Feature/Matchdays/UpdateMatchdayTest.php` | Punkte eintragen und ändern dürfen nur angemeldete Benutzer. |
+| `ACC-03` | done | `tests/Feature/Players/PlayersTest.php`<br>`tests/Feature/Seasons/CreateSeasonTest.php`<br>`tests/Feature/Seasons/SeasonPlayersTest.php` | Mitspieler und Saisons anlegen sowie die Mitspieler einer Saison festlegen dürfen nur Adm… |
+| `ACC-04` | done | `tests/Feature/Players/PlayersTest.php` | Ein Mitspieler braucht kein Benutzerkonto; Mitspieler und Benutzer sind getrennt. |
+| `PLY-01` | done | `tests/Feature/Players/PlayersTest.php`<br>`tests/e2e/league.spec.ts` | Ein Mitspieler hat einen Namen und seinen Alias aus dem kicker Manager. |
+| `SEA-01` | done | `tests/Feature/Seasons/CreateSeasonTest.php`<br>`tests/e2e/league.spec.ts` | Ein Admin legt eine Saison an und legt dabei ihre Bezeichnung (z. B. „2025/26“) sowie Sta… |
+| `SEA-02` | done | `tests/Feature/Seasons/CreateSeasonTest.php`<br>`tests/Feature/Seasons/SeasonPlayersTest.php`<br>`tests/e2e/league.spec.ts` | Ein Admin legt fest, welche Mitspieler an einer Saison teilnehmen. |
+| `SEA-03` | done | `tests/Feature/Seasons/SeasonPlayersTest.php` | Die Mitspieler einer Saison ändern sich während der Saison nicht: Die Mitspielerliste ist… |
+| `SEA-04` | done | `tests/Feature/Matchdays/UpdateMatchdayTest.php`<br>`tests/Unit/Domain/Seasons/SeasonLengthTest.php` | Eine Saison hat 34 Spieltage. |
+| `MD-01` | done | `tests/Feature/Matchdays/UpdateMatchdayTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayPlacesTest.php`<br>`tests/e2e/league.spec.ts` | Ein Benutzer trägt je Spieltag für jeden Mitspieler der Saison dessen Punkte aus dem kick… |
+| `MD-02` | done | `tests/Feature/Seasons/ShowSeasonTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayPlacesTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayResultTest.php` | Ein Spieltag ist abgeschlossen, wenn für alle Mitspieler der Saison Punkte eingetragen si… |
+| `MD-03` | done | `tests/Feature/Seasons/ShowSeasonTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayPlacesTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayResultTest.php`<br>`tests/e2e/league.spec.ts` | Die Platzierung am Spieltag berechnet die App aus den Punkten: mehr Punkte ergeben einen … |
+| `MD-04` | done | `tests/Feature/Matchdays/UpdateMatchdayTest.php`<br>`tests/Feature/Seasons/ShowSeasonTest.php` | Benutzer dürfen eingetragene Punkte ändern; Platzierung, Strafen und Gesamttabelle folgen… |
+| `PEN-01` | done | `tests/Feature/Seasons/CreateSeasonTest.php`<br>`tests/Feature/Seasons/ShowSeasonTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayResultTest.php`<br>`tests/Unit/Domain/Penalties/PenaltyScaleTest.php`<br>`tests/e2e/league.spec.ts` | Die Strafe je Mitspieler und abgeschlossenem Spieltag ergibt sich aus den **Plätzen, nich… |
+| `PEN-02` | done | `resources/js/lib/money.test.ts`<br>`tests/Unit/Domain/Penalties/PenaltyScaleTest.php` | Beispiel mit Startbetrag 4,50 € und Schrittweite 0,50 € (vom Product Owner bestätigt): |
+| `PEN-03` | done | `tests/Feature/Seasons/ShowSeasonTest.php`<br>`tests/Unit/Domain/Standings/StandingsTest.php` | Die App zeigt je Mitspieler die Summe seiner Strafen in der Saison. |
+| `STD-01` | done | `tests/Feature/Seasons/ShowSeasonTest.php`<br>`tests/Unit/Domain/Standings/StandingsTest.php`<br>`tests/e2e/league.spec.ts` | Die Gesamttabelle ordnet die Mitspieler einer Saison nach der Summe ihrer Punkte, die mei… |

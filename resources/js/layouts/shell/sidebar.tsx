@@ -5,7 +5,7 @@ import { useTranslation } from '@/hooks/use-translation';
 import { NAV_ITEMS, type ShellNavItem } from '@/layouts/shell/nav-items';
 import { UserChip } from '@/layouts/shell/user-chip';
 import { cn } from '@/lib/utils';
-import { dashboard } from '@/routes';
+import { home } from '@/routes';
 
 /*
  * Folding must not move anything that stays visible. Every row keeps the same
@@ -48,7 +48,7 @@ export function AppSidebar({
     collapsed: boolean;
     items?: ShellNavItem[];
 }) {
-    const { name } = usePage().props;
+    const { name, auth } = usePage().props;
     const { currentUrl } = useCurrentUrl();
     const { t } = useTranslation();
 
@@ -75,7 +75,7 @@ export function AppSidebar({
                 its text, so folding the text away does not re-centre the tile
                 and shift everything under it. */}
             <Link
-                href={dashboard()}
+                href={home()}
                 className={cn(
                     'flex h-12 flex-none items-center gap-2.5 rounded-brand',
                     ROW_INSET,
@@ -120,46 +120,55 @@ export function AppSidebar({
                     {t('Navigation')}
                 </p>
 
-                {items.map((item) => {
-                    /* The entry stays active across its whole section. */
-                    const active = isActiveSection(item, currentUrl);
-                    const title = t(item.title);
+                {items
+                    .filter(
+                        (item) =>
+                            item.permission === undefined ||
+                            auth.permissions.includes(item.permission),
+                    )
+                    .map((item) => {
+                        /* The entry stays active across its whole section. */
+                        const active = isActiveSection(item, currentUrl);
+                        const title = t(item.title);
 
-                    return (
-                        <Link
-                            key={item.title}
-                            href={item.href}
-                            aria-current={active ? 'page' : undefined}
-                            title={title}
-                            className={cn(
-                                'flex h-9 flex-none items-center gap-2.5 overflow-hidden rounded-brand text-sm whitespace-nowrap',
-                                ROW_INSET,
-                                active
-                                    ? 'bg-brand-accent-soft font-semibold text-brand-accent-ink'
-                                    : 'font-medium text-brand-ink-soft hover:bg-brand-hover hover:text-brand-ink',
-                            )}
-                        >
-                            <span aria-hidden="true" className={ICON_COLUMN}>
-                                <item.icon
-                                    className={cn(
-                                        'size-4',
-                                        active
-                                            ? 'text-brand-accent-strong'
-                                            : 'text-brand-muted',
-                                    )}
-                                />
-                            </span>
-                            <span
+                        return (
+                            <Link
+                                key={item.title}
+                                href={item.href}
+                                aria-current={active ? 'page' : undefined}
+                                title={title}
                                 className={cn(
-                                    'max-phone:sr-only',
-                                    ...whenFolded('hidden'),
+                                    'flex h-9 flex-none items-center gap-2.5 overflow-hidden rounded-brand text-sm whitespace-nowrap',
+                                    ROW_INSET,
+                                    active
+                                        ? 'bg-brand-accent-soft font-semibold text-brand-accent-ink'
+                                        : 'font-medium text-brand-ink-soft hover:bg-brand-hover hover:text-brand-ink',
                                 )}
                             >
-                                {title}
-                            </span>
-                        </Link>
-                    );
-                })}
+                                <span
+                                    aria-hidden="true"
+                                    className={ICON_COLUMN}
+                                >
+                                    <item.icon
+                                        className={cn(
+                                            'size-4',
+                                            active
+                                                ? 'text-brand-accent-strong'
+                                                : 'text-brand-muted',
+                                        )}
+                                    />
+                                </span>
+                                <span
+                                    className={cn(
+                                        'max-phone:sr-only',
+                                        ...whenFolded('hidden'),
+                                    )}
+                                >
+                                    {title}
+                                </span>
+                            </Link>
+                        );
+                    })}
             </div>
 
             <div className="compact:flex-1" />

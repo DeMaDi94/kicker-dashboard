@@ -35,6 +35,10 @@ id from code comments and ledger reasons.
 | --- | --- | --- |
 | D1 | **`/` is the public season view**, reachable without signing in (ACC-01); the product is named **Vivalaraza**. | Product owner, 2026-09-24. Replaces B12. |
 | D2 | **German only.** `config('app.locales')` holds `de` alone and the interface offers no language choice; `en.json` is not shipped. | Product owner, 2026-09-24 („die Oberfläche ist nur Deutsch“). Narrows B6: keys stay English, the catalogue is `lang/de.json`. |
+| D3 | **Last tie-break: the name A–Z**, compared the German way (`App\Domain\Shared\NameOrder`). In the overall table it follows the penalty sum (STD-01); on a matchday it follows the place; lists of players are ordered by it alone. | Product owner, 2026-09-24. |
+| D4 | **Players appear by name, with the kicker Manager alias small beside it.** The names are the short names of the league sheet (BK, FK, JLS, …). | Product owner, 2026-09-24. |
+| D5 | **The overall table counts places densely** (1, 2, 2, 3), as a matchday does (MD-03). | Product owner, 2026-09-24. |
+| D6 | **Amounts are stored in cents**; the season form takes euros to the cent, none below 0 € (PEN-01). The season view opens on the matchday just saved, else the last one with points, else the first. | How, not what: exact sums, and the view opens where the league currently is. |
 
 ## Still open
 
@@ -43,11 +47,18 @@ Questions the requirements do not answer yet. Code stops at these boundaries and
 | Id | Question | Blocks |
 | --- | --- | --- |
 | Q9 | Punkte automatisch aus dem kicker Manager holen — gewünscht, aber nicht für den ersten PoC. Quelle und Weg offen. | — |
+| Q10 | Zwischensumme „Winter“ der Strafen nach Spieltag 16, wie im Blatt „Spieltagsstrafen“ — erstmal nicht (Product Owner, 2026-09-24); bei Bedarf als neues Requirement. | — |
 
 ## Spec notes
 
 Places where the catalogue turned out to be ambiguous or wrong while implementing it, with the
 user's resolution. Newest first.
+
+- **2026-09-24 — Die Liga-Liste** (`Kicker26_27.xlsx`, Blatt „Spieltagsstrafen“, als Foto): 13
+  Mitspieler, Strafen der Spieltage 1–4 mit Startbetrag 5,00 € und Schrittweite 0,50 €. Die Beträge
+  folgen PEN-01 genau (je Spieltag 27,50 €, die drei Besten bei 0 €); als Referenz in
+  `tests/Fixtures/kicker-26-27-penalties.json`. Das Blatt hält Strafen, keine Punkte: Die Punkte der
+  laufenden Saison werden über die App nachgetragen (Product Owner).
 
 - **2026-09-24 — Q1–Q8 beantwortet** (Product Owner: „ok“ zu allen Vorschlägen):
   - Q1: Gleiche Punktesumme in der Gesamttabelle → gleicher Platz.

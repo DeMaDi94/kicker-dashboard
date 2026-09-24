@@ -1,8 +1,9 @@
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { LucideIcon } from 'lucide-react';
-import { LayoutGrid } from 'lucide-react';
+import { Trophy, Users } from 'lucide-react';
 import { i18nKey } from '@/lib/i18n';
-import { dashboard } from '@/routes';
+import { home } from '@/routes';
+import { index as players } from '@/routes/players';
 
 /**
  * One entry of the navigation rail. `title` is a translation key, rendered
@@ -14,6 +15,8 @@ export type ShellNavItem = {
     icon: LucideIcon;
     /** The URL spaces the entry owns: it stays active for every page in them. */
     sections: string[];
+    /** B13 — shown only to a user holding this permission. */
+    permission?: string;
 };
 
 /*
@@ -22,9 +25,17 @@ export type ShellNavItem = {
  */
 export const NAV_ITEMS: ShellNavItem[] = [
     {
-        title: i18nKey('Dashboard'),
-        href: dashboard(),
-        icon: LayoutGrid,
-        sections: ['/dashboard'],
+        title: i18nKey('Seasons'),
+        href: home(),
+        icon: Trophy,
+        sections: ['/', '/seasons'],
+    },
+    {
+        title: i18nKey('Players'),
+        href: players(),
+        icon: Users,
+        sections: ['/players'],
+        // ACC-03
+        permission: 'players.create',
     },
 ];

@@ -17,7 +17,7 @@ beforeEach(function () {
 
 it('serves the default locale and its catalogue without a cookie', function () {
     $this->actingAs(User::factory()->create())
-        ->get(route('dashboard'))
+        ->get(route('home'))
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->where('locale', 'de')
             ->where('locales', ['de', 'en'])
@@ -27,7 +27,7 @@ it('serves the default locale and its catalogue without a cookie', function () {
 it('switches to the locale the cookie names', function () {
     $this->actingAs(User::factory()->create())
         ->withUnencryptedCookie('locale', 'en')
-        ->get(route('dashboard'))
+        ->get(route('home'))
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->where('locale', 'en')
             ->where('i18n', []));
@@ -36,7 +36,7 @@ it('switches to the locale the cookie names', function () {
 it('ignores a cookie naming a locale that is not supported', function () {
     $this->actingAs(User::factory()->create())
         ->withUnencryptedCookie('locale', 'xx')
-        ->get(route('dashboard'))
+        ->get(route('home'))
         ->assertInertia(fn (AssertableInertia $page) => $page->where('locale', 'de'));
 });
 

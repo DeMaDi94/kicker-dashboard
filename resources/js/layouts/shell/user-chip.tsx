@@ -1,5 +1,6 @@
 import type { InertiaLinkProps } from '@inertiajs/react';
 import { Link, router, usePage } from '@inertiajs/react';
+import { LogIn } from 'lucide-react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,7 +13,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
-import { logout } from '@/routes';
+import { login, logout } from '@/routes';
 import { edit as editProfile } from '@/routes/profile';
 
 /*
@@ -37,13 +38,35 @@ export function UserChip({ collapsed }: { collapsed: boolean }) {
     const { t } = useTranslation();
     const initials = useInitials();
 
-    const name = auth.user.name;
-    const avatar = auth.user.avatar ?? '';
-
     /* Folded, the rail is the icon column alone and the two lines of text go.
        Below the compact breakpoint the rail is a horizontal bar and nothing
        folds. */
     const whenFolded = collapsed ? 'compact:hidden' : '';
+
+    /* ACC-01 — a guest reads the seasons too; the chip's place is then the
+       way in. */
+    if (auth.user === null) {
+        return (
+            <Link
+                href={login()}
+                title={t('Log in')}
+                className="ml-auto flex h-12 flex-none items-center gap-2.5 rounded-brand px-2 text-sm font-medium text-brand-ink-soft hover:bg-brand-hover hover:text-brand-ink compact:ml-0"
+            >
+                <span
+                    aria-hidden="true"
+                    className="flex size-8 flex-none items-center justify-center"
+                >
+                    <LogIn className="size-4 text-brand-muted" />
+                </span>
+                <span className={cn('max-phone:sr-only', whenFolded)}>
+                    {t('Log in')}
+                </span>
+            </Link>
+        );
+    }
+
+    const name = auth.user.name;
+    const avatar = auth.user.avatar ?? '';
 
     return (
         <DropdownMenu>

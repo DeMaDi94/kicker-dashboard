@@ -89,13 +89,13 @@ return [
     | Supported Locales
     |--------------------------------------------------------------------------
     |
-    | The locales a user may switch the interface to (docs/DECISIONS.md B6).
+    | The locales a user may switch the interface to (docs/DECISIONS.md B6). D2 — the product is German only.
     | Every locale other than English needs a lang/{locale}.json holding every
     | key the code uses; tests/Architecture/TranslationsTest.php checks it.
     |
     */
 
-    'locales' => ['de', 'en'],
+    'locales' => ['de'],
 
     /*
     |--------------------------------------------------------------------------

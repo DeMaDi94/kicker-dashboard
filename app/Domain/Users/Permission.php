@@ -14,4 +14,9 @@ enum Permission: string
     case CreateUsers = 'users.create';
     case UpdateUsers = 'users.update';
     case DeleteUsers = 'users.delete';
+
+    // ACC-03 — the league's admin-only actions.
+    case CreatePlayers = 'players.create';
+    case CreateSeasons = 'seasons.create';
+    case SetSeasonPlayers = 'seasons.set-players';
 }

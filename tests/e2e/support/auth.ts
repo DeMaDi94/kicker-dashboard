@@ -15,5 +15,6 @@ export async function login(page: Page): Promise<void> {
        session without signing in again. */
     await page.locator('#remember').check();
     await page.locator('[data-test="login-button"]').click();
-    await page.waitForURL('**/dashboard');
+    // D1 — a sign-in lands on the season view at `/`.
+    await page.waitForURL((url) => url.pathname === '/');
 }

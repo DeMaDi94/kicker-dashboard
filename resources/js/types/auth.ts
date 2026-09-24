@@ -16,6 +16,9 @@ export type Auth = {
     permissions: string[];
 };
 
+/** As every page receives it: ACC-01 lets a guest read the seasons, so no user. */
+export type SharedAuth = Omit<Auth, 'user'> & { user: User | null };
+
 export type Passkey = {
     id: number;
     name: string;

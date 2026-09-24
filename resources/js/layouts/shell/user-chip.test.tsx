@@ -3,17 +3,22 @@ import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { PROFILE_MENU, UserChip } from './user-chip';
 
-const page = vi.hoisted(() => ({ avatar: undefined as string | undefined }));
+const page = vi.hoisted(() => ({
+    avatar: undefined as string | undefined,
+    guest: false,
+}));
 
 vi.mock('@inertiajs/react', () => ({
     usePage: () => ({
         props: {
             auth: {
-                user: {
-                    name: 'Ada Lovelace',
-                    email: 'ada@example.com',
-                    avatar: page.avatar,
-                },
+                user: page.guest
+                    ? null
+                    : {
+                          name: 'Ada Lovelace',
+                          email: 'ada@example.com',
+                          avatar: page.avatar,
+                      },
             },
         },
     }),
@@ -34,6 +39,7 @@ vi.mock('@inertiajs/react', () => ({
 
 beforeEach(() => {
     page.avatar = undefined;
+    page.guest = false;
 });
 
 describe('the user chip', () => {
@@ -65,6 +71,19 @@ describe('the user chip', () => {
         expect(screen.getByText('Ada Lovelace').parentElement).toHaveClass(
             'compact:hidden',
         );
+    });
+
+    // ACC-01 — a guest reads the seasons; the chip is then the way in.
+    it('offers a guest the login instead', () => {
+        page.guest = true;
+
+        render(<UserChip collapsed={false} />);
+
+        expect(screen.getByRole('link', { name: 'Log in' })).toHaveAttribute(
+            'href',
+            '/login',
+        );
+        expect(screen.queryByRole('button')).toBeNull();
     });
 
     it('offers the account settings, then signing out', () => {

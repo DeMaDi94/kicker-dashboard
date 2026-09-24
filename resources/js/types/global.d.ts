@@ -1,4 +1,4 @@
-import type { Auth } from '@/types/auth';
+import type { SharedAuth } from '@/types/auth';
 
 declare module 'react' {
     interface InputHTMLAttributes<T> {
@@ -10,7 +10,7 @@ declare module '@inertiajs/core' {
     export interface InertiaConfig {
         sharedPageProps: {
             name: string;
-            auth: Auth;
+            auth: SharedAuth;
             locale: string;
             locales: string[];
             i18n: Record<string, string>;

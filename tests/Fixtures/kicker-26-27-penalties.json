@@ -1,0 +1,89 @@
+{
+    "source": "Kicker26_27.xlsx, sheet „Spieltagsstrafen“, matchdays 1–4 (photo from the product owner, 2026-09-24). The sheet holds penalties only; every matchday has 13 players and no tie, so the penalty fixes each player's place from the bottom — except the three at 0 €, whose order among themselves the sheet does not show.",
+    "cases": [
+        {
+            "matchday": 1,
+            "startCents": 500,
+            "stepCents": 50,
+            "penaltyCents": {
+                "BK": 250,
+                "FK": 350,
+                "Mats": 500,
+                "Paul": 400,
+                "Dennis": 100,
+                "Eric": 0,
+                "Hakan": 300,
+                "JLS": 450,
+                "Marc": 200,
+                "Nik": 50,
+                "Oppi": 0,
+                "PBL": 0,
+                "Schwabe": 150
+            },
+            "totalCents": 2750
+        },
+        {
+            "matchday": 2,
+            "startCents": 500,
+            "stepCents": 50,
+            "penaltyCents": {
+                "BK": 300,
+                "FK": 500,
+                "Mats": 400,
+                "Paul": 50,
+                "Dennis": 200,
+                "Eric": 350,
+                "Hakan": 450,
+                "JLS": 250,
+                "Marc": 0,
+                "Nik": 0,
+                "Oppi": 100,
+                "PBL": 150,
+                "Schwabe": 0
+            },
+            "totalCents": 2750
+        },
+        {
+            "matchday": 3,
+            "startCents": 500,
+            "stepCents": 50,
+            "penaltyCents": {
+                "BK": 200,
+                "FK": 300,
+                "Mats": 500,
+                "Paul": 350,
+                "Dennis": 0,
+                "Eric": 150,
+                "Hakan": 100,
+                "JLS": 450,
+                "Marc": 0,
+                "Nik": 50,
+                "Oppi": 0,
+                "PBL": 400,
+                "Schwabe": 250
+            },
+            "totalCents": 2750
+        },
+        {
+            "matchday": 4,
+            "startCents": 500,
+            "stepCents": 50,
+            "penaltyCents": {
+                "BK": 500,
+                "FK": 450,
+                "Mats": 400,
+                "Paul": 0,
+                "Dennis": 50,
+                "Eric": 150,
+                "Hakan": 350,
+                "JLS": 300,
+                "Marc": 0,
+                "Nik": 100,
+                "Oppi": 250,
+                "PBL": 200,
+                "Schwabe": 0
+            },
+            "totalCents": 2750
+        }
+    ]
+}

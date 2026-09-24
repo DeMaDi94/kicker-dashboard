@@ -25,7 +25,7 @@ describe('B15 · an admin deletes a user', function () {
         $user->delete();
         Auth::forgetGuards();
 
-        $this->withSession($session)->get(route('dashboard'))->assertRedirect(route('login'));
+        $this->withSession($session)->get(route('profile.edit'))->assertRedirect(route('login'));
 
         Auth::forgetGuards();
         $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])

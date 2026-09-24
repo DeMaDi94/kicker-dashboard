@@ -11,14 +11,14 @@ test('the application boots and Inertia mounts', async ({ page }) => {
     await expect(page.locator('#app')).toBeAttached();
 });
 
-test('a signed-in user lands on the dashboard', async ({ page }) => {
-    await page.goto('/dashboard');
+test('a signed-in user reaches the season view', async ({ page }) => {
+    await page.goto('/');
 
     await expect(page.getByRole('main')).toBeVisible();
 });
 
 // Signed out: the suite otherwise carries the shared session of
-// tests/e2e/auth.setup.ts, and /login then redirects to the dashboard.
+// tests/e2e/auth.setup.ts, and /login then redirects home.
 test.describe('signed out', () => {
     test.use({ storageState: { cookies: [], origins: [] } });
 

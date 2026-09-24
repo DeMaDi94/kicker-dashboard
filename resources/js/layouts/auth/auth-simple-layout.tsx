@@ -1,6 +1,5 @@
 import { Link } from '@inertiajs/react';
 import AppLogoIcon from '@/components/app-logo-icon';
-import LocaleTabs from '@/components/locale-tabs';
 import { useTranslation } from '@/hooks/use-translation';
 import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
@@ -44,8 +43,6 @@ export default function AuthSimpleLayout({
                     <div className="rounded-brand border border-brand-line bg-brand-card p-6">
                         {children}
                     </div>
-
-                    <LocaleTabs className="self-center" />
                 </div>
             </div>
         </div>

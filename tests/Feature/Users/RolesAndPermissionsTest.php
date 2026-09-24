@@ -23,13 +23,13 @@ describe('B13 · roles and permissions', function () {
     it('shares the signed-in user’s permissions with every page', function () {
         $admin = User::factory()->withRole(Role::Admin)->create();
 
-        $this->actingAs($admin)->get(route('dashboard'))
+        $this->actingAs($admin)->get(route('home'))
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->where('auth.permissions', fn ($permissions) => collect($permissions)->sort()->values()->all()
                     === collect(Permission::cases())->map(fn (Permission $permission) => $permission->value)->sort()->values()->all())
                 ->missing('auth.user.roles'));
 
-        $this->actingAs(User::factory()->withRole(Role::User)->create())->get(route('dashboard'))
+        $this->actingAs(User::factory()->withRole(Role::User)->create())->get(route('home'))
             ->assertInertia(fn (AssertableInertia $page) => $page->where('auth.permissions', []));
     });
 

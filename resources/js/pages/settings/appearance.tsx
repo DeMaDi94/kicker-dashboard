@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react';
 import AppearanceTabs from '@/components/appearance-tabs';
 import Heading from '@/components/heading';
-import LocaleTabs from '@/components/locale-tabs';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { edit as editAppearance } from '@/routes/appearance';
@@ -24,15 +23,6 @@ export default function Appearance() {
                     )}
                 />
                 <AppearanceTabs />
-            </div>
-
-            <div className="space-y-6">
-                <Heading
-                    variant="small"
-                    title={t('Language')}
-                    description={t('Choose the language of the interface')}
-                />
-                <LocaleTabs />
             </div>
         </>
     );
