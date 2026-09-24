@@ -16,6 +16,8 @@ Generated 2026-09-24 from `docs/REQUIREMENTS.md`.
 | `SEA-02` | done | `tests/Feature/Seasons/CreateSeasonTest.php`<br>`tests/Feature/Seasons/SeasonPlayersTest.php`<br>`tests/e2e/league.spec.ts` | Ein Admin legt fest, welche Mitspieler an einer Saison teilnehmen. |
 | `SEA-03` | done | `tests/Feature/Seasons/SeasonPlayersTest.php` | Die Mitspieler einer Saison ändern sich während der Saison nicht: Die Mitspielerliste ist… |
 | `SEA-04` | done | `tests/Feature/Matchdays/UpdateMatchdayTest.php`<br>`tests/Unit/Domain/Seasons/SeasonLengthTest.php` | Eine Saison hat 34 Spieltage. |
+| `SEA-05` | planned | – | Startbetrag und Schrittweite einer Saison darf jeder angemeldete Benutzer jederzeit änder… |
+| `SEA-06` | planned | – | Ein Admin kann eine Saison nach einer Sicherheitsabfrage löschen. Eine gelöschte Saison v… |
 | `MD-01` | done | `tests/Feature/Matchdays/UpdateMatchdayTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayPlacesTest.php`<br>`tests/e2e/league.spec.ts` | Ein Benutzer trägt je Spieltag für jeden Mitspieler der Saison dessen Punkte aus dem kick… |
 | `MD-02` | done | `tests/Feature/Seasons/ShowSeasonTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayPlacesTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayResultTest.php` | Ein Spieltag ist abgeschlossen, wenn für alle Mitspieler der Saison Punkte eingetragen si… |
 | `MD-03` | done | `tests/Feature/Seasons/ShowSeasonTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayPlacesTest.php`<br>`tests/Unit/Domain/Matchdays/MatchdayResultTest.php`<br>`tests/e2e/league.spec.ts` | Die Platzierung am Spieltag berechnet die App aus den Punkten: mehr Punkte ergeben einen … |
@@ -37,3 +39,6 @@ Generated 2026-09-24 from `docs/REQUIREMENTS.md`.
 | `STAT-10` | done | `tests/Feature/Statistics/StatisticsPagesTest.php`<br>`tests/Unit/Domain/Statistics/StatisticsTest.php` | Liga-Rekorde, über alle Saisons oder für eine gewählte Saison: höchste und niedrigste Pun… |
 | `STAT-11` | done | `tests/Feature/Statistics/StatisticsPagesTest.php`<br>`tests/Unit/Domain/Statistics/StatisticsTest.php` | Spieltags-Highlights: zu jedem Spieltag der Tagessieger, die „Rote Laterne“ und der Liga-… |
 | `STAT-12` | done | `tests/Feature/Statistics/StatisticsPagesTest.php`<br>`tests/Unit/Domain/Statistics/StatisticsTest.php` | Die Strafenkasse einer Saison: die Summe aller Strafen (Hinrunde, Rückrunde, Gesamt) und … |
+| `STAT-13` | planned | – | Zu jedem abgeschlossenen Spieltag zeigt die App, wie viel Geld in die Kasse ging (die Sum… |
+| `STAT-14` | planned | – | Die Strafenkasse zeigt als Graph das Geld je Spieltag und den Kassenstand kumuliert über … |
+| `STAT-15` | planned | – | Ein weiterer Liga-Rekord (wie STAT-10): der teuerste Spieltag, an dem das meiste Geld in … |

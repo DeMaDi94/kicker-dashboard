@@ -58,6 +58,12 @@ Questions the requirements do not answer yet. Code stops at these boundaries and
 Places where the catalogue turned out to be ambiguous or wrong while implementing it, with the
 user's resolution. Newest first.
 
+- **2026-09-24 — Staffel änderbar, Saisons löschbar, Geld je Spieltag** (Product Owner):
+  Startbetrag und Schrittweite darf jeder angemeldete Benutzer jederzeit ändern, die ganze Saison
+  wird neu berechnet (SEA-05; die Sperre aus Q2 entfällt). Ein Admin löscht eine Saison
+  wiederherstellbar (SEA-06). Geld je Spieltag im Spieltag-Block, als Graph in der Strafenkasse und
+  als Rekord (STAT-13–15). ACC-03 und PEN-04 entsprechend angepasst.
+
 - **2026-09-24 — Zwischenabrechnung (vormals Q10)** → PEN-04: einmal je Saison, der Spieltag wird
   beim Anlegen festgelegt und bleibt änderbar; die Abschnitte heißen „Hinrunde“ und „Rückrunde“;
   die Gesamttabelle zeigt Hinrunde, Rückrunde und Gesamt (Product Owner).

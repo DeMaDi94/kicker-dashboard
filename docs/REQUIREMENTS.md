@@ -7,7 +7,7 @@ unless a requirement says so.
 | | |
 | --- | --- |
 | Product | Vivalaraza — Tabellen und Strafen der internen kicker-Manager-Liga |
-| Requirements | 30 |
+| Requirements | 35 |
 | Last reviewed | 2026-09-24 (Q1–Q8 eingearbeitet) |
 
 Decisions and open questions live in [`DECISIONS.md`](DECISIONS.md); the domain vocabulary in
@@ -72,7 +72,9 @@ bold id and an em dash; continuation lines are indented two spaces:
   Auswahl früherer Saisons; vorausgewählt ist die zuletzt angelegte Saison.
 - **ACC-02** — Punkte eintragen und ändern dürfen nur angemeldete Benutzer.
 - **ACC-03** — Mitspieler und Saisons anlegen sowie die Mitspieler einer Saison festlegen dürfen
-  nur Admins. Mitspieler und Saisons werden nur angelegt, nicht bearbeitet oder gelöscht.
+  nur Admins. Mitspieler werden nur angelegt, nicht bearbeitet oder gelöscht. Eine Saison wird
+  nicht bearbeitet – ausgenommen die Zwischenabrechnung (PEN-04) und die Strafenstaffel
+  (SEA-05) –; ein Admin kann sie löschen und wiederherstellen (SEA-06).
 - **ACC-04** — Ein Mitspieler braucht kein Benutzerkonto; Mitspieler und Benutzer sind getrennt.
 
 ## 2. Mitspieler (`PLY`)
@@ -93,12 +95,16 @@ bold id and an em dash; continuation lines are indented two spaces:
 
 - **SEA-01** — Ein Admin legt eine Saison an und legt dabei ihre Bezeichnung (z. B. „2025/26“)
   sowie Startbetrag und Schrittweite der Strafenstaffel fest (PEN-01). Eine Saison hat keine
-  weiteren Angaben. Startbetrag und Schrittweite sind ab dem ersten eingetragenen Spieltag
-  gesperrt.
+  weiteren Angaben. Startbetrag und Schrittweite lassen sich später ändern (SEA-05).
 - **SEA-02** — Ein Admin legt fest, welche Mitspieler an einer Saison teilnehmen.
 - **SEA-03** — Die Mitspieler einer Saison ändern sich während der Saison nicht: Die
   Mitspielerliste ist ab dem ersten eingetragenen Punkt gesperrt.
 - **SEA-04** — Eine Saison hat 34 Spieltage.
+- **SEA-05** — Startbetrag und Schrittweite einer Saison darf jeder angemeldete Benutzer jederzeit
+  ändern. Die Strafen aller Spieltage der Saison gelten danach mit den neuen Werten.
+- **SEA-06** — Ein Admin kann eine Saison nach einer Sicherheitsabfrage löschen. Eine gelöschte
+  Saison verschwindet aus allen Ansichten und Statistiken; ihre Punkte bleiben erhalten, und ein
+  Admin kann sie wiederherstellen.
 
 ## 4. Spieltage (`MD`)
 
@@ -139,8 +145,8 @@ erfasst die App nicht.*
 
 - **PEN-03** — Die App zeigt je Mitspieler die Summe seiner Strafen in der Saison.
 - **PEN-04** — Einmal je Saison wird die Strafenkasse zwischenabgerechnet. Nach welchem Spieltag
-  (1–33), legt ein Admin beim Anlegen der Saison fest; er kann ihn später ändern oder entfernen –
-  als einzige Angabe einer Saison, die sich nachträglich ändern lässt (ACC-03). Ist er festgelegt,
+  (1–33), legt ein Admin beim Anlegen der Saison fest; er kann ihn später ändern oder entfernen
+  (ACC-03). Ist er festgelegt,
   zeigt die Gesamttabelle je Mitspieler die Strafen der „Hinrunde“ (bis einschließlich diesem
   Spieltag), der „Rückrunde“ (danach) und die Summe der Saison. Punkte und Platzierung bleiben
   davon unberührt.
@@ -191,3 +197,9 @@ erfasst die App nicht.*
   der Liga-Durchschnitt.
 - **STAT-12** — Die Strafenkasse einer Saison: die Summe aller Strafen (Hinrunde, Rückrunde,
   Gesamt) und die Mitspieler nach eingezahlter Summe, die höchste zuerst.
+- **STAT-13** — Zu jedem abgeschlossenen Spieltag zeigt die App, wie viel Geld in die Kasse ging
+  (die Summe der Strafen dieses Spieltags).
+- **STAT-14** — Die Strafenkasse zeigt als Graph das Geld je Spieltag und den Kassenstand
+  kumuliert über die Saison; der Spieltag der Zwischenabrechnung (PEN-04) ist markiert.
+- **STAT-15** — Ein weiterer Liga-Rekord (wie STAT-10): der teuerste Spieltag, an dem das meiste
+  Geld in die Kasse ging.

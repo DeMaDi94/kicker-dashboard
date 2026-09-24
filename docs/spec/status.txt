@@ -16,6 +16,8 @@ SEA-01   done
 SEA-02   done
 SEA-03   done
 SEA-04   done
+SEA-05   planned
+SEA-06   planned
 MD-01    done
 MD-02    done
 MD-03    done
@@ -37,3 +39,6 @@ STAT-09  done
 STAT-10  done
 STAT-11  done
 STAT-12  done
+STAT-13  planned
+STAT-14  planned
+STAT-15  planned
