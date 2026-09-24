@@ -222,7 +222,6 @@ export default function ShowSeason({
                                     </DropdownMenuItem>
                                     {season !== null && (
                                         <DropdownMenuItem
-                                            variant="destructive"
                                             onSelect={() =>
                                                 deleteSeason(season)
                                             }

@@ -84,18 +84,18 @@ export function MatchdayTable({
                     )}
                 </p>
             )}
-            <table className="w-full text-sm phone:w-auto">
+            <table className="w-full text-sm">
                 <thead className="border-b border-brand-line-soft text-brand-muted">
                     <tr>
                         <th
                             scope="col"
-                            className="px-2 py-2 text-right font-medium phone:px-3"
+                            className="w-px px-2 py-2 text-right font-medium whitespace-nowrap phone:px-3"
                         >
                             {t('Place')}
                         </th>
                         <th
                             scope="col"
-                            className="px-2 py-2 text-left font-medium phone:px-3"
+                            className="w-full px-2 py-2 text-left font-medium phone:px-3"
                         >
                             {t('Player')}
                         </th>
@@ -119,7 +119,7 @@ export function MatchdayTable({
                             key={row.playerId}
                             className="border-b border-brand-line-soft last:border-0"
                         >
-                            <td className="px-2 py-2 text-right brand-figure phone:px-3">
+                            <td className="w-px px-2 py-2 text-right brand-figure whitespace-nowrap phone:px-3">
                                 {row.place === null ? '–' : `${row.place}.`}
                             </td>
                             <td className="px-1.5 py-2 phone:px-3">

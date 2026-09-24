@@ -8,6 +8,7 @@ import type { StandingLine } from './types';
 const CELL = 'px-1.5 py-2 phone:px-3';
 const FIGURE = cn(CELL, 'text-right brand-figure whitespace-nowrap');
 const HALF = 'max-phone:hidden';
+const FIT = 'w-px whitespace-nowrap';
 
 /*
  * STD-01 — the overall table, in the order the server ranked it; PEN-03 —
@@ -39,20 +40,20 @@ export function StandingsTable({
 
     return (
         <div className="relative overflow-x-auto">
-            <table className="w-full text-sm phone:w-auto">
+            <table className="w-full text-sm">
                 <thead className="border-b border-brand-line-soft text-brand-muted">
                     <tr>
                         <th
                             scope="col"
                             rowSpan={split ? 2 : 1}
-                            className={cn(CELL, 'text-right font-medium')}
+                            className={cn(CELL, FIT, 'text-right font-medium')}
                         >
                             {t('Place')}
                         </th>
                         <th
                             scope="col"
                             rowSpan={split ? 2 : 1}
-                            className={cn(CELL, 'text-left font-medium')}
+                            className={cn(CELL, 'w-full text-left font-medium')}
                         >
                             {t('Player')}
                         </th>
@@ -105,7 +106,13 @@ export function StandingsTable({
                             key={row.playerId}
                             className="border-b border-brand-line-soft last:border-0"
                         >
-                            <td className={cn(CELL, 'text-right brand-figure')}>
+                            <td
+                                className={cn(
+                                    CELL,
+                                    FIT,
+                                    'text-right brand-figure',
+                                )}
+                            >
                                 {row.place}.
                             </td>
                             <td className={CELL}>
