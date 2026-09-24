@@ -44,6 +44,7 @@ id from code comments and ledger reasons.
 | D9 | **Red accents, as at kicker; an anthracite ground.** The accent is a matte `#CC423C` (white text on it stays above 4.5:1), the primary ground `#1C1D21` (dark mode: the red becomes the ground); destructive moves to a darker wine red so it is not mistaken for the accent. The mark is an own drawing — a V for Vivalaraza in two round white strokes with the ball in its fork, on a red tile with softer corners (`--radius-mark`, the mark only) — in `AppLogoIcon` and `public/favicon.svg`; no kicker logo or wordmark is used. | Product owner, 2026-09-24; the red made matte the same day („moderner“). Replaces B8's navy and blue; B8's token names, radius, faces and breakpoints stay. |
 | D10 | **Graphs with `recharts`** (STAT-04–06, STAT-09). Two series hues — red `--chart-1` and a muted blue `--chart-2` — validated for colour-vision deficiency against the light and the dark page; reference lines (league average, the interim settlement) are the neutral `--chart-4`, dashed. Every graph has a legend or a single named series and a tooltip; the player page also offers all matchdays as a table. | Product owner chose the library, 2026-09-24. |
 | D11 | **How the statistics count** where STAT-* leaves a detail open: the form's thirds round up over the day's places (of 13 places, 1–5 good, 9–13 bad; with 4 places there is no „mittel“); the average place of the all-time balance takes only seasons with at least one complete matchday (the others still count as played); a best or worst matchday reached twice lists both; tied record holders appear by season (newest first), matchday, then the overall table; the records page opens on all seasons; a player's name opens their page on the season being viewed. | Product owner, 2026-09-24. |
+| D12 | **The kicker import (MD-05) fills the form in the browser; it fetches nothing from kicker.** It reads the text copied from the league page — the „Spieltagswertung“ block, place (a tie reads „–“), name and points per row, up to the next block („Saisonwertung“). The name is compared with the alias without kicker's „(Admin)“ marker, surrounding blanks or case. Pasted points replace what a field held; the other fields stay. The text does not say which matchday it is: it applies to the matchday being edited. Button „Aus kicker einfügen“, confirmation „Übernehmen“. | Product owner, 2026-09-24 (answers Q9: „mach 1 … als Ergänzung“ to the paste route, over a scraper that would store kicker credentials). |
 
 ## Still open
 
@@ -51,12 +52,16 @@ Questions the requirements do not answer yet. Code stops at these boundaries and
 
 | Id | Question | Blocks |
 | --- | --- | --- |
-| Q9 | Punkte automatisch aus dem kicker Manager holen — gewünscht, aber nicht für den ersten PoC. Quelle und Weg offen. | — |
 
 ## Spec notes
 
 Places where the catalogue turned out to be ambiguous or wrong while implementing it, with the
 user's resolution. Newest first.
+
+- **2026-09-24 — Punkte aus dem kicker Manager (vormals Q9)** → MD-05, D12: die kopierte
+  Liga-Seite einfügen, zusätzlich zur Eingabe von Hand; kein automatischer Abruf. Die Seite, wie
+  sie kopiert wird, liegt als Referenz in `tests/Fixtures/kicker-matchday-paste.txt` (Product
+  Owner).
 
 - **2026-09-24 — Staffel änderbar, Saisons löschbar, Geld je Spieltag** (Product Owner):
   Startbetrag und Schrittweite darf jeder angemeldete Benutzer jederzeit ändern, die ganze Saison

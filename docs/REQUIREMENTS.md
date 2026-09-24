@@ -7,7 +7,7 @@ unless a requirement says so.
 | | |
 | --- | --- |
 | Product | Vivalaraza — Tabellen und Strafen der internen kicker-Manager-Liga |
-| Requirements | 35 |
+| Requirements | 36 |
 | Last reviewed | 2026-09-24 (Q1–Q8 eingearbeitet) |
 
 Decisions and open questions live in [`DECISIONS.md`](DECISIONS.md); the domain vocabulary in
@@ -108,7 +108,8 @@ bold id and an em dash; continuation lines are indented two spaces:
 
 ## 4. Spieltage (`MD`)
 
-*Die Punkte eines Bundesliga-Spieltags, von Hand aus dem kicker Manager übernommen.*
+*Die Punkte eines Bundesliga-Spieltags aus dem kicker Manager, von Hand eingetragen oder aus der
+kopierten Liga-Seite übernommen.*
 
 - **MD-01** — Ein Benutzer trägt je Spieltag für jeden Mitspieler der Saison dessen Punkte aus dem
   kicker Manager ein. Es werden immer für alle Mitspieler Punkte eingetragen. Punkte sind ganze
@@ -120,6 +121,11 @@ bold id and an em dash; continuation lines are indented two spaces:
   1, 2, 3, 3, 4.
 - **MD-04** — Benutzer dürfen eingetragene Punkte ändern; Platzierung, Strafen und Gesamttabelle
   folgen der Änderung.
+- **MD-05** — Ergänzend zur Eingabe von Hand (MD-01) kann ein Benutzer die Seite seiner Liga aus
+  dem kicker Manager kopieren und einfügen. Die App liest daraus die Spieltagswertung, ordnet die
+  Punkte über den Alias (PLY-01) den Mitspielern zu und trägt sie in die Eingabefelder ein;
+  gespeichert wird erst mit „Punkte speichern“. Mitspieler ohne Punkte im Text und Namen im Text
+  ohne passenden Mitspieler nennt die App; deren Felder bleiben unverändert.
 
 ## 5. Strafen (`PEN`)
 

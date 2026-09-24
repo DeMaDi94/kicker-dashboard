@@ -18,7 +18,7 @@ namespace column — do not invent an area name.
 | ACC | Zugriff — who reads and who writes; no namespace of its own: routes and `App\Domain\Users\Permission` | — | — |
 | PLY | Mitspieler | `Players` | `pages/players` |
 | SEA | Saisons | `Seasons` | `features/seasons` |
-| MD | Spieltage | `Matchdays` | `pages/matchdays` |
+| MD | Spieltage | `Matchdays` | `features/matchdays`, `pages/matchdays` |
 | PEN | Strafen | `Penalties` (domain only) | — |
 | STD | Gesamttabelle | `Standings` (domain only) | — |
 | STAT | Statistiken | `Statistics` | `features/statistics`, `pages/statistics` |
@@ -34,6 +34,7 @@ namespace column — do not invent an area name.
 | Gelöschte Saison | soft-deleted `Season` (`trashed()`) | Gone from every view and statistic, its points kept, restorable by an admin (SEA-06). Not a permanently removed row. |
 | Spieltag (matchday) | `matchday` (1–34) | One Bundesliga matchday of a season (SEA-04). A number, not a date. |
 | Punkte (points) | `Score` / `points` | A player's points on one matchday from the kicker Manager (MD-01). Not the place. |
+| Spieltagswertung (matchday ranking) | `readMatchdayRanking`, `KickerRow` | The block of the copied kicker league page with each name's points on one matchday (MD-05). Not the „Saisonwertung“, kicker's season total. |
 | Abgeschlossener Spieltag | complete matchday (`MatchdayPlaces::isComplete`) | Every player of the season has points (MD-02). |
 | Platz (place) | `place` | Rank on a matchday or in the overall table, counted densely (MD-03, D5). |
 | Strafe (penalty) | `penalty`, in cents | What a place pays per complete matchday (PEN-01). |
