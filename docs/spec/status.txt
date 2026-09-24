@@ -17,7 +17,7 @@ SEA-02   done
 SEA-03   done
 SEA-04   done
 SEA-05   planned
-SEA-06   planned
+SEA-06   done
 MD-01    done
 MD-02    done
 MD-03    done

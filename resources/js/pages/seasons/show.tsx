@@ -1,5 +1,6 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import { useConfirm } from '@/components/core/dialogs';
 import { PageTitle } from '@/components/core/page-title';
 import { Panel, PanelHeader } from '@/components/core/panel';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ import { i18nKey } from '@/lib/i18n';
 import { formatCents } from '@/lib/money';
 import { home } from '@/routes';
 import { edit as editMatchday } from '@/routes/matchdays';
-import { compare, create, show } from '@/routes/seasons';
+import { compare, create, deleted, destroy, show } from '@/routes/seasons';
 import { edit as editPlayers } from '@/routes/seasons/players';
 import { edit as editSettlement } from '@/routes/seasons/settlement';
 
@@ -72,6 +73,26 @@ export default function ShowSeason({
     );
     const matchday = matchdays.find((each) => each.number === matchdayNumber);
     const can = (permission: string) => auth.permissions.includes(permission);
+    const confirm = useConfirm();
+
+    // SEA-06 — deleting a season asks first, naming the season.
+    const deleteSeason = async (target: SeasonSummary) => {
+        const confirmed = await confirm(
+            t(
+                'Season :name disappears from all views and statistics. Its points are kept, and an admin can restore it.',
+                { name: target.name },
+            ),
+            {
+                title: t('Delete season?'),
+                okLabel: t('Delete season'),
+                danger: true,
+            },
+        );
+
+        if (confirmed) {
+            router.delete(destroy(target.id));
+        }
+    };
 
     return (
         <>
@@ -149,6 +170,19 @@ export default function ShowSeason({
                             <Link href={editPlayers(season.id)}>
                                 {t('Players of the season')}
                             </Link>
+                        </Button>
+                    )}
+                    {can('seasons.delete') && (
+                        <Button variant="outline" asChild>
+                            <Link href={deleted()}>{t('Deleted seasons')}</Link>
+                        </Button>
+                    )}
+                    {season !== null && can('seasons.delete') && (
+                        <Button
+                            variant="destructive"
+                            onClick={() => deleteSeason(season)}
+                        >
+                            {t('Delete season')}
                         </Button>
                     )}
                     {can('seasons.create') && (

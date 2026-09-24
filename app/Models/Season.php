@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
  * SEA-01 — a season: its name and its penalty scale (PEN-01), in cents.
+ * SEA-06 — soft-deleted: a deleted season drops out of every query, its
+ * scores stay, and an admin can restore it.
  *
  * @property int $id
  * @property string $name
@@ -21,12 +24,13 @@ use Illuminate\Support\Carbon;
  * @property int|null $settlement_matchday
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  */
 #[Fillable(['name', 'penalty_start_cents', 'penalty_step_cents', 'settlement_matchday'])]
 class Season extends Model
 {
     /** @use HasFactory<SeasonFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * @return BelongsToMany<Player, $this>
@@ -58,6 +62,7 @@ class Season extends Model
             'penalty_start_cents' => 'integer',
             'penalty_step_cents' => 'integer',
             'settlement_matchday' => 'integer',
+            'deleted_at' => 'datetime',
         ];
     }
 }

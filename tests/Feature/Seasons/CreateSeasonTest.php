@@ -74,10 +74,13 @@ describe('ACC-03 · only admins create seasons', function () {
         expect(Season::count())->toBe(0);
     });
 
-    it('offers no route to edit or delete a season', function () {
+    // ACC-03 — a season is not edited; deleting it is an admin's alone (SEA-06).
+    it('offers no route to edit a season, and lets no plain user delete one', function () {
         $season = Season::factory()->create();
 
         $this->actingAs(admin())->patch("/seasons/{$season->id}", ['name' => 'X'])->assertStatus(405);
-        $this->actingAs(admin())->delete("/seasons/{$season->id}")->assertStatus(405);
+        $this->actingAs(member())->delete("/seasons/{$season->id}")->assertForbidden();
+
+        expect($season->fresh()?->trashed())->toBeFalse();
     });
 });

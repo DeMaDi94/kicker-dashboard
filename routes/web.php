@@ -8,8 +8,11 @@ use App\Http\Players\CreatePlayer\CreatePlayerController;
 use App\Http\Players\ListPlayers\ListPlayersController;
 use App\Http\Players\StorePlayer\StorePlayerController;
 use App\Http\Seasons\CreateSeason\CreateSeasonController;
+use App\Http\Seasons\DeleteSeason\DeleteSeasonController;
 use App\Http\Seasons\EditSeasonPlayers\EditSeasonPlayersController;
 use App\Http\Seasons\EditSeasonSettlement\EditSeasonSettlementController;
+use App\Http\Seasons\ListDeletedSeasons\ListDeletedSeasonsController;
+use App\Http\Seasons\RestoreSeason\RestoreSeasonController;
 use App\Http\Seasons\ShowSeason\ShowSeasonController;
 use App\Http\Seasons\StoreSeason\StoreSeasonController;
 use App\Http\Seasons\UpdateSeasonPlayers\UpdateSeasonPlayersController;
@@ -23,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', ShowSeasonController::class)->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // ACC-03 — players and seasons are created, never edited or deleted, by admins only.
+    // ACC-03 — players and seasons are created by admins only; players are never edited or deleted.
     Route::get('players', ListPlayersController::class)
         ->can(Permission::CreatePlayers->value)->name('players.index');
     Route::get('players/create', CreatePlayerController::class)
@@ -45,6 +48,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->can(Permission::SetSeasonSettlement->value)->name('seasons.settlement.edit');
     Route::put('seasons/{season}/settlement', UpdateSeasonSettlementController::class)
         ->can(Permission::SetSeasonSettlement->value)->name('seasons.settlement.update');
+
+    // SEA-06 — an admin deletes a season and restores it; restoring needs the same permission.
+    // `seasons/deleted` comes before the public `seasons/{season}`, so the literal path wins.
+    Route::get('seasons/deleted', ListDeletedSeasonsController::class)
+        ->can(Permission::DeleteSeasons->value)->name('seasons.deleted');
+    Route::delete('seasons/{season}', DeleteSeasonController::class)
+        ->can(Permission::DeleteSeasons->value)->name('seasons.destroy');
+    Route::post('seasons/{season}/restore', RestoreSeasonController::class)
+        ->withTrashed()->can(Permission::DeleteSeasons->value)->name('seasons.restore');
 
     // ACC-02 — any signed-in user enters and changes points. SEA-04 — matchdays 1 to 34.
     Route::get('seasons/{season}/matchdays/{matchday}', EditMatchdayController::class)
