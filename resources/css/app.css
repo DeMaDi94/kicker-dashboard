@@ -94,7 +94,7 @@
     --popover-foreground: #18181b;
     /* D9 — primary actions wear the accent red; the anthracite ground stays
        for the mark and the brand surfaces. */
-    --primary: #e30613;
+    --primary: #cc423c;
     --primary-foreground: #ffffff;
     --secondary: #f1f3f5;
     --secondary-foreground: #18181b;
@@ -106,21 +106,21 @@
     --destructive-foreground: #ffffff;
     --border: #e4e4e7;
     --input: #e4e4e7;
-    --ring: #e30613;
+    --ring: #cc423c;
     --chart-1: #1c1d21;
-    --chart-2: #c70511;
-    --chart-3: #e30613;
+    --chart-2: #b3362f;
+    --chart-3: #cc423c;
     --chart-4: #71717a;
     --chart-5: #a1a1aa;
     --radius: var(--radius-brand);
     --sidebar: #fafafa;
     --sidebar-foreground: #18181b;
-    --sidebar-primary: #e30613;
+    --sidebar-primary: #cc423c;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #fdeced;
-    --sidebar-accent-foreground: #a3040e;
+    --sidebar-accent: #fbeceb;
+    --sidebar-accent-foreground: #96302b;
     --sidebar-border: #e4e4e7;
-    --sidebar-ring: #e30613;
+    --sidebar-ring: #cc423c;
 }
 
 .dark {
@@ -132,7 +132,7 @@
     --card-foreground: #f4f4f5;
     --popover: #16181d;
     --popover-foreground: #f4f4f5;
-    --primary: #e30613;
+    --primary: #cc423c;
     --primary-foreground: #ffffff;
     --secondary: #22252c;
     --secondary-foreground: #f4f4f5;
@@ -144,20 +144,20 @@
     --destructive-foreground: #2a0e15;
     --border: #2a2e36;
     --input: #2a2e36;
-    --ring: #e30613;
-    --chart-1: #e30613;
-    --chart-2: #c70511;
-    --chart-3: #ff8f95;
+    --ring: #cc423c;
+    --chart-1: #cc423c;
+    --chart-2: #b3362f;
+    --chart-3: #f29a95;
     --chart-4: #a1a1aa;
     --chart-5: #71717a;
     --sidebar: #16181d;
     --sidebar-foreground: #f4f4f5;
-    --sidebar-primary: #e30613;
+    --sidebar-primary: #cc423c;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #2c1517;
-    --sidebar-accent-foreground: #ff8f95;
+    --sidebar-accent: #2b1918;
+    --sidebar-accent-foreground: #f29a95;
     --sidebar-border: #2a2e36;
-    --sidebar-ring: #e30613;
+    --sidebar-ring: #cc423c;
 }
 
 /*

@@ -2,7 +2,7 @@
  * Design tokens — the house style (docs/DECISIONS.md B8).
  *
  * D9 — an anthracite ground (`--color-brand-primary`) for the mark and the
- * primary action, one saturated red (`--color-brand-accent`) that does all the
+ * primary action, one matte red (`--color-brand-accent`) that does all the
  * accent work — focus ring, active nav entry, drop target, badges — and a
  * neutral grey ramp from `#18181B` to `#FAFAFA` behind it. Destructive is a
  * darker wine red so it never reads as the accent, with a quiet green for
@@ -31,12 +31,12 @@
     --color-brand-primary-hover: #2d2f35;
 
     /* The one accent, in the strengths the design uses it. */
-    --color-brand-accent: #e30613;
-    --color-brand-accent-strong: #c70511;
-    --color-brand-accent-ink: #a3040e;
-    --color-brand-accent-line: #f4bcc0;
-    --color-brand-accent-soft: #fdeced;
-    --color-brand-accent-wash: #fff6f6;
+    --color-brand-accent: #cc423c;
+    --color-brand-accent-strong: #b3362f;
+    --color-brand-accent-ink: #96302b;
+    --color-brand-accent-line: #efc6c3;
+    --color-brand-accent-soft: #fbeceb;
+    --color-brand-accent-wash: #fdf6f5;
 
     /* Surfaces. The page is white; the rail behind the navigation and a
        hovered row are the one step off it. */
@@ -72,7 +72,7 @@
 
     /* One radius and one focus ring for every interactive element. */
     --radius-brand: 2px;
-    --shadow-focus: 0 0 0 3px rgb(227 6 19 / 0.16);
+    --shadow-focus: 0 0 0 3px rgb(204 66 60 / 0.18);
 
     /* compact: the navigation rail becomes a column, tab bars stop scrolling.
        phone:   only the icons are left in the navigation bar. */
@@ -86,13 +86,13 @@
  * does.
  */
 .dark {
-    --color-brand-primary: #e30613;
-    --color-brand-primary-hover: #f23a44;
+    --color-brand-primary: #cc423c;
+    --color-brand-primary-hover: #d95a54;
 
-    --color-brand-accent-ink: #ff8f95;
-    --color-brand-accent-line: #5c2327;
-    --color-brand-accent-soft: #2c1517;
-    --color-brand-accent-wash: #211315;
+    --color-brand-accent-ink: #f29a95;
+    --color-brand-accent-line: #5a2a28;
+    --color-brand-accent-soft: #2b1918;
+    --color-brand-accent-wash: #211514;
 
     --color-brand-bg: #101216;
     --color-brand-card: #16181d;
