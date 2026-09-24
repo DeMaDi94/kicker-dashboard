@@ -72,6 +72,9 @@
 
     /* One radius and one focus ring for every interactive element. */
     --radius-brand: 2px;
+    /* D9 — the mark alone is a softer tile; everything else keeps the one
+       radius above. */
+    --radius-mark: 25%;
     --shadow-focus: 0 0 0 3px rgb(204 66 60 / 0.18);
 
     /* compact: the navigation rail becomes a column, tab bars stop scrolling.
