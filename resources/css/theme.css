@@ -1,11 +1,12 @@
 /*
  * Design tokens — the house style (docs/DECISIONS.md B8).
  *
- * A navy ground (`--color-brand-primary`) for the mark and the primary action,
- * one saturated blue (`--color-brand-accent`) that does all the accent work —
- * focus ring, active nav entry, drop target, badges — and a neutral grey ramp
- * from `#18181B` to `#FAFAFA` behind it. Destructive red is the only other
- * hue on the page, with a quiet green for success.
+ * D9 — an anthracite ground (`--color-brand-primary`) for the mark and the
+ * primary action, one saturated red (`--color-brand-accent`) that does all the
+ * accent work — focus ring, active nav entry, drop target, badges — and a
+ * neutral grey ramp from `#18181B` to `#FAFAFA` behind it. Destructive is a
+ * darker wine red so it never reads as the accent, with a quiet green for
+ * success.
  *
  * ONE RADIUS and ONE FOCUS RING for every interactive element, and no
  * decorative shadow: surfaces are separated by the `--color-brand-line`
@@ -26,16 +27,16 @@
 
 @theme {
     /* The primary ground: the mark, the primary action, group labels. */
-    --color-brand-primary: #0f2b57;
-    --color-brand-primary-hover: #163a72;
+    --color-brand-primary: #1c1d21;
+    --color-brand-primary-hover: #2d2f35;
 
     /* The one accent, in the strengths the design uses it. */
-    --color-brand-accent: #2e9fde;
-    --color-brand-accent-strong: #1b7fc4;
-    --color-brand-accent-ink: #0b5f97;
-    --color-brand-accent-line: #b9d8ec;
-    --color-brand-accent-soft: #eaf4fb;
-    --color-brand-accent-wash: #f4fafe;
+    --color-brand-accent: #e30613;
+    --color-brand-accent-strong: #c70511;
+    --color-brand-accent-ink: #a3040e;
+    --color-brand-accent-line: #f4bcc0;
+    --color-brand-accent-soft: #fdeced;
+    --color-brand-accent-wash: #fff6f6;
 
     /* Surfaces. The page is white; the rail behind the navigation and a
        hovered row are the one step off it. */
@@ -65,13 +66,13 @@
     --color-brand-success-soft: #e7f4ed;
 
     /* Destructive. */
-    --color-brand-danger: #b3324b;
-    --color-brand-danger-line: #f0d2d9;
-    --color-brand-danger-soft: #fdf2f4;
+    --color-brand-danger: #8f1d3f;
+    --color-brand-danger-line: #ecc9d4;
+    --color-brand-danger-soft: #fbf1f4;
 
     /* One radius and one focus ring for every interactive element. */
     --radius-brand: 2px;
-    --shadow-focus: 0 0 0 3px rgb(46 159 222 / 0.14);
+    --shadow-focus: 0 0 0 3px rgb(227 6 19 / 0.16);
 
     /* compact: the navigation rail becomes a column, tab bars stop scrolling.
        phone:   only the icons are left in the navigation bar. */
@@ -85,13 +86,13 @@
  * does.
  */
 .dark {
-    --color-brand-primary: #2e9fde;
-    --color-brand-primary-hover: #53b1e6;
+    --color-brand-primary: #e30613;
+    --color-brand-primary-hover: #f23a44;
 
-    --color-brand-accent-ink: #7dc4ec;
-    --color-brand-accent-line: #2b4a63;
-    --color-brand-accent-soft: #1d2a3a;
-    --color-brand-accent-wash: #17212c;
+    --color-brand-accent-ink: #ff8f95;
+    --color-brand-accent-line: #5c2327;
+    --color-brand-accent-soft: #2c1517;
+    --color-brand-accent-wash: #211315;
 
     --color-brand-bg: #101216;
     --color-brand-card: #16181d;
@@ -114,7 +115,7 @@
     --color-brand-success: #5fbf8a;
     --color-brand-success-soft: #13261c;
 
-    --color-brand-danger: #e06a83;
+    --color-brand-danger: #e87fa0;
     --color-brand-danger-line: #5a2431;
     --color-brand-danger-soft: #2a0e15;
 }

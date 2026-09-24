@@ -92,7 +92,9 @@
     --card-foreground: #18181b;
     --popover: #ffffff;
     --popover-foreground: #18181b;
-    --primary: #0f2b57;
+    /* D9 — primary actions wear the accent red; the anthracite ground stays
+       for the mark and the brand surfaces. */
+    --primary: #e30613;
     --primary-foreground: #ffffff;
     --secondary: #f1f3f5;
     --secondary-foreground: #18181b;
@@ -100,62 +102,62 @@
     --muted-foreground: #71717a;
     --accent: #f1f3f5;
     --accent-foreground: #18181b;
-    --destructive: #b3324b;
+    --destructive: #8f1d3f;
     --destructive-foreground: #ffffff;
     --border: #e4e4e7;
     --input: #e4e4e7;
-    --ring: #2e9fde;
-    --chart-1: #0f2b57;
-    --chart-2: #1b7fc4;
-    --chart-3: #2e9fde;
+    --ring: #e30613;
+    --chart-1: #1c1d21;
+    --chart-2: #c70511;
+    --chart-3: #e30613;
     --chart-4: #71717a;
     --chart-5: #a1a1aa;
     --radius: var(--radius-brand);
     --sidebar: #fafafa;
     --sidebar-foreground: #18181b;
-    --sidebar-primary: #0f2b57;
+    --sidebar-primary: #e30613;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #eaf4fb;
-    --sidebar-accent-foreground: #0b5f97;
+    --sidebar-accent: #fdeced;
+    --sidebar-accent-foreground: #a3040e;
     --sidebar-border: #e4e4e7;
-    --sidebar-ring: #2e9fde;
+    --sidebar-ring: #e30613;
 }
 
 .dark {
-    /* The same palette inverted: the navy ground becomes the page, the one
-       accent keeps its job (theme.css inverts the brand tokens alike). */
+    /* The same palette inverted: the anthracite ground becomes the page, the
+       one accent keeps its job (theme.css inverts the brand tokens alike). */
     --background: #101216;
     --foreground: #f4f4f5;
     --card: #16181d;
     --card-foreground: #f4f4f5;
     --popover: #16181d;
     --popover-foreground: #f4f4f5;
-    --primary: #2e9fde;
-    --primary-foreground: #06264a;
+    --primary: #e30613;
+    --primary-foreground: #ffffff;
     --secondary: #22252c;
     --secondary-foreground: #f4f4f5;
     --muted: #1b1e24;
     --muted-foreground: #a1a1aa;
     --accent: #22252c;
     --accent-foreground: #f4f4f5;
-    --destructive: #e06a83;
+    --destructive: #e87fa0;
     --destructive-foreground: #2a0e15;
     --border: #2a2e36;
     --input: #2a2e36;
-    --ring: #2e9fde;
-    --chart-1: #2e9fde;
-    --chart-2: #1b7fc4;
-    --chart-3: #7dc4ec;
+    --ring: #e30613;
+    --chart-1: #e30613;
+    --chart-2: #c70511;
+    --chart-3: #ff8f95;
     --chart-4: #a1a1aa;
     --chart-5: #71717a;
     --sidebar: #16181d;
     --sidebar-foreground: #f4f4f5;
-    --sidebar-primary: #2e9fde;
-    --sidebar-primary-foreground: #06264a;
-    --sidebar-accent: #1d2a3a;
-    --sidebar-accent-foreground: #7dc4ec;
+    --sidebar-primary: #e30613;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #2c1517;
+    --sidebar-accent-foreground: #ff8f95;
     --sidebar-border: #2a2e36;
-    --sidebar-ring: #2e9fde;
+    --sidebar-ring: #e30613;
 }
 
 /*

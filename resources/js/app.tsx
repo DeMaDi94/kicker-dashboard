@@ -30,7 +30,8 @@ void createInertiaApp({
         );
     },
     progress: {
-        color: '#2E9FDE',
+        // D9 — the accent red of resources/css/theme.css.
+        color: '#E30613',
     },
 });
 
