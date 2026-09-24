@@ -19,6 +19,6 @@ enum Permission: string
     case CreatePlayers = 'players.create';
     case CreateSeasons = 'seasons.create';
     case SetSeasonPlayers = 'seasons.set-players';
-    // PEN-04 — the one season setting that changes later.
+    // PEN-04 — the interim settlement changes later (ACC-03).
     case SetSeasonSettlement = 'seasons.set-settlement';
 }

@@ -15,8 +15,8 @@ type SeasonSettlementProps = {
 };
 
 /*
- * PEN-04 — change or remove the interim settlement; the one season setting
- * that changes after the season was created (ACC-03).
+ * PEN-04 — change or remove the interim settlement; with the penalty scale
+ * (SEA-05), the season setting that changes after it was created (ACC-03).
  */
 export default function SeasonSettlement({
     season,

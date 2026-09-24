@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 final class StoreSeasonRequest extends FormRequest
 {
-    private const string MAX_EUROS = '42949672.95';
+    public const string MAX_EUROS = '42949672.95';
 
     /**
      * SEA-01 — the name and the penalty scale, in euros to the cent; PEN-01 —
