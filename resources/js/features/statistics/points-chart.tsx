@@ -1,8 +1,7 @@
 import {
-    Bar,
     CartesianGrid,
-    ComposedChart,
     Line,
+    LineChart,
     ResponsiveContainer,
     Tooltip,
     XAxis,
@@ -15,7 +14,7 @@ import { AXIS_TICK, CHART, ChartTooltip } from '@/components/core/chart';
 import type { MatchdayLine } from './types';
 
 /*
- * STAT-04 — the player's points per matchday as bars, the league average of
+ * STAT-04 — the player's points per matchday as a line, the league average of
  * each matchday as a dashed reference line on the same axis.
  */
 export function PointsChart({ lines }: { lines: MatchdayLine[] }) {
@@ -35,7 +34,7 @@ export function PointsChart({ lines }: { lines: MatchdayLine[] }) {
             />
             <div className="h-56 px-1 pb-2">
                 <ResponsiveContainer width="100%" height="100%">
-                    <ComposedChart
+                    <LineChart
                         data={lines}
                         margin={{ top: 12, right: 12, bottom: 0, left: 0 }}
                     >
@@ -54,7 +53,7 @@ export function PointsChart({ lines }: { lines: MatchdayLine[] }) {
                             allowDecimals={false}
                         />
                         <Tooltip
-                            cursor={{ fill: CHART.grid }}
+                            cursor={{ stroke: CHART.grid }}
                             content={({ active, label }) => {
                                 const line = lines.find(
                                     (each) => each.matchday === label,
@@ -86,11 +85,11 @@ export function PointsChart({ lines }: { lines: MatchdayLine[] }) {
                                 ) : null;
                             }}
                         />
-                        <Bar
+                        <Line
                             dataKey="points"
-                            fill={CHART.one}
-                            radius={[4, 4, 0, 0]}
-                            maxBarSize={24}
+                            stroke={CHART.one}
+                            strokeWidth={2}
+                            dot={{ r: 4, fill: CHART.one, strokeWidth: 0 }}
                             isAnimationActive={false}
                         />
                         <Line
@@ -101,7 +100,7 @@ export function PointsChart({ lines }: { lines: MatchdayLine[] }) {
                             dot={false}
                             isAnimationActive={false}
                         />
-                    </ComposedChart>
+                    </LineChart>
                 </ResponsiveContainer>
             </div>
         </div>
