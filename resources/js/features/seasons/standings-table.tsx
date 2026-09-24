@@ -14,9 +14,9 @@ const FIT = 'w-px whitespace-nowrap';
 /*
  * STD-01 — the overall table, in the order the server ranked it; PEN-03 —
  * each player's penalty sum of the season beside the points; PEN-04 — once
- * the season has an interim settlement, that sum split into „Hinrunde“ and
- * „Rückrunde“ under one „Strafen“ heading. On a phone the two halves fold
- * into the total's cell, so the table keeps to the screen (D7).
+ * the season has an interim settlement, „Hinrunde“ and „Rückrunde“ as columns
+ * of their own before the sum, in one header row. On a phone the two halves
+ * fold into the sum's cell, so the table keeps to the screen (D7).
  */
 export function StandingsTable({
     seasonId,
@@ -46,60 +46,53 @@ export function StandingsTable({
                     <tr>
                         <th
                             scope="col"
-                            rowSpan={split ? 2 : 1}
                             className={cn(CELL, FIT, 'text-right font-medium')}
                         >
                             {t('Place')}
                         </th>
                         <th
                             scope="col"
-                            rowSpan={split ? 2 : 1}
                             className={cn(CELL, 'w-full text-left font-medium')}
                         >
                             {t('Player')}
                         </th>
                         <th
                             scope="col"
-                            rowSpan={split ? 2 : 1}
                             className={cn(CELL, 'text-right font-medium')}
                         >
                             {t('Points')}
                         </th>
+                        {split && (
+                            <>
+                                <th
+                                    scope="col"
+                                    className={cn(
+                                        CELL,
+                                        HALF,
+                                        'text-right font-medium',
+                                    )}
+                                >
+                                    {t('First half')}
+                                </th>
+                                <th
+                                    scope="col"
+                                    className={cn(
+                                        CELL,
+                                        HALF,
+                                        'text-right font-medium',
+                                    )}
+                                >
+                                    {t('Second half')}
+                                </th>
+                            </>
+                        )}
                         <th
-                            scope={split ? 'colgroup' : 'col'}
-                            colSpan={split ? 3 : 1}
-                            className={cn(
-                                CELL,
-                                'text-right font-medium',
-                                split &&
-                                    'phone:border-b phone:border-brand-line-soft phone:text-center',
-                            )}
+                            scope="col"
+                            className={cn(CELL, 'text-right font-medium')}
                         >
                             {t('Penalties')}
                         </th>
                     </tr>
-                    {split && (
-                        <tr className={HALF}>
-                            <th
-                                scope="col"
-                                className={cn(CELL, 'text-right font-medium')}
-                            >
-                                {t('First half')}
-                            </th>
-                            <th
-                                scope="col"
-                                className={cn(CELL, 'text-right font-medium')}
-                            >
-                                {t('Second half')}
-                            </th>
-                            <th
-                                scope="col"
-                                className={cn(CELL, 'text-right font-medium')}
-                            >
-                                {t('Total')}
-                            </th>
-                        </tr>
-                    )}
                 </thead>
                 <tbody>
                     {rows.map((row) => (
