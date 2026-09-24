@@ -65,7 +65,7 @@ export function MatchdayTable({ matchday }: { matchday: MatchdayBlock }) {
                             <td className="px-2 py-2 text-right brand-figure phone:px-3">
                                 {row.place === null ? '–' : `${row.place}.`}
                             </td>
-                            <td className="px-2 py-2 phone:px-3">
+                            <td className="px-1.5 py-2 phone:px-3">
                                 <PlayerName name={row.name} alias={row.alias} />
                             </td>
                             <td className="px-2 py-2 text-right brand-figure phone:px-3">

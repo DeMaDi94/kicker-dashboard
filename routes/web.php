@@ -9,9 +9,11 @@ use App\Http\Players\ListPlayers\ListPlayersController;
 use App\Http\Players\StorePlayer\StorePlayerController;
 use App\Http\Seasons\CreateSeason\CreateSeasonController;
 use App\Http\Seasons\EditSeasonPlayers\EditSeasonPlayersController;
+use App\Http\Seasons\EditSeasonSettlement\EditSeasonSettlementController;
 use App\Http\Seasons\ShowSeason\ShowSeasonController;
 use App\Http\Seasons\StoreSeason\StoreSeasonController;
 use App\Http\Seasons\UpdateSeasonPlayers\UpdateSeasonPlayersController;
+use App\Http\Seasons\UpdateSeasonSettlement\UpdateSeasonSettlementController;
 use Illuminate\Support\Facades\Route;
 
 // D1 / ACC-01 — `/` is the public season view; no sign-in needed to read.
@@ -34,6 +36,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->can(Permission::SetSeasonPlayers->value)->name('seasons.players.edit');
     Route::put('seasons/{season}/players', UpdateSeasonPlayersController::class)
         ->can(Permission::SetSeasonPlayers->value)->name('seasons.players.update');
+
+    // PEN-04 — the interim settlement is the one season setting that changes later.
+    Route::get('seasons/{season}/settlement', EditSeasonSettlementController::class)
+        ->can(Permission::SetSeasonSettlement->value)->name('seasons.settlement.edit');
+    Route::put('seasons/{season}/settlement', UpdateSeasonSettlementController::class)
+        ->can(Permission::SetSeasonSettlement->value)->name('seasons.settlement.update');
 
     // ACC-02 — any signed-in user enters and changes points. SEA-04 — matchdays 1 to 34.
     Route::get('seasons/{season}/matchdays/{matchday}', EditMatchdayController::class)

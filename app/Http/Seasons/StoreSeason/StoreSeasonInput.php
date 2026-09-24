@@ -14,5 +14,6 @@ final readonly class StoreSeasonInput
         public int $penaltyStartCents,
         public int $penaltyStepCents,
         public array $playerIds,
+        public ?int $settlementMatchday,
     ) {}
 }

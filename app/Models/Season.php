@@ -18,10 +18,11 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @property int $penalty_start_cents
  * @property int $penalty_step_cents
+ * @property int|null $settlement_matchday
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'penalty_start_cents', 'penalty_step_cents'])]
+#[Fillable(['name', 'penalty_start_cents', 'penalty_step_cents', 'settlement_matchday'])]
 class Season extends Model
 {
     /** @use HasFactory<SeasonFactory> */
@@ -56,6 +57,7 @@ class Season extends Model
         return [
             'penalty_start_cents' => 'integer',
             'penalty_step_cents' => 'integer',
+            'settlement_matchday' => 'integer',
         ];
     }
 }

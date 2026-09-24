@@ -1,14 +1,30 @@
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCents } from '@/lib/money';
+import { cn } from '@/lib/utils';
 import { PlayerName } from './player-name';
 import type { StandingLine } from './types';
 
+const CELL = 'px-1.5 py-2 phone:px-3';
+const FIGURE = cn(CELL, 'text-right brand-figure whitespace-nowrap');
+const HALF = 'max-phone:hidden';
+
 /*
  * STD-01 — the overall table, in the order the server ranked it; PEN-03 —
- * each player's penalty sum of the season beside the points.
+ * each player's penalty sum of the season beside the points; PEN-04 — once
+ * the season has an interim settlement, that sum split into „Hinrunde“ and
+ * „Rückrunde“ under one „Strafen“ heading. On a phone the two halves fold
+ * into the total's cell, so the table keeps to the screen (D7).
  */
-export function StandingsTable({ rows }: { rows: StandingLine[] }) {
+export function StandingsTable({
+    rows,
+    split,
+}: {
+    rows: StandingLine[];
+    split: boolean;
+}) {
     const { t, locale } = useTranslation();
+    const euros = (cents: number | null) =>
+        cents === null ? '–' : formatCents(cents, locale);
 
     if (rows.length === 0) {
         return (
@@ -19,35 +35,66 @@ export function StandingsTable({ rows }: { rows: StandingLine[] }) {
     }
 
     return (
-        <div className="overflow-x-auto">
+        <div className="relative overflow-x-auto">
             <table className="w-full text-sm">
                 <thead className="border-b border-brand-line-soft text-brand-muted">
                     <tr>
                         <th
                             scope="col"
-                            className="px-2 py-2 text-right font-medium phone:px-3"
+                            rowSpan={split ? 2 : 1}
+                            className={cn(CELL, 'text-right font-medium')}
                         >
                             {t('Place')}
                         </th>
                         <th
                             scope="col"
-                            className="px-2 py-2 text-left font-medium phone:px-3"
+                            rowSpan={split ? 2 : 1}
+                            className={cn(CELL, 'text-left font-medium')}
                         >
                             {t('Player')}
                         </th>
                         <th
                             scope="col"
-                            className="px-2 py-2 text-right font-medium phone:px-3"
+                            rowSpan={split ? 2 : 1}
+                            className={cn(CELL, 'text-right font-medium')}
                         >
                             {t('Points')}
                         </th>
                         <th
-                            scope="col"
-                            className="px-2 py-2 text-right font-medium phone:px-3"
+                            scope={split ? 'colgroup' : 'col'}
+                            colSpan={split ? 3 : 1}
+                            className={cn(
+                                CELL,
+                                'text-right font-medium',
+                                split &&
+                                    'phone:border-b phone:border-brand-line-soft phone:text-center',
+                            )}
                         >
                             {t('Penalties')}
                         </th>
                     </tr>
+                    {split && (
+                        <tr className={HALF}>
+                            <th
+                                scope="col"
+                                className={cn(CELL, 'text-right font-medium')}
+                            >
+                                {t('First half')}
+                            </th>
+                            <th
+                                scope="col"
+                                className={cn(CELL, 'text-right font-medium')}
+                            >
+                                {t('Second half')}
+                            </th>
+                            <th
+                                scope="col"
+                                className={cn(CELL, 'text-right font-medium')}
+                            >
+                                {t('Total')}
+                            </th>
+                        </tr>
+                    )}
                 </thead>
                 <tbody>
                     {rows.map((row) => (
@@ -55,17 +102,44 @@ export function StandingsTable({ rows }: { rows: StandingLine[] }) {
                             key={row.playerId}
                             className="border-b border-brand-line-soft last:border-0"
                         >
-                            <td className="px-2 py-2 text-right brand-figure phone:px-3">
+                            <td className={cn(CELL, 'text-right brand-figure')}>
                                 {row.place}.
                             </td>
-                            <td className="px-2 py-2 phone:px-3">
+                            <td className={CELL}>
                                 <PlayerName name={row.name} alias={row.alias} />
                             </td>
-                            <td className="px-2 py-2 text-right brand-figure phone:px-3">
+                            <td className={cn(CELL, 'text-right brand-figure')}>
                                 {row.points}
                             </td>
-                            <td className="px-2 py-2 text-right brand-figure phone:px-3">
-                                {formatCents(row.penaltyCents, locale)}
+                            {split && (
+                                <>
+                                    <td className={cn(FIGURE, HALF)}>
+                                        {euros(row.firstHalfPenaltyCents)}
+                                    </td>
+                                    <td className={cn(FIGURE, HALF)}>
+                                        {euros(row.secondHalfPenaltyCents)}
+                                    </td>
+                                </>
+                            )}
+                            <td
+                                className={cn(
+                                    FIGURE,
+                                    split && 'font-semibold text-brand-ink',
+                                )}
+                            >
+                                {euros(row.penaltyCents)}
+                                {split && (
+                                    <span className="mt-0.5 flex flex-col text-[11px] font-normal whitespace-normal text-brand-muted phone:hidden">
+                                        <span>
+                                            {t('First half')}{' '}
+                                            {euros(row.firstHalfPenaltyCents)}
+                                        </span>
+                                        <span>
+                                            {t('Second half')}{' '}
+                                            {euros(row.secondHalfPenaltyCents)}
+                                        </span>
+                                    </span>
+                                )}
                             </td>
                         </tr>
                     ))}

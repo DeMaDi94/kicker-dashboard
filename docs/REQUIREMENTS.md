@@ -7,7 +7,7 @@ unless a requirement says so.
 | | |
 | --- | --- |
 | Product | Vivalaraza — Tabellen und Strafen der internen kicker-Manager-Liga |
-| Requirements | 17 |
+| Requirements | 18 |
 | Last reviewed | 2026-09-24 (Q1–Q8 eingearbeitet) |
 
 Decisions and open questions live in [`DECISIONS.md`](DECISIONS.md); the domain vocabulary in
@@ -137,6 +137,12 @@ erfasst die App nicht.*
   | 80 | 5. | 2,50 € |
 
 - **PEN-03** — Die App zeigt je Mitspieler die Summe seiner Strafen in der Saison.
+- **PEN-04** — Einmal je Saison wird die Strafenkasse zwischenabgerechnet. Nach welchem Spieltag
+  (1–33), legt ein Admin beim Anlegen der Saison fest; er kann ihn später ändern oder entfernen –
+  als einzige Angabe einer Saison, die sich nachträglich ändern lässt (ACC-03). Ist er festgelegt,
+  zeigt die Gesamttabelle je Mitspieler die Strafen der „Hinrunde“ (bis einschließlich diesem
+  Spieltag), der „Rückrunde“ (danach) und die Summe der Saison. Punkte und Platzierung bleiben
+  davon unberührt.
 
 ## 6. Gesamttabelle (`STD`)
 

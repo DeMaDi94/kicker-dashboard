@@ -36,6 +36,8 @@ namespace column — do not invent an area name.
 | Platz (place) | `place` | Rank on a matchday or in the overall table, counted densely (MD-03, D5). |
 | Strafe (penalty) | `penalty`, in cents | What a place pays per complete matchday (PEN-01). |
 | Startbetrag / Schrittweite | `penaltyStartCents` / `penaltyStepCents` — `PenaltyScale` | The lowest score's penalty and the amount each higher score pays less (PEN-01). |
+| Zwischenabrechnung (interim settlement) | `settlementMatchday` | The last matchday of the „Hinrunde“; the penalty box is settled after it (PEN-04). Nullable: no settlement set yet. |
+| Hinrunde / Rückrunde | first half / second half — `firstHalfPenaltyCents` / `secondHalfPenaltyCents` | Penalties up to and including the settlement matchday / after it (PEN-04). Not the Bundesliga's fixed halves. |
 | Gesamttabelle (overall table) | `Standings` | The season's ranking by points over the complete matchdays (STD-01). |
 | Benutzer (user) | `User` | An account that can sign in. Also the name of the plain role — the enum case `Role::User`. |
 | Rolle (role) | `Role` | What a user is, exactly one per user (B13). Not a permission: code never checks a role. |

@@ -50,12 +50,15 @@ Questions the requirements do not answer yet. Code stops at these boundaries and
 | Id | Question | Blocks |
 | --- | --- | --- |
 | Q9 | Punkte automatisch aus dem kicker Manager holen — gewünscht, aber nicht für den ersten PoC. Quelle und Weg offen. | — |
-| Q10 | Zwischensumme „Winter“ der Strafen nach Spieltag 16, wie im Blatt „Spieltagsstrafen“ — erstmal nicht (Product Owner, 2026-09-24); bei Bedarf als neues Requirement. | — |
 
 ## Spec notes
 
 Places where the catalogue turned out to be ambiguous or wrong while implementing it, with the
 user's resolution. Newest first.
+
+- **2026-09-24 — Zwischenabrechnung (vormals Q10)** → PEN-04: einmal je Saison, der Spieltag wird
+  beim Anlegen festgelegt und bleibt änderbar; die Abschnitte heißen „Hinrunde“ und „Rückrunde“;
+  die Gesamttabelle zeigt Hinrunde, Rückrunde und Gesamt (Product Owner).
 
 - **2026-09-24 — Die Liga-Liste** (`Kicker26_27.xlsx`, Blatt „Spieltagsstrafen“, als Foto): 13
   Mitspieler, Strafen der Spieltage 1–4 mit Startbetrag 5,00 € und Schrittweite 0,50 €. Die Beträge

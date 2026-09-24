@@ -4,6 +4,8 @@ export type SeasonOption = { id: number; name: string };
 export type SeasonSummary = SeasonOption & {
     penaltyStartCents: number;
     penaltyStepCents: number;
+    /** PEN-04 — the last matchday of the „Hinrunde“, or none set. */
+    settlementMatchday: number | null;
 };
 
 export type StandingLine = {
@@ -13,6 +15,8 @@ export type StandingLine = {
     place: number;
     points: number;
     penaltyCents: number;
+    firstHalfPenaltyCents: number | null;
+    secondHalfPenaltyCents: number | null;
 };
 
 export type MatchdayLine = {

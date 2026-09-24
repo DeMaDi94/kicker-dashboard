@@ -20,10 +20,10 @@ use App\Models\Season;
  * seasons to switch to.
  *
  * @phpstan-type SeasonOption array{id: int, name: string}
- * @phpstan-type StandingLine array{playerId: int, name: string, alias: string, place: int, points: int, penaltyCents: int}
+ * @phpstan-type StandingLine array{playerId: int, name: string, alias: string, place: int, points: int, penaltyCents: int, firstHalfPenaltyCents: int|null, secondHalfPenaltyCents: int|null}
  * @phpstan-type MatchdayLine array{playerId: int, name: string, alias: string, points: int|null, place: int|null, penaltyCents: int|null}
  * @phpstan-type MatchdayBlock array{number: int, complete: bool, hasPoints: bool, rows: list<MatchdayLine>}
- * @phpstan-type SeasonView array{seasons: list<SeasonOption>, season: array{id: int, name: string, penaltyStartCents: int, penaltyStepCents: int}|null, standings: list<StandingLine>, matchdays: list<MatchdayBlock>}
+ * @phpstan-type SeasonView array{seasons: list<SeasonOption>, season: array{id: int, name: string, penaltyStartCents: int, penaltyStepCents: int, settlementMatchday: int|null}|null, standings: list<StandingLine>, matchdays: list<MatchdayBlock>}
  */
 final class ShowSeasonService
 {
@@ -62,7 +62,9 @@ final class ShowSeasonService
             'place' => $row->place,
             'points' => $row->points,
             'penaltyCents' => $row->penaltyCents,
-        ], Standings::of($participants, $pointsByMatchday, $scale));
+            'firstHalfPenaltyCents' => $row->firstHalfPenaltyCents,
+            'secondHalfPenaltyCents' => $row->secondHalfPenaltyCents,
+        ], Standings::of($participants, $pointsByMatchday, $scale, $season->settlement_matchday));
 
         $matchdays = array_map(fn (int $number): array => [
             'number' => $number,
@@ -85,6 +87,7 @@ final class ShowSeasonService
                 'name' => $season->name,
                 'penaltyStartCents' => $season->penalty_start_cents,
                 'penaltyStepCents' => $season->penalty_step_cents,
+                'settlementMatchday' => $season->settlement_matchday,
             ],
             'standings' => $standings,
             'matchdays' => $matchdays,

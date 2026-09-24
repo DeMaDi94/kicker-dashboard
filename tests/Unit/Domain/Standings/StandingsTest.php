@@ -63,3 +63,32 @@ it('sums each player\'s penalties over the season', function () {
 
     expect(standingLines($rows))->toBe([['B', 1, 40, 800], ['A', 2, 20, 900]]);
 });
+
+describe('PEN-04 · the interim settlement', function () {
+    $matchdays = [
+        1 => [1 => 10, 2 => 20],
+        2 => [1 => 10, 2 => 20],
+        3 => [1 => 20, 2 => 10],
+    ];
+
+    it('splits the penalty sum at the settlement matchday', function () use ($matchdays) {
+        $rows = Standings::of([1 => 'A', 2 => 'B'], $matchdays, new PenaltyScale(450, 50), 2);
+
+        expect(array_map(fn (StandingRow $row): array => [$row->name, $row->firstHalfPenaltyCents, $row->secondHalfPenaltyCents, $row->penaltyCents], $rows))
+            ->toBe([['B', 800, 450, 1250], ['A', 900, 400, 1300]]);
+    });
+
+    it('leaves points and places untouched', function () use ($matchdays) {
+        $with = Standings::of([1 => 'A', 2 => 'B'], $matchdays, new PenaltyScale(450, 50), 2);
+        $without = Standings::of([1 => 'A', 2 => 'B'], $matchdays, new PenaltyScale(450, 50));
+
+        expect(array_map(fn (StandingRow $row): array => [$row->name, $row->place, $row->points], $with))
+            ->toBe(array_map(fn (StandingRow $row): array => [$row->name, $row->place, $row->points], $without));
+    });
+
+    it('has no halves while no settlement is set', function () use ($matchdays) {
+        $row = Standings::of([1 => 'A', 2 => 'B'], $matchdays, new PenaltyScale(450, 50))[0];
+
+        expect($row->firstHalfPenaltyCents)->toBeNull()->and($row->secondHalfPenaltyCents)->toBeNull();
+    });
+});

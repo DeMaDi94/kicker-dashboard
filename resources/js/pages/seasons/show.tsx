@@ -25,6 +25,7 @@ import { home } from '@/routes';
 import { edit as editMatchday } from '@/routes/matchdays';
 import { create, show } from '@/routes/seasons';
 import { edit as editPlayers } from '@/routes/seasons/players';
+import { edit as editSettlement } from '@/routes/seasons/settlement';
 
 type ShowSeasonProps = {
     seasons: SeasonOption[];
@@ -93,7 +94,10 @@ export default function ShowSeason({
                                       locale,
                                   ),
                               },
-                          )
+                          ) +
+                          (season.settlementMatchday === null
+                              ? ''
+                              : ` ${t('Interim settlement after matchday :number.', { number: season.settlementMatchday })}`)
                 }
             >
                 <div className="flex flex-wrap items-center gap-2">
@@ -122,6 +126,13 @@ export default function ShowSeason({
                             </SelectContent>
                         </Select>
                     )}
+                    {season !== null && can('seasons.set-settlement') && (
+                        <Button variant="outline" asChild>
+                            <Link href={editSettlement(season.id)}>
+                                {t('Interim settlement')}
+                            </Link>
+                        </Button>
+                    )}
                     {season !== null && can('seasons.set-players') && (
                         <Button variant="outline" asChild>
                             <Link href={editPlayers(season.id)}>
@@ -147,7 +158,10 @@ export default function ShowSeason({
                 <div className="flex flex-col gap-4">
                     <Panel>
                         <PanelHeader title={t('Overall table')} />
-                        <StandingsTable rows={standings} />
+                        <StandingsTable
+                            rows={standings}
+                            split={season.settlementMatchday !== null}
+                        />
                     </Panel>
 
                     <Panel>

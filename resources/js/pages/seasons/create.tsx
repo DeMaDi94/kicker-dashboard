@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PlayerChecklist } from '@/features/seasons/player-checklist';
+import { SettlementSelect } from '@/features/seasons/settlement-select';
 import type { PlayerOption } from '@/features/seasons/types';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
@@ -16,20 +17,31 @@ import { create } from '@/routes/seasons';
 
 type CreateSeasonProps = {
     players: PlayerOption[];
+    settlementMatchdays: number[];
 };
 
 /*
  * SEA-01 — a season's name and penalty scale; SEA-02 — its players, which
  * can still change until the first points are entered (SEA-03).
  */
-export default function CreateSeason({ players }: CreateSeasonProps) {
+export default function CreateSeason({
+    players,
+    settlementMatchdays,
+}: CreateSeasonProps) {
     const { t } = useTranslation();
     const form = useForm<{
         name: string;
         penalty_start: number | null;
         penalty_step: number | null;
+        settlement_matchday: number | null;
         player_ids: number[];
-    }>({ name: '', penalty_start: null, penalty_step: null, player_ids: [] });
+    }>({
+        name: '',
+        penalty_start: null,
+        penalty_step: null,
+        settlement_matchday: null,
+        player_ids: [],
+    });
 
     return (
         <>
@@ -97,6 +109,15 @@ export default function CreateSeason({ players }: CreateSeasonProps) {
                                 />
                             </div>
                         </div>
+
+                        <SettlementSelect
+                            matchdays={settlementMatchdays}
+                            value={form.data.settlement_matchday}
+                            onChange={(value) =>
+                                form.setData('settlement_matchday', value)
+                            }
+                            error={form.errors.settlement_matchday}
+                        />
 
                         <PlayerChecklist
                             players={players}

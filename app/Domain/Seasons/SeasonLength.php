@@ -19,4 +19,15 @@ final class SeasonLength
     {
         return range(1, self::MATCHDAYS);
     }
+
+    /**
+     * PEN-04 — the matchdays an interim settlement can follow: any but the
+     * last, so both halves hold at least one matchday.
+     *
+     * @return list<int>
+     */
+    public static function settlementMatchdays(): array
+    {
+        return range(1, self::MATCHDAYS - 1);
+    }
 }

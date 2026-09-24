@@ -16,6 +16,7 @@ final class StoreSeasonService
                 'name' => $input->name,
                 'penalty_start_cents' => $input->penaltyStartCents,
                 'penalty_step_cents' => $input->penaltyStepCents,
+                'settlement_matchday' => $input->settlementMatchday,
             ]);
 
             $season->players()->sync($input->playerIds);
