@@ -197,14 +197,3 @@ it('shows the money each complete matchday put into the box in the season view (
             ->where('matchdays.2.highlights.penaltyCents', 600)
             ->where('matchdays.3.highlights', null));
 });
-
-it('carries the penalty box graph’s money per matchday and balance, with the settlement (STAT-14)', function () {
-    statsLeague(settlement: 2);
-
-    $this->get(route('home'))
-        ->assertInertia(fn (AssertableInertia $page) => $page
-            ->where('season.settlementMatchday', 2)
-            ->has('penaltyBox.matchdays', 3)
-            ->where('penaltyBox.matchdays.1', ['matchday' => 2, 'cents' => 700, 'cumulativeCents' => 1300])
-            ->where('penaltyBox.matchdays.2.cumulativeCents', 1900));
-});

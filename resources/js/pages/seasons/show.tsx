@@ -305,11 +305,7 @@ export default function ShowSeason({
                     {penaltyBox && (
                         <Panel>
                             <PanelHeader title={t('Penalty box')} />
-                            <PenaltyBox
-                                seasonId={season.id}
-                                box={penaltyBox}
-                                settlementMatchday={season.settlementMatchday}
-                            />
+                            <PenaltyBox seasonId={season.id} box={penaltyBox} />
                         </Panel>
                     )}
                 </div>

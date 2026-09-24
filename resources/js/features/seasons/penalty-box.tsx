@@ -2,24 +2,20 @@ import { useTranslation } from '@/hooks/use-translation';
 import { formatCents } from '@/lib/money';
 import { cn } from '@/lib/utils';
 import { show } from '@/routes/players';
-import { BoxChart } from './box-chart';
 import { PlayerName } from './player-name';
 import { ROW_LINK, visitRow } from './row-link';
 import type { PenaltyBox as PenaltyBoxData } from './types';
 
 /*
  * STAT-12 — the season's penalty box: what went in (split as PEN-04 splits
- * it) and who paid most first. STAT-14 — and the graph of the money per
- * matchday and the balance, the interim settlement marked.
+ * it) and who paid most first.
  */
 export function PenaltyBox({
     seasonId,
     box,
-    settlementMatchday,
 }: {
     seasonId: number;
     box: PenaltyBoxData;
-    settlementMatchday: number | null;
 }) {
     const { t, locale } = useTranslation();
     const euros = (cents: number) => formatCents(cents, locale);
@@ -57,13 +53,6 @@ export function PenaltyBox({
                         </>
                     )}
             </dl>
-
-            {box.matchdays.length > 0 && (
-                <BoxChart
-                    matchdays={box.matchdays}
-                    settlementMatchday={settlementMatchday}
-                />
-            )}
 
             <ol className="grid gap-1 text-sm">
                 {box.payers.map((payer) => (

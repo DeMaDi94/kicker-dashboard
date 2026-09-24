@@ -238,17 +238,3 @@ describe('STAT-12 · the penalty box', function () {
         expect([$box->firstHalfCents, $box->secondHalfCents])->toBe([null, null]);
     });
 });
-
-describe('STAT-14 · the penalty box graph', function () {
-    it('lines up the money per matchday and the balance after it', function () {
-        expect(PenaltyBox::of(statsSeason(settlement: 1))->matchdays)->toBe([
-            ['matchday' => 1, 'cents' => 600, 'cumulativeCents' => 600],
-            ['matchday' => 2, 'cents' => 700, 'cumulativeCents' => 1300],
-            ['matchday' => 3, 'cents' => 600, 'cumulativeCents' => 1900],
-        ]);
-    });
-
-    it('has no line before a matchday is complete', function () {
-        expect(PenaltyBox::of(new SeasonTimeline([1 => 'Anna'], [], new PenaltyScale(300, 100)))->matchdays)->toBe([]);
-    });
-});

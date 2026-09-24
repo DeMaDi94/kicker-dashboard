@@ -43,14 +43,7 @@ export type MatchdayBlock = {
     } | null;
 };
 
-/** STAT-14 — the money of one complete matchday and the box's balance after it. */
-export type PenaltyBoxMatchday = {
-    matchday: number;
-    cents: number;
-    cumulativeCents: number;
-};
-
-/** Mirrors App\Domain\Statistics\PenaltyBox (STAT-12, STAT-14). */
+/** Mirrors App\Domain\Statistics\PenaltyBox (STAT-12). */
 export type PenaltyBox = {
     totalCents: number;
     firstHalfCents: number | null;
@@ -61,7 +54,6 @@ export type PenaltyBox = {
         alias: string;
         penaltyCents: number;
     }[];
-    matchdays: PenaltyBoxMatchday[];
 };
 
 /** A player to pick for a season (SEA-02). */

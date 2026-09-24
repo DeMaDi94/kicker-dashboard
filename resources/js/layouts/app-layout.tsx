@@ -71,7 +71,7 @@ export default function AppLayout({
 
                     <main
                         scroll-region="true"
-                        className="flex-1 overflow-y-auto print:overflow-visible"
+                        className="relative flex-1 overflow-y-auto print:overflow-visible"
                     >
                         <div className="w-full max-w-[1180px] px-4 pt-6 pb-16 print:max-w-none print:p-0">
                             <ViewErrorBoundary
