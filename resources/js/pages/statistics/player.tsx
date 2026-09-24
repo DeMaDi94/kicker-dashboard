@@ -1,4 +1,4 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, setLayoutProps } from '@inertiajs/react';
 import { PageTitle } from '@/components/core/page-title';
 import { Panel, PanelBody, PanelHeader } from '@/components/core/panel';
 import { Button } from '@/components/ui/button';
@@ -23,8 +23,7 @@ import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { formatCents } from '@/lib/money';
 import { formatNumber } from '@/lib/number';
-import { home } from '@/routes';
-import { show } from '@/routes/players';
+import { index, show } from '@/routes/players';
 import { compare } from '@/routes/seasons';
 
 type PlayerStatisticsProps = {
@@ -49,6 +48,13 @@ export default function PlayerStatistics({
     opponents,
 }: PlayerStatisticsProps) {
     const { t, locale } = useTranslation();
+
+    setLayoutProps({
+        breadcrumbs: [
+            { title: i18nKey('Players'), href: index() },
+            { title: player.name, href: show(player.id), verbatim: true },
+        ],
+    });
     const euros = (cents: number) => formatCents(cents, locale);
     const decimal = (value: number | null) =>
         value === null ? '–' : formatNumber(value, locale, 1);
@@ -342,5 +348,5 @@ export default function PlayerStatistics({
 }
 
 PlayerStatistics.layout = {
-    breadcrumbs: [{ title: i18nKey('Seasons'), href: home() }],
+    breadcrumbs: [{ title: i18nKey('Players'), href: index() }],
 };

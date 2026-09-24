@@ -22,6 +22,8 @@ export function AppHeader({
     onToggleNav: () => void;
 }) {
     const { t } = useTranslation();
+    const crumbTitle = (crumb: BreadcrumbItem) =>
+        crumb.verbatim ? crumb.title : t(crumb.title);
     const label = collapsed ? t('Expand sidebar') : t('Collapse sidebar');
 
     return (
@@ -74,14 +76,14 @@ export function AppHeader({
                                     aria-current="page"
                                     className="max-w-full flex-none truncate font-medium text-brand-ink"
                                 >
-                                    {t(crumb.title)}
+                                    {crumbTitle(crumb)}
                                 </span>
                             ) : (
                                 <Link
                                     href={crumb.href}
                                     className="min-w-0 truncate text-brand-muted hover:text-brand-ink"
                                 >
-                                    {t(crumb.title)}
+                                    {crumbTitle(crumb)}
                                 </Link>
                             )}
                         </Fragment>

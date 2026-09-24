@@ -1,4 +1,4 @@
-import { Form, Head, Link, router } from '@inertiajs/react';
+import { Form, Head, Link, router, setLayoutProps } from '@inertiajs/react';
 import UpdateMatchdayController from '@/actions/App/Http/Matchdays/UpdateMatchday/UpdateMatchdayController';
 import { PageTitle } from '@/components/core/page-title';
 import { Panel, PanelBody } from '@/components/core/panel';
@@ -14,6 +14,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { PlayerName } from '@/features/seasons/player-name';
+import { seasonTrail } from '@/features/seasons/season-trail';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { home } from '@/routes';
@@ -44,6 +45,17 @@ export default function EditMatchday({
     players,
 }: EditMatchdayProps) {
     const { t } = useTranslation();
+
+    setLayoutProps({
+        breadcrumbs: [
+            ...seasonTrail(season),
+            {
+                title: t('Matchday :number', { number: matchday }),
+                href: edit([season.id, matchday]),
+                verbatim: true,
+            },
+        ],
+    });
 
     return (
         <>

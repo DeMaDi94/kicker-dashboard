@@ -1,13 +1,15 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, setLayoutProps, useForm } from '@inertiajs/react';
 import UpdateSeasonSettlementController from '@/actions/App/Http/Seasons/UpdateSeasonSettlement/UpdateSeasonSettlementController';
 import { PageTitle } from '@/components/core/page-title';
 import { Panel, PanelBody } from '@/components/core/panel';
 import { Button } from '@/components/ui/button';
 import { SettlementSelect } from '@/features/seasons/settlement-select';
+import { seasonTrail } from '@/features/seasons/season-trail';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { home } from '@/routes';
 import { show } from '@/routes/seasons';
+import settlement from '@/routes/seasons/settlement';
 
 type SeasonSettlementProps = {
     season: { id: number; name: string; settlementMatchday: number | null };
@@ -23,6 +25,16 @@ export default function SeasonSettlement({
     matchdays,
 }: SeasonSettlementProps) {
     const { t } = useTranslation();
+
+    setLayoutProps({
+        breadcrumbs: [
+            ...seasonTrail(season),
+            {
+                title: i18nKey('Interim settlement'),
+                href: settlement.edit(season.id),
+            },
+        ],
+    });
     const form = useForm<{ settlement_matchday: number | null }>({
         settlement_matchday: season.settlementMatchday,
     });

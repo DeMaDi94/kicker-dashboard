@@ -75,7 +75,13 @@ export default function AppLayout({
                     >
                         <div className="w-full max-w-[1180px] px-4 pt-6 pb-16 print:max-w-none print:p-0">
                             <ViewErrorBoundary
-                                view={view ? t(view.title) : component}
+                                view={
+                                    view === undefined
+                                        ? component
+                                        : view.verbatim
+                                          ? view.title
+                                          : t(view.title)
+                                }
                             >
                                 {children}
                             </ViewErrorBoundary>

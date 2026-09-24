@@ -1,4 +1,4 @@
-import { Form, Head, router } from '@inertiajs/react';
+import { Form, Head, router, setLayoutProps } from '@inertiajs/react';
 import UpdateUserController from '@/actions/App/Http/Users/UpdateUser/UpdateUserController';
 import { useConfirm } from '@/components/core/dialogs';
 import { toast } from '@/components/core/toast';
@@ -11,7 +11,7 @@ import { RoleSelect } from '@/features/users/role-select';
 import type { Role, UserRow } from '@/features/users/types';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
-import { destroy, index, passwordResetLink } from '@/routes/users';
+import { destroy, edit, index, passwordResetLink } from '@/routes/users';
 
 type EditUserProps = {
     user: UserRow;
@@ -36,6 +36,13 @@ export default function EditUser({
     demoteRefusal,
 }: EditUserProps) {
     const { t } = useTranslation();
+
+    setLayoutProps({
+        breadcrumbs: [
+            { title: i18nKey('Users'), href: index() },
+            { title: user.name, href: edit(user.id), verbatim: true },
+        ],
+    });
     const confirm = useConfirm();
 
     const onError = (errors: Record<string, string>) => {

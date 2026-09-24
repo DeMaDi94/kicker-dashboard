@@ -2,7 +2,16 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
+import { translate } from '@/lib/i18n';
 import { AppHeader } from './header';
+
+vi.mock('@/hooks/use-translation', () => ({
+    useTranslation: () => ({
+        t: (key: string) => translate({ Points: 'Punkte' }, key),
+        locale: 'de',
+        locales: ['de'],
+    }),
+}));
 
 vi.mock('@inertiajs/react', () => ({
     Link: ({
@@ -76,5 +85,22 @@ describe('the header', () => {
             'aria-current',
             'page',
         );
+    });
+
+    it('shows a record’s own name as it is, not as a translation key', () => {
+        render(
+            <AppHeader
+                breadcrumbs={[
+                    { title: 'Points', href: '/points' },
+                    { title: 'Points', href: '/players/1', verbatim: true },
+                ]}
+                collapsed={false}
+                onToggleNav={() => {}}
+            />,
+        );
+
+        expect(
+            screen.getByRole('navigation', { name: 'Breadcrumb' }).textContent,
+        ).toBe('Punkte/Points');
     });
 });

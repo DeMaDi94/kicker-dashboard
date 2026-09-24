@@ -1,4 +1,4 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, setLayoutProps, useForm } from '@inertiajs/react';
 import UpdatePenaltyScaleController from '@/actions/App/Http/Seasons/UpdatePenaltyScale/UpdatePenaltyScaleController';
 import { NumberInput } from '@/components/core/number-input';
 import { PageTitle } from '@/components/core/page-title';
@@ -6,10 +6,12 @@ import { Panel, PanelBody } from '@/components/core/panel';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { seasonTrail } from '@/features/seasons/season-trail';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { home } from '@/routes';
 import { show } from '@/routes/seasons';
+import penaltyScale from '@/routes/seasons/penalty-scale';
 
 type PenaltyScaleProps = {
     season: {
@@ -26,6 +28,16 @@ type PenaltyScaleProps = {
  */
 export default function PenaltyScale({ season }: PenaltyScaleProps) {
     const { t } = useTranslation();
+
+    setLayoutProps({
+        breadcrumbs: [
+            ...seasonTrail(season),
+            {
+                title: i18nKey('Penalty scale'),
+                href: penaltyScale.edit(season.id),
+            },
+        ],
+    });
     const form = useForm<{
         penalty_start: number | null;
         penalty_step: number | null;

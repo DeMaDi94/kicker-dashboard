@@ -1,4 +1,4 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { useConfirm } from '@/components/core/dialogs';
 import { PageTitle } from '@/components/core/page-title';
@@ -21,6 +21,7 @@ import type {
     SeasonSummary,
     StandingLine,
 } from '@/features/seasons/types';
+import { seasonTrail } from '@/features/seasons/season-trail';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { formatCents } from '@/lib/money';
@@ -69,6 +70,13 @@ export default function ShowSeason({
     const { t, locale } = useTranslation();
     const { url, props } = usePage();
     const { auth } = props;
+
+    setLayoutProps({
+        breadcrumbs:
+            season === null
+                ? [{ title: i18nKey('Seasons'), href: home() }]
+                : seasonTrail(season),
+    });
     const [matchdayNumber, setMatchdayNumber] = useState(() =>
         initialMatchday(url, matchdays),
     );

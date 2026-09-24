@@ -1,14 +1,16 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, setLayoutProps, useForm } from '@inertiajs/react';
 import UpdateSeasonPlayersController from '@/actions/App/Http/Seasons/UpdateSeasonPlayers/UpdateSeasonPlayersController';
 import { PageTitle } from '@/components/core/page-title';
 import { Panel, PanelBody } from '@/components/core/panel';
 import { Button } from '@/components/ui/button';
 import { PlayerChecklist } from '@/features/seasons/player-checklist';
 import type { PlayerOption, SeasonOption } from '@/features/seasons/types';
+import { seasonTrail } from '@/features/seasons/season-trail';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { home } from '@/routes';
 import { show } from '@/routes/seasons';
+import seasonPlayers from '@/routes/seasons/players';
 
 type SeasonPlayersProps = {
     season: SeasonOption;
@@ -27,6 +29,16 @@ export default function SeasonPlayers({
     locked,
 }: SeasonPlayersProps) {
     const { t } = useTranslation();
+
+    setLayoutProps({
+        breadcrumbs: [
+            ...seasonTrail(season),
+            {
+                title: i18nKey('Players of the season'),
+                href: seasonPlayers.edit(season.id),
+            },
+        ],
+    });
     const form = useForm<{ player_ids: number[] }>({ player_ids: selected });
 
     return (

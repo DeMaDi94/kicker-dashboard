@@ -1,4 +1,4 @@
-import { Head, router } from '@inertiajs/react';
+import { Head, router, setLayoutProps } from '@inertiajs/react';
 import { PageTitle } from '@/components/core/page-title';
 import { Panel, PanelBody, PanelHeader } from '@/components/core/panel';
 import { Label } from '@/components/ui/label';
@@ -16,6 +16,7 @@ import type {
     Option,
     PlayerOption,
 } from '@/features/statistics/types';
+import { seasonTrail } from '@/features/seasons/season-trail';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { home } from '@/routes';
@@ -41,6 +42,13 @@ export default function ComparePlayers({
     duel,
 }: ComparePlayersProps) {
     const { t } = useTranslation();
+
+    setLayoutProps({
+        breadcrumbs: [
+            ...seasonTrail(season),
+            { title: i18nKey('Head-to-head'), href: compare(season.id) },
+        ],
+    });
     const nameOf = (id: number | null) =>
         players.find((player) => player.id === id)?.name ?? '';
 
