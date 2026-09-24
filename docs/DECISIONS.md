@@ -38,7 +38,7 @@ id from code comments and ledger reasons.
 | D3 | **Last tie-break: the name A–Z**, compared the German way (`App\Domain\Shared\NameOrder`). In the overall table it follows the penalty sum (STD-01); on a matchday it follows the place; lists of players are ordered by it alone. | Product owner, 2026-09-24. |
 | D4 | **Players appear by name, with the kicker Manager alias small beside it.** The names are the short names of the league sheet (BK, FK, JLS, …). | Product owner, 2026-09-24. |
 | D5 | **The overall table counts places densely** (1, 2, 2, 3), as a matchday does (MD-03). | Product owner, 2026-09-24. |
-| D6 | **Amounts are stored in cents**; the season form takes euros to the cent, none below 0 € (PEN-01). The season view opens on the matchday just saved, else the last one with points, else the first. | How, not what: exact sums, and the view opens where the league currently is. |
+| D6 | **Amounts are stored in cents**; the season form takes euros to the cent, none below 0 € (PEN-01). The season view opens on the matchday just saved, else the last one with points, else the first; the season choice lists the newest season first. | How, not what: exact sums, and the view opens where the league currently is. Chosen while implementing, **not yet confirmed by the product owner**. |
 
 ## Still open
 

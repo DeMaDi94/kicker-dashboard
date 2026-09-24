@@ -38,8 +38,9 @@ it('matches the PEN-02 example', function () {
 
 /*
  * PEN-01 — the league's own sheet (tests/Fixtures/kicker-26-27-penalties.json).
- * It holds penalties, not points; any points in the order the penalties imply
- * must produce the same penalties, 27,50 € per matchday.
+ * It holds penalties, not points, and has no tie; so this proves the scale
+ * reproduces the sheet's amounts for 13 distinct scores at 5,00 € / 0,50 €
+ * (the floor at 0 € included), not the tie rule — the cases above cover that.
  */
 it('reproduces the league sheet of 2026/27', function (array $case) {
     /** @var array<string, int> $expected */

@@ -29,6 +29,12 @@ describe('SEA-01 · an admin creates a season', function () {
         ])->assertInvalid(['penalty_start', 'penalty_step']);
     });
 
+    it('refuses an amount its cents column cannot hold', function () {
+        $this->actingAs(admin())->post(route('seasons.store'), [
+            'name' => '2026/27', 'penalty_start' => 50000000, 'penalty_step' => 0.5, 'player_ids' => [],
+        ])->assertInvalid(['penalty_start']);
+    });
+
     it('needs a name', function () {
         $this->actingAs(admin())->post(route('seasons.store'), ['name' => '', 'penalty_start' => 1, 'penalty_step' => 1, 'player_ids' => []])
             ->assertInvalid(['name']);

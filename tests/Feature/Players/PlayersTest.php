@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Player;
 use App\Models\User;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Testing\AssertableInertia;
 
 describe('PLY-01 · an admin creates a player', function () {
@@ -37,7 +38,8 @@ it('creates no user account for a player (ACC-04)', function () {
 
     $this->actingAs($admin)->post(route('players.store'), ['name' => 'Paul', 'alias' => 'p']);
 
-    expect(User::count())->toBe(1);
+    expect(User::count())->toBe(1)
+        ->and(Schema::getColumnListing('players'))->not->toContain('user_id');
 });
 
 describe('ACC-03 · only admins create players', function () {
