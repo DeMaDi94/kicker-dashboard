@@ -31,7 +31,7 @@ type RecordsProps = {
 const ALL = 'all';
 
 /*
- * STAT-10 — the league's records, over all seasons or one: who holds each,
+ * STAT-10, STAT-15 — the league's records, over all seasons or one: who holds each,
  * in which season and on which matchday.
  */
 export default function Records({ seasons, season, records }: RecordsProps) {
@@ -179,6 +179,14 @@ export default function Records({ seasons, season, records }: RecordsProps) {
                     records.closestMatchday,
                     points,
                     t('The gap between the highest and the lowest score.'),
+                )}
+                {card(
+                    t('Most expensive matchday'),
+                    records.mostExpensiveMatchday,
+                    (value) => formatCents(value, locale),
+                    t(
+                        'The matchday on which the most money went into the box.',
+                    ),
                 )}
             </div>
         </>

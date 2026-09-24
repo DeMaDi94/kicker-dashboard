@@ -10,29 +10,29 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
+import { AXIS_TICK, CHART, ChartTooltip } from '@/components/core/chart';
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCents } from '@/lib/money';
-import { AXIS_TICK, CHART, ChartTooltip } from '@/components/core/chart';
-import type { MatchdayLine } from './types';
+import type { PenaltyBoxMatchday } from './types';
 
 /*
- * STAT-06 — the penalty of each matchday, and the season's running total in
- * a graph of its own (one axis each); the interim settlement (PEN-04) is
- * marked in both.
+ * STAT-14 — the money that went into the box on each matchday, and the box's
+ * balance over the season in a graph of its own (one axis each, as STAT-06);
+ * the interim settlement (PEN-04) is marked in both.
  */
-export function PenaltyChart({
-    lines,
+export function BoxChart({
+    matchdays,
     settlementMatchday,
 }: {
-    lines: MatchdayLine[];
+    matchdays: PenaltyBoxMatchday[];
     settlementMatchday: number | null;
 }) {
     const { t, locale } = useTranslation();
     const euros = (cents: number) => formatCents(cents, locale);
-    const data = lines.map((line) => ({
-        ...line,
-        penalty: line.penaltyCents / 100,
-        cumulative: line.cumulativePenaltyCents / 100,
+    const data = matchdays.map((each) => ({
+        matchday: each.matchday,
+        money: each.cents / 100,
+        balance: each.cumulativeCents / 100,
     }));
 
     const tooltip = ({
@@ -42,20 +42,20 @@ export function PenaltyChart({
         active?: boolean;
         label?: string | number;
     }) => {
-        const line = lines.find((each) => each.matchday === label);
+        const day = matchdays.find((each) => each.matchday === label);
 
-        return active && line ? (
+        return active && day ? (
             <ChartTooltip
-                title={t('Matchday :number', { number: line.matchday })}
+                title={t('Matchday :number', { number: day.matchday })}
                 rows={[
                     {
-                        label: t('Penalty'),
-                        value: euros(line.penaltyCents),
+                        label: t('Into the box'),
+                        value: euros(day.cents),
                         color: CHART.one,
                     },
                     {
-                        label: t('So far'),
-                        value: euros(line.cumulativePenaltyCents),
+                        label: t('Box balance'),
+                        value: euros(day.cumulativeCents),
                         color: CHART.two,
                     },
                 ]}
@@ -98,9 +98,9 @@ export function PenaltyChart({
     );
 
     return (
-        <div className="grid gap-2 px-1 pt-3 pb-2">
-            <p className="px-3 text-xs font-medium text-brand-muted">
-                {t('Penalty per matchday')}
+        <div className="grid gap-2">
+            <p className="text-xs font-medium text-brand-muted">
+                {t('Money per matchday')}
             </p>
             <div className="h-44">
                 <ResponsiveContainer width="100%" height="100%">
@@ -115,7 +115,7 @@ export function PenaltyChart({
                         />
                         {settlement}
                         <Bar
-                            dataKey="penalty"
+                            dataKey="money"
                             fill={CHART.one}
                             radius={[4, 4, 0, 0]}
                             maxBarSize={24}
@@ -124,8 +124,8 @@ export function PenaltyChart({
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-            <p className="px-3 text-xs font-medium text-brand-muted">
-                {t('Penalties so far this season')}
+            <p className="text-xs font-medium text-brand-muted">
+                {t('Box balance over the season')}
             </p>
             <div className="h-44">
                 <ResponsiveContainer width="100%" height="100%">
@@ -140,7 +140,7 @@ export function PenaltyChart({
                         />
                         {settlement}
                         <Line
-                            dataKey="cumulative"
+                            dataKey="balance"
                             stroke={CHART.two}
                             strokeWidth={2}
                             dot={false}

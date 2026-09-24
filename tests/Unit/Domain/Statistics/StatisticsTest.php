@@ -21,6 +21,7 @@ use App\Domain\Statistics\SeasonTimeline;
  *   MD3  Anna 70  Bert 10  Cleo 40   places 1 3 2   penalties 1 3 2 €
  *   MD4  Anna 99 only — incomplete, ignored (STAT-02)
  *   Overall after MD1: A B C · after MD2: B C A · after MD3: A C B
+ *   Into the box: MD1 6 €, MD2 7 €, MD3 6 € — balance 6, 13, 19 €
  */
 function statsSeason(?int $settlement = null): SeasonTimeline
 {
@@ -164,10 +165,23 @@ describe('STAT-10 · league records', function () {
             ->and([$records->closestMatchday?->value, $who($records->closestMatchday)])->toBe([20, [[null, 1]]]);
     });
 
+    it('finds the most expensive matchday, every one of a tie, without a player (STAT-15)', function () {
+        $records = LeagueRecords::of([
+            7 => ['name' => '2026/27', 'timeline' => statsSeason()],
+            8 => ['name' => '2027/28', 'timeline' => statsSeason()],
+        ]);
+
+        expect($records->mostExpensiveMatchday?->value)->toBe(700)
+            ->and(array_map(
+                fn (RecordHolder $holder): array => [$holder->seasonName, $holder->playerId, $holder->matchday],
+                $records->mostExpensiveMatchday->holders ?? [],
+            ))->toBe([['2026/27', null, 2], ['2027/28', null, 2]]);
+    });
+
     it('holds no record before a matchday is complete', function () {
         $records = LeagueRecords::of([7 => ['name' => '2026/27', 'timeline' => new SeasonTimeline([1 => 'Anna'], [], new PenaltyScale(1, 1))]]);
 
-        expect([$records->highestScore, $records->mostWins, $records->highestPenalty])->toBe([null, null, null]);
+        expect([$records->highestScore, $records->mostWins, $records->highestPenalty, $records->mostExpensiveMatchday])->toBe([null, null, null, null]);
     });
 });
 
@@ -175,6 +189,10 @@ it('names each matchday’s winners, „Rote Laterne“ and average (STAT-11)', 
     $second = statsSeason()->matchdays[1];
 
     expect([$second->winners(), $second->lanterns(), round($second->average(), 1)])->toBe([[2, 3], [1], 46.7]);
+});
+
+it('sums the money that went into the box on each matchday (STAT-13)', function () {
+    expect(array_map(fn ($matchday): int => $matchday->penaltyTotal(), statsSeason()->matchdays))->toBe([600, 700, 600]);
 });
 
 describe('STAT-12 · the penalty box', function () {
@@ -190,5 +208,19 @@ describe('STAT-12 · the penalty box', function () {
         $box = PenaltyBox::of(statsSeason());
 
         expect([$box->firstHalfCents, $box->secondHalfCents])->toBe([null, null]);
+    });
+});
+
+describe('STAT-14 · the penalty box graph', function () {
+    it('lines up the money per matchday and the balance after it', function () {
+        expect(PenaltyBox::of(statsSeason(settlement: 1))->matchdays)->toBe([
+            ['matchday' => 1, 'cents' => 600, 'cumulativeCents' => 600],
+            ['matchday' => 2, 'cents' => 700, 'cumulativeCents' => 1300],
+            ['matchday' => 3, 'cents' => 600, 'cumulativeCents' => 1900],
+        ]);
+    });
+
+    it('has no line before a matchday is complete', function () {
+        expect(PenaltyBox::of(new SeasonTimeline([1 => 'Anna'], [], new PenaltyScale(300, 100)))->matchdays)->toBe([]);
     });
 });

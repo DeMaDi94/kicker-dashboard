@@ -136,6 +136,17 @@ describe('STAT-10 · league records', function () {
                 ->has('records.highestScore.holders', 2));
     });
 
+    it('shows the most expensive matchday as a record (STAT-15)', function () {
+        statsLeague();
+
+        $this->get(route('records'))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('records.mostExpensiveMatchday.value', 700)
+                ->where('records.mostExpensiveMatchday.holders.0.matchday', 2)
+                ->where('records.mostExpensiveMatchday.holders.0.playerId', null)
+                ->has('records.mostExpensiveMatchday.holders', 1));
+    });
+
     it('narrows to one season, and knows no other', function () {
         [$season] = statsLeague('2026/27');
         statsLeague('2025/26');
@@ -172,4 +183,26 @@ it('shows the season’s penalty box in the season view (STAT-12)', function () 
             ->where('penaltyBox.secondHalfCents', 1300)
             ->where('penaltyBox.payers.0.name', 'Bert')
             ->where('penaltyBox.payers.2.name', 'Anna'));
+});
+
+it('shows the money each complete matchday put into the box in the season view (STAT-13)', function () {
+    statsLeague();
+
+    $this->get(route('home'))
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->where('matchdays.0.highlights.penaltyCents', 600)
+            ->where('matchdays.1.highlights.penaltyCents', 700)
+            ->where('matchdays.2.highlights.penaltyCents', 600)
+            ->where('matchdays.3.highlights', null));
+});
+
+it('carries the penalty box graph’s money per matchday and balance, with the settlement (STAT-14)', function () {
+    statsLeague(settlement: 2);
+
+    $this->get(route('home'))
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->where('season.settlementMatchday', 2)
+            ->has('penaltyBox.matchdays', 3)
+            ->where('penaltyBox.matchdays.1', ['matchday' => 2, 'cents' => 700, 'cumulativeCents' => 1300])
+            ->where('penaltyBox.matchdays.2.cumulativeCents', 1900));
 });

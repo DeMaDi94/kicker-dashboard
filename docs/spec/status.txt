@@ -39,6 +39,6 @@ STAT-09  done
 STAT-10  done
 STAT-11  done
 STAT-12  done
-STAT-13  planned
-STAT-14  planned
-STAT-15  planned
+STAT-13  done
+STAT-14  done
+STAT-15  done
