@@ -222,6 +222,7 @@ export default function ShowSeason({
                                     </DropdownMenuItem>
                                     {season !== null && (
                                         <DropdownMenuItem
+                                            className="text-brand-ink focus:bg-brand-danger-line focus:text-brand-ink"
                                             onSelect={() =>
                                                 deleteSeason(season)
                                             }
