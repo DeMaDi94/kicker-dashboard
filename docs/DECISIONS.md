@@ -39,6 +39,7 @@ id from code comments and ledger reasons.
 | D4 | **Players appear by name, with the kicker Manager alias small beside it.** The names are the short names of the league sheet (BK, FK, JLS, …). | Product owner, 2026-09-24. |
 | D5 | **The overall table counts places densely** (1, 2, 2, 3), as a matchday does (MD-03). | Product owner, 2026-09-24. |
 | D6 | **Amounts are stored in cents**; the season form takes euros to the cent, none below 0 € (PEN-01). The season view opens on the matchday just saved, else the last one with points, else the first; the season choice lists the newest season first. | How, not what: exact sums, and the view opens where the league currently is. Chosen while implementing, **not yet confirmed by the product owner**. |
+| D7 | **Every screen works on a phone**, down to a 320 px viewport: nothing scrolls sideways (wide tables scroll inside their panel), tap targets are 44 px where a list is ticked or points are entered, a player's alias sits under the name, and the points field keeps a minus key (MD-01). `tests/e2e/mobile.spec.ts` holds the first part. | Product owner, 2026-09-24 („die Ansichten sollen alle für mobil optimiert sein“). |
 
 ## Still open
 

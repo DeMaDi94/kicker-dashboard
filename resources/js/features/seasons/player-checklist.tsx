@@ -22,7 +22,7 @@ export function PlayerChecklist({
     const { t } = useTranslation();
 
     return (
-        <fieldset className="grid gap-2" disabled={disabled}>
+        <fieldset className="grid" disabled={disabled}>
             <legend className="mb-2 text-sm font-medium">{t('Players')}</legend>
 
             {players.length === 0 && (
@@ -31,8 +31,12 @@ export function PlayerChecklist({
                 </p>
             )}
 
+            {/* Each row is a 44 px tap target, the whole row toggling the box. */}
             {players.map((player) => (
-                <div key={player.id} className="flex items-center gap-2">
+                <div
+                    key={player.id}
+                    className="flex min-h-11 items-center gap-3 rounded-brand px-2 hover:bg-brand-hover"
+                >
                     <Checkbox
                         id={`player-${player.id}`}
                         checked={selected.includes(player.id)}
@@ -45,7 +49,10 @@ export function PlayerChecklist({
                             )
                         }
                     />
-                    <Label htmlFor={`player-${player.id}`}>
+                    <Label
+                        htmlFor={`player-${player.id}`}
+                        className="flex flex-1 cursor-pointer items-center self-stretch py-1.5"
+                    >
                         <PlayerName name={player.name} alias={player.alias} />
                     </Label>
                 </div>

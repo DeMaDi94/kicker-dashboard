@@ -38,13 +38,13 @@ export default function PlayersIndex({ players }: PlayersIndexProps) {
                             <tr>
                                 <th
                                     scope="col"
-                                    className="px-3 py-2 text-left font-medium"
+                                    className="px-2 py-2 text-left font-medium phone:px-3"
                                 >
                                     {t('Name')}
                                 </th>
                                 <th
                                     scope="col"
-                                    className="px-3 py-2 text-left font-medium"
+                                    className="px-2 py-2 text-left font-medium phone:px-3"
                                 >
                                     {t('Alias')}
                                 </th>
@@ -56,10 +56,10 @@ export default function PlayersIndex({ players }: PlayersIndexProps) {
                                     key={player.id}
                                     className="border-b border-brand-line-soft last:border-0"
                                 >
-                                    <td className="px-3 py-2 font-medium">
+                                    <td className="px-2 py-2 font-medium phone:px-3">
                                         {player.name}
                                     </td>
-                                    <td className="px-3 py-2 text-brand-muted">
+                                    <td className="px-2 py-2 text-brand-muted phone:px-3">
                                         {player.alias}
                                     </td>
                                 </tr>

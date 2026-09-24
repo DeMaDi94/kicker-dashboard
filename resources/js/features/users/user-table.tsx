@@ -70,7 +70,9 @@ export function UserTable({
     }
 
     return (
-        <div className="overflow-x-auto">
+        /* `relative` keeps absolutely placed descendants (the sr-only labels)
+           inside the scrolling box, so they do not widen the page. */
+        <div className="relative overflow-x-auto">
             <table className="w-full text-sm">
                 <thead className="border-b border-brand-line-soft text-brand-muted">
                     <tr>

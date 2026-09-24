@@ -51,8 +51,10 @@ export function PanelHeader({
                     {badge}
                 </span>
             )}
+            {/* Too narrow for both, the controls wrap onto a row of their
+                own and take all of it, rather than hanging off the right. */}
             {children && (
-                <div className="ml-auto flex items-center gap-2">
+                <div className="ml-auto flex items-center gap-2 max-phone:w-full">
                     {children}
                 </div>
             )}

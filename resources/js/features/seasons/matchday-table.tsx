@@ -32,25 +32,25 @@ export function MatchdayTable({ matchday }: { matchday: MatchdayBlock }) {
                     <tr>
                         <th
                             scope="col"
-                            className="px-3 py-2 text-right font-medium"
+                            className="px-2 py-2 text-right font-medium phone:px-3"
                         >
                             {t('Place')}
                         </th>
                         <th
                             scope="col"
-                            className="px-3 py-2 text-left font-medium"
+                            className="px-2 py-2 text-left font-medium phone:px-3"
                         >
                             {t('Player')}
                         </th>
                         <th
                             scope="col"
-                            className="px-3 py-2 text-right font-medium"
+                            className="px-2 py-2 text-right font-medium phone:px-3"
                         >
                             {t('Points')}
                         </th>
                         <th
                             scope="col"
-                            className="px-3 py-2 text-right font-medium"
+                            className="px-2 py-2 text-right font-medium phone:px-3"
                         >
                             {t('Penalty')}
                         </th>
@@ -62,16 +62,16 @@ export function MatchdayTable({ matchday }: { matchday: MatchdayBlock }) {
                             key={row.playerId}
                             className="border-b border-brand-line-soft last:border-0"
                         >
-                            <td className="px-3 py-2 text-right brand-figure">
+                            <td className="px-2 py-2 text-right brand-figure phone:px-3">
                                 {row.place === null ? '–' : `${row.place}.`}
                             </td>
-                            <td className="px-3 py-2">
+                            <td className="px-2 py-2 phone:px-3">
                                 <PlayerName name={row.name} alias={row.alias} />
                             </td>
-                            <td className="px-3 py-2 text-right brand-figure">
+                            <td className="px-2 py-2 text-right brand-figure phone:px-3">
                                 {row.points ?? '–'}
                             </td>
-                            <td className="px-3 py-2 text-right brand-figure">
+                            <td className="px-2 py-2 text-right brand-figure phone:px-3">
                                 {row.penaltyCents === null
                                     ? '–'
                                     : formatCents(row.penaltyCents, locale)}

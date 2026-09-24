@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { PlayerName } from '@/features/seasons/player-name';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { home } from '@/routes';
@@ -96,17 +97,15 @@ export default function EditMatchday({
                                     {players.map((player) => (
                                         <div
                                             key={player.id}
-                                            className="grid grid-cols-[1fr_8rem] items-center gap-x-4 gap-y-1"
+                                            className="grid grid-cols-[1fr_7rem] items-center gap-x-4 gap-y-1"
                                         >
                                             <Label
                                                 htmlFor={`points-${player.id}`}
                                             >
-                                                <span className="font-medium">
-                                                    {player.name}
-                                                </span>{' '}
-                                                <span className="text-xs text-brand-muted">
-                                                    {player.alias}
-                                                </span>
+                                                <PlayerName
+                                                    name={player.name}
+                                                    alias={player.alias}
+                                                />
                                             </Label>
                                             <Input
                                                 id={`points-${player.id}`}
@@ -114,8 +113,12 @@ export default function EditMatchday({
                                                 type="number"
                                                 step={1}
                                                 required
-                                                inputMode="numeric"
-                                                className="text-right"
+                                                /* MD-01 allows negative points, and a
+                                                   numeric input mode has no minus key
+                                                   on every phone; `number` alone keeps
+                                                   one. */
+                                                enterKeyHint="next"
+                                                className="text-right max-phone:h-11"
                                                 defaultValue={
                                                     player.points ?? ''
                                                 }
@@ -134,7 +137,10 @@ export default function EditMatchday({
                                     <InputError message={errors.points} />
 
                                     <div className="flex items-center gap-4">
-                                        <Button disabled={processing}>
+                                        <Button
+                                            disabled={processing}
+                                            className="max-phone:h-11 max-phone:flex-1"
+                                        >
                                             {t('Save points')}
                                         </Button>
                                         <Button variant="ghost" asChild>

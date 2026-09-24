@@ -159,7 +159,7 @@ export default function ShowSeason({
                                 }
                             >
                                 <SelectTrigger
-                                    className="w-36"
+                                    className="w-36 max-phone:flex-1"
                                     aria-label={t('Matchday')}
                                 >
                                     <SelectValue />
