@@ -184,6 +184,8 @@ wording is the translation for its language, verbatim. Identifiers are English p
 
 ## Working agreements
 
+- **Work on `main`.** Commit and push straight to `main`; no feature branch or pull request is
+  needed unless the user asks for one (product owner, 2026-09-24).
 - Follow the conventions of the files around you: read a sibling before creating anything.
 - Look for an existing value object, primitive or component to reuse before writing one.
 - Do not add base directories or change dependencies without approval.
