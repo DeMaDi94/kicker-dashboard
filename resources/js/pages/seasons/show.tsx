@@ -26,6 +26,7 @@ import { formatCents } from '@/lib/money';
 import { home } from '@/routes';
 import { edit as editMatchday } from '@/routes/matchdays';
 import { compare, create, show } from '@/routes/seasons';
+import { edit as editPenaltyScale } from '@/routes/seasons/penalty-scale';
 import { edit as editPlayers } from '@/routes/seasons/players';
 import { edit as editSettlement } from '@/routes/seasons/settlement';
 
@@ -141,6 +142,13 @@ export default function ShowSeason({
                         <Button variant="outline" asChild>
                             <Link href={editSettlement(season.id)}>
                                 {t('Interim settlement')}
+                            </Link>
+                        </Button>
+                    )}
+                    {season !== null && auth.user !== null && (
+                        <Button variant="outline" asChild>
+                            <Link href={editPenaltyScale(season.id)}>
+                                {t('Penalty scale')}
                             </Link>
                         </Button>
                     )}

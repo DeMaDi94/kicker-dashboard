@@ -8,10 +8,12 @@ use App\Http\Players\CreatePlayer\CreatePlayerController;
 use App\Http\Players\ListPlayers\ListPlayersController;
 use App\Http\Players\StorePlayer\StorePlayerController;
 use App\Http\Seasons\CreateSeason\CreateSeasonController;
+use App\Http\Seasons\EditPenaltyScale\EditPenaltyScaleController;
 use App\Http\Seasons\EditSeasonPlayers\EditSeasonPlayersController;
 use App\Http\Seasons\EditSeasonSettlement\EditSeasonSettlementController;
 use App\Http\Seasons\ShowSeason\ShowSeasonController;
 use App\Http\Seasons\StoreSeason\StoreSeasonController;
+use App\Http\Seasons\UpdatePenaltyScale\UpdatePenaltyScaleController;
 use App\Http\Seasons\UpdateSeasonPlayers\UpdateSeasonPlayersController;
 use App\Http\Seasons\UpdateSeasonSettlement\UpdateSeasonSettlementController;
 use App\Http\Statistics\ComparePlayers\ComparePlayersController;
@@ -40,11 +42,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('seasons/{season}/players', UpdateSeasonPlayersController::class)
         ->can(Permission::SetSeasonPlayers->value)->name('seasons.players.update');
 
-    // PEN-04 — the interim settlement is the one season setting that changes later.
+    // PEN-04, ACC-03 — the interim settlement changes later.
     Route::get('seasons/{season}/settlement', EditSeasonSettlementController::class)
         ->can(Permission::SetSeasonSettlement->value)->name('seasons.settlement.edit');
     Route::put('seasons/{season}/settlement', UpdateSeasonSettlementController::class)
         ->can(Permission::SetSeasonSettlement->value)->name('seasons.settlement.update');
+
+    // SEA-05 — any signed-in user changes a season's penalty scale, at any time.
+    Route::get('seasons/{season}/penalty-scale', EditPenaltyScaleController::class)->name('seasons.penalty-scale.edit');
+    Route::put('seasons/{season}/penalty-scale', UpdatePenaltyScaleController::class)->name('seasons.penalty-scale.update');
 
     // ACC-02 — any signed-in user enters and changes points. SEA-04 — matchdays 1 to 34.
     Route::get('seasons/{season}/matchdays/{matchday}', EditMatchdayController::class)
