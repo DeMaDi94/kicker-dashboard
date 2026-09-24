@@ -1,6 +1,4 @@
 import {
-    Bar,
-    BarChart,
     CartesianGrid,
     Line,
     LineChart,
@@ -104,24 +102,24 @@ export function BoxChart({
             </p>
             <div className="h-44">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
+                    <LineChart
                         data={data}
                         margin={{ top: 12, right: 12, bottom: 0, left: 0 }}
                     >
                         {axes}
                         <Tooltip
-                            cursor={{ fill: CHART.grid }}
+                            cursor={{ stroke: CHART.grid }}
                             content={tooltip}
                         />
                         {settlement}
-                        <Bar
+                        <Line
                             dataKey="money"
-                            fill={CHART.one}
-                            radius={[4, 4, 0, 0]}
-                            maxBarSize={24}
+                            stroke={CHART.one}
+                            strokeWidth={2}
+                            dot={{ r: 3, fill: CHART.one }}
                             isAnimationActive={false}
                         />
-                    </BarChart>
+                    </LineChart>
                 </ResponsiveContainer>
             </div>
             <p className="text-xs font-medium text-brand-muted">
