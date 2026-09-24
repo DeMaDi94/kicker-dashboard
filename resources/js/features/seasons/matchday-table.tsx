@@ -31,9 +31,9 @@ export function MatchdayTable({
 
     return (
         <div className="relative overflow-x-auto">
-            {/* STAT-11 — the day's winners, „Rote Laterne“ and average. */}
+            {/* STAT-11 — the day's winners, „Rote Laterne“ and average; STAT-13 — the money into the box. */}
             {highlights && (
-                <dl className="grid grid-cols-3 gap-2 border-b border-brand-line-soft px-4 py-3 text-sm">
+                <dl className="grid grid-cols-2 gap-2 border-b border-brand-line-soft px-4 py-3 text-sm phone:grid-cols-4">
                     <div className="min-w-0">
                         <dt className="brand-label text-brand-label">
                             {t('Matchday winner')}
@@ -56,6 +56,14 @@ export function MatchdayTable({
                         </dt>
                         <dd className="brand-figure font-medium text-brand-ink">
                             {formatNumber(highlights.average, locale, 1)}
+                        </dd>
+                    </div>
+                    <div className="min-w-0">
+                        <dt className="brand-label text-brand-label">
+                            {t('Into the box')}
+                        </dt>
+                        <dd className="brand-figure font-medium text-brand-ink">
+                            {formatCents(highlights.penaltyCents, locale)}
                         </dd>
                     </div>
                 </dl>

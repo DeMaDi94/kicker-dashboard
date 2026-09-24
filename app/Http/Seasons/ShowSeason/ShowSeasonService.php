@@ -24,7 +24,7 @@ use App\Models\Season;
  * @phpstan-type StandingLine array{playerId: int, name: string, alias: string, place: int, points: int, penaltyCents: int, firstHalfPenaltyCents: int|null, secondHalfPenaltyCents: int|null}
  * @phpstan-type MatchdayLine array{playerId: int, name: string, alias: string, points: int|null, place: int|null, penaltyCents: int|null}
  * @phpstan-type MatchdayBlock array{number: int, complete: bool, hasPoints: bool, rows: list<MatchdayLine>, highlights: Highlights|null}
- * @phpstan-type Highlights array{winners: list<array{playerId: int, name: string}>, lanterns: list<array{playerId: int, name: string}>, average: float}
+ * @phpstan-type Highlights array{winners: list<array{playerId: int, name: string}>, lanterns: list<array{playerId: int, name: string}>, average: float, penaltyCents: int}
  * @phpstan-type SeasonView array{seasons: list<SeasonOption>, season: array{id: int, name: string, penaltyStartCents: int, penaltyStepCents: int, settlementMatchday: int|null}|null, standings: list<StandingLine>, matchdays: list<MatchdayBlock>, penaltyBox: PenaltyBox|null}
  */
 final class ShowSeasonService
@@ -78,11 +78,13 @@ final class ShowSeasonService
             'number' => $number,
             'complete' => MatchdayPlaces::isComplete(array_keys($participants), $pointsByMatchday[$number] ?? []),
             'hasPoints' => isset($pointsByMatchday[$number]),
-            // STAT-11 — the day's winners, „Rote Laterne“ and league average.
+            // STAT-11 — the day's winners, „Rote Laterne“ and league average;
+            // STAT-13 — and the money that went into the box.
             'highlights' => isset($completed[$number]) ? [
                 'winners' => $this->named($completed[$number]->winners(), $participants),
                 'lanterns' => $this->named($completed[$number]->lanterns(), $participants),
                 'average' => round($completed[$number]->average(), 1),
+                'penaltyCents' => $completed[$number]->penaltyTotal(),
             ] : null,
             'rows' => array_map(fn (MatchdayRow $row): array => [
                 'playerId' => $row->playerId,

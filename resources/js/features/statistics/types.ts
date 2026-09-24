@@ -50,7 +50,7 @@ export type HeadToHead = {
     bAhead: number;
 };
 
-/** Mirrors App\Domain\Statistics\RecordHolder and LeagueRecord (STAT-10). */
+/** Mirrors App\Domain\Statistics\RecordHolder and LeagueRecord (STAT-10, STAT-15). */
 export type RecordHolder = {
     seasonId: number;
     seasonName: string;
@@ -67,6 +67,8 @@ export type LeagueRecords = {
     mostWins: LeagueRecord | null;
     highestPenalty: LeagueRecord | null;
     closestMatchday: LeagueRecord | null;
+    /** STAT-15 */
+    mostExpensiveMatchday: LeagueRecord | null;
 };
 
 export type Option = { id: number; name: string };

@@ -41,6 +41,15 @@ final readonly class CompletedMatchday
         return $this->points === [] ? 0 : max($this->points) - min($this->points);
     }
 
+    /**
+     * STAT-13 / STAT-15 — the money that went into the box on this matchday:
+     * the sum of its penalties.
+     */
+    public function penaltyTotal(): int
+    {
+        return array_sum($this->penalties);
+    }
+
     public function lastPlace(): int
     {
         return $this->places === [] ? 0 : max($this->places);

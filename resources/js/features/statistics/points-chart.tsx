@@ -11,7 +11,7 @@ import {
 import { useTranslation } from '@/hooks/use-translation';
 import { formatNumber } from '@/lib/number';
 import { ChartLegend } from './chart-legend';
-import { AXIS_TICK, CHART, ChartTooltip } from './chart-tooltip';
+import { AXIS_TICK, CHART, ChartTooltip } from '@/components/core/chart';
 import type { MatchdayLine } from './types';
 
 /*

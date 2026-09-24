@@ -9,7 +9,7 @@ import {
 } from 'recharts';
 import { useTranslation } from '@/hooks/use-translation';
 import { ChartLegend } from './chart-legend';
-import { AXIS_TICK, CHART, ChartTooltip } from './chart-tooltip';
+import { AXIS_TICK, CHART, ChartTooltip } from '@/components/core/chart';
 import type { HeadToHead } from './types';
 
 /*

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Statistics;
 
 /**
- * STAT-10 — the league's records over the seasons handed in: all of them, or
+ * STAT-10 / STAT-15 — the league's records over the seasons handed in: all of them, or
  * the one chosen. A tie lists every holder, in the order the seasons are
  * handed in, then by matchday, then by the overall table (D11). Null where no
  * complete matchday exists yet.
@@ -18,6 +18,7 @@ final readonly class LeagueRecords
         public ?LeagueRecord $mostWins,
         public ?LeagueRecord $highestPenalty,
         public ?LeagueRecord $closestMatchday,
+        public ?LeagueRecord $mostExpensiveMatchday,
     ) {}
 
     /**
@@ -25,7 +26,7 @@ final readonly class LeagueRecords
      */
     public static function of(array $seasons): self
     {
-        $high = $low = $wins = $penalty = $close = [];
+        $high = $low = $wins = $penalty = $close = $expensive = [];
 
         foreach ($seasons as $seasonId => $season) {
             $timeline = $season['timeline'];
@@ -44,6 +45,8 @@ final readonly class LeagueRecords
                 }
 
                 $close[] = [$matchday->spread(), new RecordHolder($seasonId, $season['name'], matchday: $matchday->number)];
+                // STAT-15 — the matchday on which the most money went into the box.
+                $expensive[] = [$matchday->penaltyTotal(), new RecordHolder($seasonId, $season['name'], matchday: $matchday->number)];
             }
 
             foreach ($winCount as $playerId => $count) {
@@ -63,6 +66,7 @@ final readonly class LeagueRecords
             self::top($wins, max: true),
             self::top($penalty, max: true),
             self::top($close, max: false),
+            self::top($expensive, max: true),
         );
     }
 
