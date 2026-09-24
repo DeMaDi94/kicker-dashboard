@@ -1,8 +1,10 @@
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCents } from '@/lib/money';
 import { formatNumber } from '@/lib/number';
+import { cn } from '@/lib/utils';
 import { show } from '@/routes/players';
 import { PlayerName } from './player-name';
+import { ROW_LINK, visitRow } from './row-link';
 import type { MatchdayBlock } from './types';
 
 /*
@@ -117,7 +119,15 @@ export function MatchdayTable({
                     {matchday.rows.map((row) => (
                         <tr
                             key={row.playerId}
-                            className="border-b border-brand-line-soft last:border-0"
+                            className={cn(
+                                'border-b border-brand-line-soft last:border-0',
+                                ROW_LINK,
+                            )}
+                            onClick={visitRow(
+                                show(row.playerId, {
+                                    query: { season: seasonId },
+                                }),
+                            )}
                         >
                             <td className="w-px px-2 py-2 text-right brand-figure whitespace-nowrap phone:px-3">
                                 {row.place === null ? '–' : `${row.place}.`}

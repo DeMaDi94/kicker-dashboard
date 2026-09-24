@@ -3,6 +3,7 @@ import { formatCents } from '@/lib/money';
 import { cn } from '@/lib/utils';
 import { show } from '@/routes/players';
 import { PlayerName } from './player-name';
+import { ROW_LINK, visitRow } from './row-link';
 import type { StandingLine } from './types';
 
 const CELL = 'px-1.5 py-2 phone:px-3';
@@ -104,7 +105,15 @@ export function StandingsTable({
                     {rows.map((row) => (
                         <tr
                             key={row.playerId}
-                            className="border-b border-brand-line-soft last:border-0"
+                            className={cn(
+                                'border-b border-brand-line-soft last:border-0',
+                                ROW_LINK,
+                            )}
+                            onClick={visitRow(
+                                show(row.playerId, {
+                                    query: { season: seasonId },
+                                }),
+                            )}
                         >
                             <td
                                 className={cn(

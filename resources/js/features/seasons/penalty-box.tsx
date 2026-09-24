@@ -1,8 +1,10 @@
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCents } from '@/lib/money';
+import { cn } from '@/lib/utils';
 import { show } from '@/routes/players';
 import { BoxChart } from './box-chart';
 import { PlayerName } from './player-name';
+import { ROW_LINK, visitRow } from './row-link';
 import type { PenaltyBox as PenaltyBoxData } from './types';
 
 /*
@@ -67,7 +69,15 @@ export function PenaltyBox({
                 {box.payers.map((payer) => (
                     <li
                         key={payer.playerId}
-                        className="flex items-center justify-between gap-4 border-b border-brand-line-soft py-1.5 last:border-0"
+                        className={cn(
+                            '-mx-2 flex items-center justify-between gap-4 border-b border-brand-line-soft px-2 py-1.5 last:border-0',
+                            ROW_LINK,
+                        )}
+                        onClick={visitRow(
+                            show(payer.playerId, {
+                                query: { season: seasonId },
+                            }),
+                        )}
                     >
                         <PlayerName
                             name={payer.name}
