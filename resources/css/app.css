@@ -1,0 +1,207 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+@import './theme.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --font-sans:
+        'Space Grotesk', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    /* Every figure column — amounts, hours, counts, sums — is set in the
+       mono face so the digits sit under one another regardless of the weight
+       around them. */
+    --font-mono:
+        'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+        monospace;
+
+    /* The small upper-case labels and badges. Silkscreen is a display face —
+       it is only ever used at 9–11 px with letter-spacing, never for running
+       text. */
+    --font-label: 'Silkscreen', ui-monospace, monospace;
+
+    /* One corner radius for every interactive element (B8). shadcn's
+       generated components reach for six steps of a scale; they all resolve
+       to the single `--radius-brand` so a shadcn control and a core one
+       cannot drift apart. */
+    --radius-2xl: var(--radius);
+    --radius-xl: var(--radius);
+    --radius-lg: var(--radius);
+    --radius-md: var(--radius);
+    --radius-sm: var(--radius);
+    --radius-xs: var(--radius);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+    /* The shadcn semantic tokens, pointed at the palette in
+       resources/css/theme.css. A shadcn control and a core one read the same
+       values, which is what stops the two halves of the interface drifting
+       apart. */
+    --background: #ffffff;
+    --foreground: #18181b;
+    --card: #ffffff;
+    --card-foreground: #18181b;
+    --popover: #ffffff;
+    --popover-foreground: #18181b;
+    --primary: #0f2b57;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f3f5;
+    --secondary-foreground: #18181b;
+    --muted: #fafafa;
+    --muted-foreground: #71717a;
+    --accent: #f1f3f5;
+    --accent-foreground: #18181b;
+    --destructive: #b3324b;
+    --destructive-foreground: #ffffff;
+    --border: #e4e4e7;
+    --input: #e4e4e7;
+    --ring: #2e9fde;
+    --chart-1: #0f2b57;
+    --chart-2: #1b7fc4;
+    --chart-3: #2e9fde;
+    --chart-4: #71717a;
+    --chart-5: #a1a1aa;
+    --radius: var(--radius-brand);
+    --sidebar: #fafafa;
+    --sidebar-foreground: #18181b;
+    --sidebar-primary: #0f2b57;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #eaf4fb;
+    --sidebar-accent-foreground: #0b5f97;
+    --sidebar-border: #e4e4e7;
+    --sidebar-ring: #2e9fde;
+}
+
+.dark {
+    /* The same palette inverted: the navy ground becomes the page, the one
+       accent keeps its job (theme.css inverts the brand tokens alike). */
+    --background: #101216;
+    --foreground: #f4f4f5;
+    --card: #16181d;
+    --card-foreground: #f4f4f5;
+    --popover: #16181d;
+    --popover-foreground: #f4f4f5;
+    --primary: #2e9fde;
+    --primary-foreground: #06264a;
+    --secondary: #22252c;
+    --secondary-foreground: #f4f4f5;
+    --muted: #1b1e24;
+    --muted-foreground: #a1a1aa;
+    --accent: #22252c;
+    --accent-foreground: #f4f4f5;
+    --destructive: #e06a83;
+    --destructive-foreground: #2a0e15;
+    --border: #2a2e36;
+    --input: #2a2e36;
+    --ring: #2e9fde;
+    --chart-1: #2e9fde;
+    --chart-2: #1b7fc4;
+    --chart-3: #7dc4ec;
+    --chart-4: #a1a1aa;
+    --chart-5: #71717a;
+    --sidebar: #16181d;
+    --sidebar-foreground: #f4f4f5;
+    --sidebar-primary: #2e9fde;
+    --sidebar-primary-foreground: #06264a;
+    --sidebar-accent: #1d2a3a;
+    --sidebar-accent-foreground: #7dc4ec;
+    --sidebar-border: #2a2e36;
+    --sidebar-ring: #2e9fde;
+}
+
+/*
+ * The design's two recurring type idioms, as utilities so that no component
+ * re-specifies the face, the size and the tracking by hand.
+ *
+ * `brand-label` is the Silkscreen micro-label („NAVIGATION“, „TOTAL“). The
+ * upper case is the utility's, not the markup's: the element still reads
+ * „Navigation“ to a screen reader and in the translation catalogue.
+ *
+ * `brand-figure` is the mono figure column — hours, amounts, sums, counts.
+ */
+@utility brand-label {
+    font-family: var(--font-label);
+    font-size: 9px;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+@utility brand-figure {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+
+        /* Space Grotesk's figures are proportional by default, so a column
+           of amounts or hours does not line up under itself. Nearly every
+           list has one, so the tabular set is the default rather than a class
+           each column remembers; `brand-figure` puts them in the mono face on
+           top. */
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/* One focus ring (B8). The generated shadcn controls draw theirs as a
+   `ring-[3px]`; pointing their ring at `--shadow-focus` makes it the ring the
+   core controls draw, without editing components/ui. Unlayered so it beats
+   the ring utilities; an invalid control keeps its destructive ring. */
+[data-slot]:focus-visible:not([aria-invalid='true']) {
+    --tw-ring-shadow: var(--shadow-focus);
+}

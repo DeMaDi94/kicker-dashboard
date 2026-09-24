@@ -1,0 +1,93 @@
+{
+    "$schema": "https://json.schemastore.org/claude-code-settings.json",
+    "permissions": {
+        "allow": [
+            "Bash(composer test:*)",
+            "Bash(composer ci:check:*)",
+            "Bash(./vendor/bin/pint:*)",
+            "Bash(./vendor/bin/pest:*)",
+            "Bash(XDEBUG_MODE=off ./vendor/bin/phpstan analyse:*)",
+            "Bash(npm run check:*)",
+            "Bash(npm run types:check:*)",
+            "Bash(npm run test:*)",
+            "Bash(php artisan spec:index:*)",
+            "Bash(php artisan spec:coverage:*)",
+            "Bash(php artisan route:list:*)",
+            "Bash(php artisan config:show:*)",
+            "Bash(php artisan migrate:*)",
+            "Bash(php artisan db:seed:*)"
+        ],
+        "deny": [
+            "Read(./.env)",
+            "Read(./.env.*)",
+            "Edit(./.env)",
+            "Edit(./.env.*)",
+            "Write(./.env)",
+            "Write(./.env.*)",
+            "Edit(./docs/spec/COVERAGE.md)",
+            "Write(./docs/spec/COVERAGE.md)"
+        ]
+    },
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Bash",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/guard-gate-commands.sh",
+                        "timeout": 10
+                    }
+                ]
+            },
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/guard-spec-contract.sh",
+                        "timeout": 10
+                    }
+                ]
+            }
+        ],
+        "PostToolUse": [
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/format-changed-file.sh",
+                        "timeout": 60,
+                        "async": true
+                    }
+                ]
+            },
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "prompt",
+                        "prompt": "You are reviewing a change to an application built against a numbered requirement catalogue.\nPayload: $ARGUMENTS\n\nCheck ONLY these three things about what this edit introduces. Ignore formatting, types, style and anything pre-existing.\n\n1. INVENTED BEHAVIOUR. Every rule in this app comes from docs/REQUIREMENTS.md (ids like `ABC-01`) or from a decision recorded in docs/DECISIONS.md. Fail if the edit adds a business rule, default value, threshold, limit, ordering or list of options that is not traceable to a requirement id or a decision id — and that is not obviously scaffolding. A plausible-looking invented constant (a rate, a tolerance, a limit, a list of options) is the single most damaging thing that can enter this codebase, because it looks correct and no test will contradict it.\n\n2. UNCITED REQUIREMENT WORK. If the edit implements or changes behaviour that a requirement governs, fail when the code carries no requirement id (a comment, a test description) tying it back.\n\n3. UNTRANSLATED UI TEXT. In resources/js, fail if the edit adds user-facing text (a label, heading, button, placeholder, toast, aria-label, title) as a bare string literal instead of passing it through `t('…')`. In PHP, fail for a user-facing message (validation message, flash, mail line, exception shown to the user) not passed through `__('…')`.\n\nDo NOT fail for: pure scaffolding with no behaviour, wiring and configuration, refactors that move existing rules without changing them, ids cited in a nearby line rather than the exact one, technical strings no user sees (class names, route names, test ids, log messages).\n\nWhen failing, name the specific invented value, uncited rule or bare string, and say which requirement area it most likely belongs to, so it can be looked up rather than guessed at again.",
+                        "if": "Edit(app/**) || Write(app/**) || Edit(resources/js/**) || Write(resources/js/**)",
+                        "continueOnBlock": true,
+                        "timeout": 45,
+                        "statusMessage": "Checking for invented behaviour and untranslated text…"
+                    }
+                ]
+            }
+        ],
+        "Stop": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/verify-changes.sh",
+                        "timeout": 300,
+                        "statusMessage": "Verifying changed files (Pint, PHPStan, lint, tsc, spec coverage, translations)…"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,9 @@
+# Implementation status, one line per requirement in docs/REQUIREMENTS.md.
+#
+# Format:  <ID>  <status>  [reason]
+# Status:  planned | in-progress | done | changed | wont-do
+#
+# `changed` and `wont-do` must carry a reason — without one a reviewer reading
+# REQUIREMENTS.md a year from now reads them as a missing feature.
+# Regenerate the skeleton with `php artisan spec:index`; edit statuses by hand.
+
