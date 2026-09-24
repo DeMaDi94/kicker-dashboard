@@ -21,4 +21,6 @@ enum Permission: string
     case SetSeasonPlayers = 'seasons.set-players';
     // PEN-04 — the interim settlement changes later (ACC-03).
     case SetSeasonSettlement = 'seasons.set-settlement';
+    // SEA-06 — deleting a season; restoring one needs it too.
+    case DeleteSeasons = 'seasons.delete';
 }

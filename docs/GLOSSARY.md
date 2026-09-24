@@ -31,6 +31,7 @@ namespace column — do not invent an area name.
 | Mitspieler (player) | `Player` | A participant of the league, with the alias from the kicker Manager (PLY-01). Not a `User`: a player has no account (ACC-04). |
 | Alias | `alias` | The player's name in the kicker Manager. Not the `name` the league calls them by. |
 | Saison (season) | `Season` | One Bundesliga season of the league: a name such as „2025/26“ and the penalty scale (SEA-01). |
+| Gelöschte Saison | soft-deleted `Season` (`trashed()`) | Gone from every view and statistic, its points kept, restorable by an admin (SEA-06). Not a permanently removed row. |
 | Spieltag (matchday) | `matchday` (1–34) | One Bundesliga matchday of a season (SEA-04). A number, not a date. |
 | Punkte (points) | `Score` / `points` | A player's points on one matchday from the kicker Manager (MD-01). Not the place. |
 | Abgeschlossener Spieltag | complete matchday (`MatchdayPlaces::isComplete`) | Every player of the season has points (MD-02). |
