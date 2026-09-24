@@ -1,8 +1,8 @@
-import { Link } from '@inertiajs/react';
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCents } from '@/lib/money';
 import { show } from '@/routes/players';
 import { BoxChart } from './box-chart';
+import { PlayerName } from './player-name';
 import type { PenaltyBox as PenaltyBoxData } from './types';
 
 /*
@@ -69,14 +69,13 @@ export function PenaltyBox({
                         key={payer.playerId}
                         className="flex items-center justify-between gap-4 border-b border-brand-line-soft py-1.5 last:border-0"
                     >
-                        <Link
+                        <PlayerName
+                            name={payer.name}
+                            alias={payer.alias}
                             href={show(payer.playerId, {
                                 query: { season: seasonId },
                             })}
-                            className="font-medium text-brand-ink underline-offset-2 hover:underline"
-                        >
-                            {payer.name}
-                        </Link>
+                        />
                         <span className="brand-figure whitespace-nowrap">
                             {euros(payer.penaltyCents)}
                         </span>

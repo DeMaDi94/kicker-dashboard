@@ -24,7 +24,7 @@ use App\Models\Season;
  * @phpstan-type StandingLine array{playerId: int, name: string, alias: string, place: int, points: int, penaltyCents: int, firstHalfPenaltyCents: int|null, secondHalfPenaltyCents: int|null}
  * @phpstan-type MatchdayLine array{playerId: int, name: string, alias: string, points: int|null, place: int|null, penaltyCents: int|null}
  * @phpstan-type MatchdayBlock array{number: int, complete: bool, hasPoints: bool, rows: list<MatchdayLine>, highlights: Highlights|null}
- * @phpstan-type Highlights array{winners: list<array{playerId: int, name: string}>, lanterns: list<array{playerId: int, name: string}>, average: float, penaltyCents: int}
+ * @phpstan-type Highlights array{winners: list<array{playerId: int, name: string, alias: string}>, lanterns: list<array{playerId: int, name: string, alias: string}>, average: float, penaltyCents: int}
  * @phpstan-type SeasonView array{seasons: list<SeasonOption>, season: array{id: int, name: string, penaltyStartCents: int, penaltyStepCents: int, settlementMatchday: int|null}|null, standings: list<StandingLine>, matchdays: list<MatchdayBlock>, penaltyBox: PenaltyBox|null}
  */
 final class ShowSeasonService
@@ -56,7 +56,13 @@ final class ShowSeasonService
         }
 
         $scale = $season->penaltyScale();
-        $timeline = new SeasonTimeline($participants, $pointsByMatchday, $scale, $season->settlement_matchday);
+        $timeline = new SeasonTimeline(
+            $participants,
+            $pointsByMatchday,
+            $scale,
+            $season->settlement_matchday,
+            $players->map(fn (Player $player): string => $player->alias)->all(),
+        );
 
         $standings = array_map(fn (StandingRow $row): array => [
             'playerId' => $row->playerId,
@@ -81,8 +87,8 @@ final class ShowSeasonService
             // STAT-11 — the day's winners, „Rote Laterne“ and league average;
             // STAT-13 — and the money that went into the box.
             'highlights' => isset($completed[$number]) ? [
-                'winners' => $this->named($completed[$number]->winners(), $participants),
-                'lanterns' => $this->named($completed[$number]->lanterns(), $participants),
+                'winners' => $this->named($completed[$number]->winners(), $timeline),
+                'lanterns' => $this->named($completed[$number]->lanterns(), $timeline),
                 'average' => round($completed[$number]->average(), 1),
                 'penaltyCents' => $completed[$number]->penaltyTotal(),
             ] : null,
@@ -112,12 +118,17 @@ final class ShowSeasonService
     }
 
     /**
+     * D4 — each name with its alias beside it.
+     *
      * @param  list<int>  $ids
-     * @param  array<int, string>  $participants
-     * @return list<array{playerId: int, name: string}>
+     * @return list<array{playerId: int, name: string, alias: string}>
      */
-    private function named(array $ids, array $participants): array
+    private function named(array $ids, SeasonTimeline $timeline): array
     {
-        return array_map(fn (int $id): array => ['playerId' => $id, 'name' => $participants[$id] ?? ''], $ids);
+        return array_map(fn (int $id): array => [
+            'playerId' => $id,
+            'name' => $timeline->participants[$id] ?? '',
+            'alias' => $timeline->aliasOf($id),
+        ], $ids);
     }
 }

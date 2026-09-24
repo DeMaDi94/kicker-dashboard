@@ -17,7 +17,8 @@ class SeasonFactory extends Factory
      */
     public function definition(): array
     {
-        $year = fake()->unique()->numberBetween(2000, 2098);
+        // D8 — names are unique; tests name their own seasons 20xx, so these never collide.
+        $year = fake()->unique()->numberBetween(1900, 1998);
 
         return [
             'name' => sprintf('%d/%02d', $year, ($year + 1) % 100),

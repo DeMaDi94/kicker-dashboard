@@ -54,6 +54,14 @@ export default function Records({ seasons, season, records }: RecordsProps) {
             );
         }
 
+        if (each.playerAlias) {
+            parts.push(
+                <span key="alias" className="text-xs">
+                    {each.playerAlias}
+                </span>,
+            );
+        }
+
         parts.push(<span key="season">{each.seasonName}</span>);
 
         if (each.matchday !== null) {

@@ -11,7 +11,11 @@ import {
 } from '@/components/ui/select';
 import { DuelChart } from '@/features/statistics/duel-chart';
 import { StatTile } from '@/features/statistics/stat-tile';
-import type { HeadToHead, Option } from '@/features/statistics/types';
+import type {
+    HeadToHead,
+    Option,
+    PlayerOption,
+} from '@/features/statistics/types';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { home } from '@/routes';
@@ -19,7 +23,7 @@ import { compare } from '@/routes/seasons';
 
 type ComparePlayersProps = {
     season: Option;
-    players: Option[];
+    players: PlayerOption[];
     a: number | null;
     b: number | null;
     duel: HeadToHead | null;
@@ -64,7 +68,10 @@ export default function ComparePlayers({
                 <SelectContent>
                     {players.map((player) => (
                         <SelectItem key={player.id} value={String(player.id)}>
-                            {player.name}
+                            {player.name}{' '}
+                            <span className="text-xs text-brand-muted">
+                                {player.alias}
+                            </span>
                         </SelectItem>
                     ))}
                 </SelectContent>

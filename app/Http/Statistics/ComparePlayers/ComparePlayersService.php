@@ -15,7 +15,7 @@ use App\Models\Season;
  *
  * @phpstan-type ComparePage array{
  *     season: array{id: int, name: string},
- *     players: list<array{id: int, name: string}>,
+ *     players: list<array{id: int, name: string, alias: string}>,
  *     a: int|null,
  *     b: int|null,
  *     duel: HeadToHead|null
@@ -38,7 +38,7 @@ final class ComparePlayersService
 
         $players = [];
         foreach ($participants as $id => $name) {
-            $players[] = ['id' => $id, 'name' => $name];
+            $players[] = ['id' => $id, 'name' => $name, 'alias' => $timeline->aliasOf($id)];
         }
         usort($players, fn (array $x, array $y): int => NameOrder::compare($x['name'], $y['name']));
 

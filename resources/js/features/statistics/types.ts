@@ -57,6 +57,7 @@ export type RecordHolder = {
     playerId: number | null;
     playerName: string | null;
     matchday: number | null;
+    playerAlias: string | null;
 };
 
 export type LeagueRecord = { value: number; holders: RecordHolder[] };
@@ -72,3 +73,5 @@ export type LeagueRecords = {
 };
 
 export type Option = { id: number; name: string };
+
+export type PlayerOption = Option & { alias: string };

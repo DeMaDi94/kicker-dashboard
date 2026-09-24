@@ -17,5 +17,6 @@ final readonly class RecordHolder
         public ?int $playerId = null,
         public ?string $playerName = null,
         public ?int $matchday = null,
+        public ?string $playerAlias = null,
     ) {}
 }

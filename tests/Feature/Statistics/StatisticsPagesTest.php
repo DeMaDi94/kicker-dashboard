@@ -167,6 +167,7 @@ it('names each matchday’s winners, „Rote Laterne“ and average in the seaso
     $this->get(route('home'))
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->where('matchdays.1.highlights.winners.0.name', 'Bert')
+            ->where('matchdays.1.highlights.winners.0.alias', 'bert')
             ->where('matchdays.1.highlights.winners.1.name', 'Cleo')
             ->where('matchdays.1.highlights.lanterns.0.name', 'Anna')
             ->where('matchdays.1.highlights.average', 46.7)
@@ -182,6 +183,7 @@ it('shows the season’s penalty box in the season view (STAT-12)', function () 
             ->where('penaltyBox.firstHalfCents', 600)
             ->where('penaltyBox.secondHalfCents', 1300)
             ->where('penaltyBox.payers.0.name', 'Bert')
+            ->where('penaltyBox.payers.0.alias', 'bert')
             ->where('penaltyBox.payers.2.name', 'Anna'));
 });
 

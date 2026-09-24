@@ -24,12 +24,14 @@ final readonly class SeasonTimeline
     /**
      * @param  array<int, string>  $participants  player id => name
      * @param  array<int, array<int, int>>  $pointsByMatchday  matchday => (player id => points)
+     * @param  array<int, string>  $aliases  player id => kicker Manager alias, shown beside the name (D4)
      */
     public function __construct(
         public array $participants,
         array $pointsByMatchday,
         public PenaltyScale $scale,
         public ?int $settlementMatchday = null,
+        public array $aliases = [],
     ) {
         ksort($pointsByMatchday);
         $ids = array_keys($participants);
@@ -60,6 +62,21 @@ final readonly class SeasonTimeline
 
         $this->matchdays = $matchdays;
         $this->standings = Standings::of($participants, $complete, $scale, $settlementMatchday);
+    }
+
+    public function aliasOf(int $playerId): string
+    {
+        return $this->aliases[$playerId] ?? '';
+    }
+
+    /**
+     * D11 — the players in the order of the overall table, for listing ties.
+     *
+     * @return list<int>
+     */
+    public function tableOrder(): array
+    {
+        return array_map(fn (StandingRow $row): int => $row->playerId, $this->standings);
     }
 
     public function standingOf(int $playerId): ?StandingRow

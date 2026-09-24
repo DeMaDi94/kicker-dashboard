@@ -18,8 +18,17 @@ export function MatchdayTable({
 }) {
     const { t, locale } = useTranslation();
     const highlights = matchday.highlights;
-    const names = (players: { name: string }[]) =>
-        players.map((player) => player.name).join(', ');
+    /* D4 — each name with its alias small beside it. */
+    const names = (players: { name: string; alias: string }[]) =>
+        players.map((player, index) => (
+            <span key={player.name + player.alias}>
+                {index > 0 && ', '}
+                {player.name}{' '}
+                <span className="text-xs font-normal text-brand-muted">
+                    {player.alias}
+                </span>
+            </span>
+        ));
 
     if (!matchday.hasPoints) {
         return (

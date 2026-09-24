@@ -15,7 +15,7 @@ use App\Domain\Standings\StandingRow;
 final readonly class PenaltyBox
 {
     /**
-     * @param  list<StandingRow>  $payers
+     * @param  list<array{playerId: int, name: string, alias: string, penaltyCents: int}>  $payers
      * @param  list<array{matchday: int, cents: int, cumulativeCents: int}>  $matchdays
      */
     public function __construct(
@@ -46,7 +46,12 @@ final readonly class PenaltyBox
             $sum(fn (StandingRow $row): int => $row->penaltyCents),
             $split ? $sum(fn (StandingRow $row): int => $row->firstHalfPenaltyCents ?? 0) : null,
             $split ? $sum(fn (StandingRow $row): int => $row->secondHalfPenaltyCents ?? 0) : null,
-            $rows,
+            array_map(fn (StandingRow $row): array => [
+                'playerId' => $row->playerId,
+                'name' => $row->name,
+                'alias' => $season->aliasOf($row->playerId),
+                'penaltyCents' => $row->penaltyCents,
+            ], $rows),
             $matchdays,
         );
     }

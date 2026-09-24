@@ -45,7 +45,7 @@ final class SeasonTimelines
     {
         $seasons = [];
 
-        foreach ($query->with(['players:id,name', 'scores:id,season_id,player_id,matchday,points'])->latest('id')->get() as $season) {
+        foreach ($query->with(['players:id,name,alias', 'scores:id,season_id,player_id,matchday,points'])->latest('id')->get() as $season) {
             $pointsByMatchday = [];
             foreach ($season->scores as $score) {
                 /** @var Score $score */
@@ -53,14 +53,16 @@ final class SeasonTimelines
             }
 
             $participants = [];
+            $aliases = [];
             foreach ($season->players as $player) {
                 /** @var Player $player */
                 $participants[$player->id] = $player->name;
+                $aliases[$player->id] = $player->alias;
             }
 
             $seasons[$season->id] = [
                 'name' => $season->name,
-                'timeline' => new SeasonTimeline($participants, $pointsByMatchday, $season->penaltyScale(), $season->settlement_matchday),
+                'timeline' => new SeasonTimeline($participants, $pointsByMatchday, $season->penaltyScale(), $season->settlement_matchday, $aliases),
             ];
         }
 

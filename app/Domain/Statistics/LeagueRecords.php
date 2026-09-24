@@ -33,11 +33,20 @@ final readonly class LeagueRecords
             $names = $timeline->participants;
             $winCount = [];
 
+            $order = $timeline->tableOrder();
+            $player = fn (int $id, ?int $matchday = null): RecordHolder => new RecordHolder(
+                $seasonId, $season['name'], $id, $names[$id] ?? '', $matchday, $timeline->aliasOf($id),
+            );
+
             foreach ($timeline->matchdays as $matchday) {
-                foreach ($matchday->points as $playerId => $points) {
-                    $holder = new RecordHolder($seasonId, $season['name'], $playerId, $names[$playerId] ?? '', $matchday->number);
-                    $high[] = [$points, $holder];
-                    $low[] = [$points, $holder];
+                foreach ($order as $playerId) {
+                    if (! isset($matchday->points[$playerId])) {
+                        continue;
+                    }
+
+                    $holder = $player($playerId, $matchday->number);
+                    $high[] = [$matchday->points[$playerId], $holder];
+                    $low[] = [$matchday->points[$playerId], $holder];
                 }
 
                 foreach ($matchday->winners() as $playerId) {
@@ -49,13 +58,15 @@ final readonly class LeagueRecords
                 $expensive[] = [$matchday->penaltyTotal(), new RecordHolder($seasonId, $season['name'], matchday: $matchday->number)];
             }
 
-            foreach ($winCount as $playerId => $count) {
-                $wins[] = [$count, new RecordHolder($seasonId, $season['name'], $playerId, $names[$playerId] ?? '')];
+            foreach ($order as $playerId) {
+                if (isset($winCount[$playerId])) {
+                    $wins[] = [$winCount[$playerId], $player($playerId)];
+                }
             }
 
             if ($timeline->matchdays !== []) {
                 foreach ($timeline->standings as $row) {
-                    $penalty[] = [$row->penaltyCents, new RecordHolder($seasonId, $season['name'], $row->playerId, $row->name)];
+                    $penalty[] = [$row->penaltyCents, $player($row->playerId)];
                 }
             }
         }

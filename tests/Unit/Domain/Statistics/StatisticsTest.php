@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Domain\Penalties\PenaltyScale;
-use App\Domain\Standings\StandingRow;
 use App\Domain\Statistics\CareerStats;
 use App\Domain\Statistics\FormGrade;
 use App\Domain\Statistics\HeadToHead;
@@ -88,6 +87,13 @@ describe('STAT-07 · achievements and streaks', function () {
             ->and([$cleo->wins, $cleo->lanterns])->toBe([1, 1]);
     });
 
+    it('counts a tie for last place as „Rote Laterne“ for each', function () {
+        $season = new SeasonTimeline([1 => 'Anna', 2 => 'Bert', 3 => 'Cleo'], [1 => [1 => 50, 2 => 10, 3 => 10]], new PenaltyScale(300, 100));
+
+        expect(array_map(fn (int $id): array => [PlayerSeasonStats::of($id, $season)->wins, PlayerSeasonStats::of($id, $season)->lanterns], [1, 2, 3]))
+            ->toBe([[1, 0], [0, 1], [0, 1]]);
+    });
+
     it('counts penalty-free matchdays and the longest run of them', function () {
         $season = new SeasonTimeline(
             [1 => 'Anna', 2 => 'Bert', 3 => 'Cleo'],
@@ -131,16 +137,23 @@ describe('STAT-07 · achievements and streaks', function () {
 });
 
 describe('STAT-08 · the all-time balance', function () {
-    it('adds up the seasons and averages the places of those with a table', function () {
-        $first = PlayerSeasonStats::of(1, statsSeason());
-        $second = PlayerSeasonStats::of(2, statsSeason());
+    it('adds up one player’s seasons and averages the places of those with a table', function () {
+        $anna = PlayerSeasonStats::of(1, statsSeason());
         $empty = PlayerSeasonStats::of(1, new SeasonTimeline([1 => 'Anna'], [], new PenaltyScale(300, 100)));
 
-        $career = CareerStats::of([$first, $second, $empty]);
+        $career = CareerStats::of([$anna, $anna, $empty]);
 
         expect([$career->seasonsPlayed, $career->averagePlace, $career->totalPoints, $career->totalPenaltyCents, $career->totalWins])
-            ->toBe([3, 2.0, 250, 1200, 3]);
+            ->toBe([3, 1.0, 280, 1000, 4]);
     });
+});
+
+it('counts a level matchday in the head-to-head (STAT-09)', function () {
+    $season = new SeasonTimeline([1 => 'Anna', 2 => 'Bert'], [1 => [1 => 30, 2 => 30], 2 => [1 => 40, 2 => 20]], new PenaltyScale(100, 50));
+
+    $duel = HeadToHead::of(1, 2, $season);
+
+    expect([$duel->aAhead, $duel->level, $duel->bAhead])->toBe([1, 1, 0]);
 });
 
 it('compares two players matchday by matchday (STAT-09)', function () {
@@ -178,6 +191,21 @@ describe('STAT-10 · league records', function () {
             ))->toBe([['2026/27', null, 2], ['2027/28', null, 2]]);
     });
 
+    // D11 — tied holders follow the overall table, whatever order the points came in.
+    it('lists tied holders in the order of the overall table, with their alias (D4)', function () {
+        $season = new SeasonTimeline(
+            [1 => 'Anna', 2 => 'Bert', 3 => 'Cleo'],
+            [1 => [1 => 90, 2 => 90, 3 => 10], 2 => [1 => 0, 2 => 50, 3 => 10]],
+            new PenaltyScale(300, 100),
+            aliases: [1 => 'anna_k', 2 => 'bert_k', 3 => 'cleo_k'],
+        );
+
+        $holders = LeagueRecords::of([7 => ['name' => '2026/27', 'timeline' => $season]])->highestScore->holders ?? [];
+
+        expect(array_map(fn (RecordHolder $holder): array => [$holder->playerName, $holder->playerAlias], $holders))
+            ->toBe([['Bert', 'bert_k'], ['Anna', 'anna_k']]);
+    });
+
     it('holds no record before a matchday is complete', function () {
         $records = LeagueRecords::of([7 => ['name' => '2026/27', 'timeline' => new SeasonTimeline([1 => 'Anna'], [], new PenaltyScale(1, 1))]]);
 
@@ -200,7 +228,7 @@ describe('STAT-12 · the penalty box', function () {
         $box = PenaltyBox::of(statsSeason(settlement: 1));
 
         expect([$box->totalCents, $box->firstHalfCents, $box->secondHalfCents])->toBe([1900, 600, 1300])
-            ->and(array_map(fn (StandingRow $row): array => [$row->name, $row->penaltyCents], $box->payers))
+            ->and(array_map(fn (array $payer): array => [$payer['name'], $payer['penaltyCents']], $box->payers))
             ->toBe([['Bert', 700], ['Cleo', 700], ['Anna', 500]]);
     });
 

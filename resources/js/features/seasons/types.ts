@@ -35,8 +35,8 @@ export type MatchdayBlock = {
     rows: MatchdayLine[];
     /** STAT-11, STAT-13 — null until the matchday is complete. */
     highlights: {
-        winners: { playerId: number; name: string }[];
-        lanterns: { playerId: number; name: string }[];
+        winners: { playerId: number; name: string; alias: string }[];
+        lanterns: { playerId: number; name: string; alias: string }[];
         average: number;
         /** STAT-13 — the money that went into the box on this matchday. */
         penaltyCents: number;
@@ -55,7 +55,12 @@ export type PenaltyBox = {
     totalCents: number;
     firstHalfCents: number | null;
     secondHalfCents: number | null;
-    payers: { playerId: number; name: string; penaltyCents: number }[];
+    payers: {
+        playerId: number;
+        name: string;
+        alias: string;
+        penaltyCents: number;
+    }[];
     matchdays: PenaltyBoxMatchday[];
 };
 
