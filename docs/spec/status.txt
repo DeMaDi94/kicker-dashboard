@@ -7,3 +7,20 @@
 # REQUIREMENTS.md a year from now reads them as a missing feature.
 # Regenerate the skeleton with `php artisan spec:index`; edit statuses by hand.
 
+ACC-01  planned
+ACC-02  planned
+ACC-03  planned
+ACC-04  planned
+PLY-01  planned
+SEA-01  planned
+SEA-02  planned
+SEA-03  planned
+SEA-04  planned
+MD-01   planned
+MD-02   planned
+MD-03   planned
+MD-04   planned
+PEN-01  planned
+PEN-02  planned
+PEN-03  planned
+STD-01  planned

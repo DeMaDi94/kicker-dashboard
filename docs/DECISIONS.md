@@ -24,7 +24,6 @@ id from code comments and ledger reasons.
 | B9 | **Interaction defaults** of the core primitives: toasts 4.5 s, a failed view's toast 9 s; autosave 300 ms debounce; undo depth 80 with 450 ms debounce; list search 300 ms debounce; live poll 6 s while visible. | Proven defaults from the product the blueprint was extracted from. Change them in the primitive with a `D*` id. |
 | B10 | **Vite+ (`vp`) is the frontend toolchain** — dev server, build, test runner, linter and formatter. No separate Vitest, ESLint or Prettier. | See `docs/STACK.md`. |
 | B11 | **PHPStan level 7, no baseline.** | See `.claude/rules/php.md`. |
-| B12 | **No landing page.** `/` redirects to the dashboard; a signed-out visitor is sent on to the login. The starter kit's marketing welcome page is removed. | Internal products open on their work. A product with a public front page adds it as a `D*` decision. |
 | B13 | **Roles and permissions through `spatie/laravel-permission`.** A user holds exactly one role — `admin` or `user` (`App\Domain\Users\Role`). Code checks permissions (`users.view`, `users.create`, `users.update`, `users.delete`; restoring needs `users.delete`), never a role name; the admin role holds all four, the user role none. Roles and permissions are created by a migration, so every environment has them. The signed-in user's permissions are shared as `auth.permissions`. | A project adds a role or a permission without touching the checks. |
 | B14 | **Auth is Fortify's without self-registration** (login, reset, e-mail verification, two-factor, passkeys). Accounts are created by an admin (name, address, role); the new user receives an invitation mail with a password-reset token and sets their password on Fortify's reset page — the link expires as reset links do (`config/auth.php`). Setting a password through an emailed link marks the address verified. The first admin of an installation comes from `php artisan users:create-admin`. Addresses are stored lowercased, as Fortify signs in with them. | Replaces B2. Internal products know their users; a product with public sign-up re-enables registration as a `D*` decision. |
 | B15 | **Users are soft-deleted**, by an admin from the user list or by a user from their profile. A deleted user is signed out on their next request, cannot sign in (password or passkey) and can be viewed and restored by an admin — there is no permanent delete in the UI. A deleted user's address stays taken; a new account cannot reuse it. Guard rails (`App\Domain\Users\AccountGuard`): an admin cannot delete their own account from the list, cannot remove the admin role from themselves, and the last active admin can neither be deleted (from the list or the profile) nor lose the admin role. | Deleting is reversible, and an installation cannot lock itself out. |
@@ -34,7 +33,8 @@ id from code comments and ledger reasons.
 
 | Id | Decision | Why |
 | --- | --- | --- |
-| | _none yet_ | |
+| D1 | **`/` is the public season view**, reachable without signing in (ACC-01); the product is named **Vivalaraza**. | Product owner, 2026-09-24. Replaces B12. |
+| D2 | **German only.** `config('app.locales')` holds `de` alone and the interface offers no language choice; `en.json` is not shipped. | Product owner, 2026-09-24 („die Oberfläche ist nur Deutsch“). Narrows B6: keys stay English, the catalogue is `lang/de.json`. |
 
 ## Still open
 
@@ -42,14 +42,6 @@ Questions the requirements do not answer yet. Code stops at these boundaries and
 
 | Id | Question | Blocks |
 | --- | --- | --- |
-| Q1 | Gleichstand in der Gesamttabelle: teilen sich Mitspieler mit gleicher Punktesumme den Platz, oder entscheidet etwas anderes? | STD-01 |
-| Q2 | Dürfen Startbetrag und Schrittweite in einer laufenden Saison noch geändert werden (alle Strafen neu berechnet), oder sind sie nach dem ersten Spieltag gesperrt? | SEA-01, PEN-01 |
-| Q3 | Anzeige der Spieltags-Platzierung bei Gleichstand: 1, 2, 3, 3, 4 oder 1, 2, 3, 3, 5? (Die Strafe zählt Plätze in jedem Fall wie PEN-02.) | MD-03 |
-| Q4 | Was zeigt die öffentliche Seite genau — Gesamttabelle mit Punkte- und Strafensumme, Ergebnisse je Spieltag, Auswahl früherer Saisons? | ACC-01, PEN-03, STD-01 |
-| Q5 | Wie heißt eine Saison (z. B. „2025/26“), und hat sie mehr als diese Bezeichnung? | SEA-01 |
-| Q6 | Ab wann ist die Mitspielerliste einer Saison gesperrt — ab dem ersten eingetragenen Punkt? | SEA-03 |
-| Q7 | Punkte: nur ganze Zahlen? Können sie negativ sein? | MD-01 |
-| Q8 | Zählen in der Gesamttabelle nur abgeschlossene Spieltage? | STD-01 |
 | Q9 | Punkte automatisch aus dem kicker Manager holen — gewünscht, aber nicht für den ersten PoC. Quelle und Weg offen. | — |
 
 ## Spec notes
@@ -57,8 +49,7 @@ Questions the requirements do not answer yet. Code stops at these boundaries and
 Places where the catalogue turned out to be ambiguous or wrong while implementing it, with the
 user's resolution. Newest first.
 
-- **2026-09-24 — Q1–Q8 beantwortet** (Product Owner: „ok“ zu allen Vorschlägen). Noch in
-  `REQUIREMENTS.md` einzuarbeiten, danach Q1–Q8 aus „Still open“ streichen:
+- **2026-09-24 — Q1–Q8 beantwortet** (Product Owner: „ok“ zu allen Vorschlägen):
   - Q1: Gleiche Punktesumme in der Gesamttabelle → gleicher Platz.
   - Q2: Startbetrag und Schrittweite sind ab dem ersten eingetragenen Spieltag gesperrt.
   - Q3: Platzierung dicht gezählt: 1, 2, 3, 3, 4 (wie die Strafenstaffel).
@@ -70,6 +61,10 @@ user's resolution. Newest first.
   - Q8: Die Gesamttabelle zählt nur abgeschlossene Spieltage.
   - Außerdem: Die App heißt **Vivalaraza**, die Oberfläche ist **nur Deutsch**. `/` führt ohne
     Anmeldung auf die öffentliche Saisonansicht (als `D1` festzuhalten, ersetzt B12).
+  - Eingearbeitet am selben Tag: Q1, Q3, Q8 → STD-01/MD-03; Q2, Q5 → SEA-01; Q4 → ACC-01;
+    Q6 → SEA-03; Q7 → MD-01. Dazu (Product Owner): innerhalb eines Platzes der Gesamttabelle steht
+    die geringere Strafensumme zuerst; vorausgewählt ist die zuletzt angelegte Saison;
+    Mitspieler und Saisons werden nur angelegt (ACC-03). Name und Sprache → D1, D2.
 
 ## Superseded
 
@@ -78,3 +73,4 @@ Decisions no longer in force, kept so that a comment citing one still leads some
 | Id | Decision | Replaced by |
 | --- | --- | --- |
 | B2 | **Auth is Fortify's**, as the starter kit ships it (login, registration, reset, e-mail verification, two-factor, passkeys). A project removes what it does not need (e.g. registration) as a `D*` decision. | B14 — registration removed; accounts are created by admins. |
+| B12 | **No landing page.** `/` redirects to the dashboard; a signed-out visitor is sent on to the login. The starter kit's marketing welcome page is removed. | D1 — `/` is the public season view. |
