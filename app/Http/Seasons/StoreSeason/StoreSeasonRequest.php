@@ -26,7 +26,8 @@ final class StoreSeasonRequest extends FormRequest
     {
         return [
             // D8 — no two seasons share a name.
-            'name' => ['required', 'string', 'max:255', Rule::unique(Season::class)],
+            // D8 — unique among the seasons not deleted; a deleted season frees its name.
+            'name' => ['required', 'string', 'max:255', Rule::unique(Season::class)->withoutTrashed()],
             'penalty_start' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:'.self::MAX_EUROS],
             'penalty_step' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:'.self::MAX_EUROS],
             // PEN-04 — optional; any matchday but the last.

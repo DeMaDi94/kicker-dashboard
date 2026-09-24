@@ -12,7 +12,11 @@ final class RestoreSeasonController
 {
     public function __invoke(Season $season, RestoreSeasonService $restore): RedirectResponse
     {
-        $restore($season);
+        if (! $restore($season)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => __('Another season is already called :name, so this one cannot be restored.', ['name' => $season->name])]);
+
+            return back();
+        }
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Season :name restored.', ['name' => $season->name])]);
 

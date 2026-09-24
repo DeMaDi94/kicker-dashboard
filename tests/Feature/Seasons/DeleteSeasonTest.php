@@ -132,3 +132,29 @@ describe('SEA-06 · an admin restores a deleted season', function () {
             ->assertInertia(fn (AssertableInertia $page) => $page->where('season.id', $season->id)->has('standings', 3));
     });
 });
+
+describe('D8 · a deleted season frees its name', function () {
+    it('lets a new season take the name', function () {
+        $old = Season::factory()->create(['name' => '2026/27']);
+        $this->actingAs(admin())->delete(route('seasons.destroy', $old));
+
+        $this->actingAs(admin())->post(route('seasons.store'), [
+            'name' => '2026/27', 'penalty_start' => 5, 'penalty_step' => 0.5, 'player_ids' => [],
+        ])->assertValid();
+
+        expect(Season::where('name', '2026/27')->count())->toBe(1)
+            ->and(Season::onlyTrashed()->where('name', '2026/27')->count())->toBe(1);
+    });
+
+    it('refuses to restore a season while another carries its name', function () {
+        $old = Season::factory()->create(['name' => '2026/27']);
+        $old->delete();
+        Season::factory()->create(['name' => '2026/27']);
+
+        $this->actingAs(admin())->post(route('seasons.restore', $old->id))
+            ->assertRedirect()
+            ->assertInertiaFlash('toast.type', 'error');
+
+        expect($old->fresh()?->trashed())->toBeTrue();
+    });
+});
