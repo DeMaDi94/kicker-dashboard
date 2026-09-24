@@ -57,6 +57,20 @@ Questions the requirements do not answer yet. Code stops at these boundaries and
 Places where the catalogue turned out to be ambiguous or wrong while implementing it, with the
 user's resolution. Newest first.
 
+- **2026-09-24 — Q1–Q8 beantwortet** (Product Owner: „ok“ zu allen Vorschlägen). Noch in
+  `REQUIREMENTS.md` einzuarbeiten, danach Q1–Q8 aus „Still open“ streichen:
+  - Q1: Gleiche Punktesumme in der Gesamttabelle → gleicher Platz.
+  - Q2: Startbetrag und Schrittweite sind ab dem ersten eingetragenen Spieltag gesperrt.
+  - Q3: Platzierung dicht gezählt: 1, 2, 3, 3, 4 (wie die Strafenstaffel).
+  - Q4: Öffentliche Seite: Gesamttabelle mit Punkte- und Strafensumme, Ergebnisse je Spieltag
+    (Punkte, Platz, Strafe), Auswahl früherer Saisons.
+  - Q5: Eine Saison hat nur eine Bezeichnung, z. B. „2025/26“.
+  - Q6: Die Mitspielerliste einer Saison ist ab dem ersten eingetragenen Punkt gesperrt.
+  - Q7: Punkte sind ganze Zahlen, negativ erlaubt.
+  - Q8: Die Gesamttabelle zählt nur abgeschlossene Spieltage.
+  - Außerdem: Die App heißt **Vivalaraza**, die Oberfläche ist **nur Deutsch**. `/` führt ohne
+    Anmeldung auf die öffentliche Saisonansicht (als `D1` festzuhalten, ersetzt B12).
+
 ## Superseded
 
 Decisions no longer in force, kept so that a comment citing one still leads somewhere.
