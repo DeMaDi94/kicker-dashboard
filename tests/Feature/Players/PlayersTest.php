@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\Player;
+use App\Models\Score;
+use App\Models\Season;
 use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Testing\AssertableInertia;
@@ -74,10 +76,86 @@ describe('ACC-03 · only admins create players', function () {
         $this->post(route('players.store'), ['name' => 'Paul', 'alias' => 'p'])->assertRedirect(route('login'));
     });
 
-    it('offers no route to edit or delete a player', function () {
+    it('offers no route to delete a player', function () {
         $player = Player::factory()->create();
 
-        $this->actingAs(admin())->patch("/players/{$player->id}", ['name' => 'X'])->assertMethodNotAllowed();
         $this->actingAs(admin())->delete("/players/{$player->id}")->assertMethodNotAllowed();
+
+        expect(Player::count())->toBe(1);
+    });
+});
+
+describe('PLY-02 · an admin changes a player’s name and alias', function () {
+    it('opens the form with the current name and alias', function () {
+        $player = Player::factory()->create(['name' => 'BK', 'alias' => 'bk_kicker']);
+
+        $this->actingAs(admin())->get(route('players.edit', $player))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->component('players/edit')
+                ->where('player', ['id' => $player->id, 'name' => 'BK', 'alias' => 'bk_kicker']));
+    });
+
+    it('stores the new name and alias', function () {
+        $player = Player::factory()->create(['name' => 'BK', 'alias' => 'bk_kicker']);
+
+        $this->actingAs(admin())->put(route('players.update', $player), ['name' => 'Bernd', 'alias' => 'bernd_k'])
+            ->assertRedirect(route('players.index'));
+
+        expect($player->fresh()?->only(['name', 'alias']))->toBe(['name' => 'Bernd', 'alias' => 'bernd_k']);
+    });
+
+    it('shows the new name in every season, earlier ones too, with points and penalties unchanged', function () {
+        $player = Player::factory()->create(['name' => 'BK', 'alias' => 'bk']);
+        $other = Player::factory()->create(['name' => 'FK', 'alias' => 'fk']);
+        $old = Season::factory()->create(['name' => '2024/25']);
+        Season::factory()->create(['name' => '2025/26']);
+        $old->players()->sync([$player->id, $other->id]);
+        Score::create(['season_id' => $old->id, 'player_id' => $player->id, 'matchday' => 1, 'points' => 40]);
+        Score::create(['season_id' => $old->id, 'player_id' => $other->id, 'matchday' => 1, 'points' => 60]);
+
+        $before = $this->get(route('seasons.show', $old))->viewData('page')['props']['standings'];
+
+        $this->actingAs(admin())->put(route('players.update', $player), ['name' => 'Bernd', 'alias' => 'bk']);
+        auth()->logout();
+
+        $after = $this->get(route('seasons.show', $old))->viewData('page')['props']['standings'];
+
+        $renamed = collect($after)->firstWhere('playerId', $player->id);
+        expect($renamed['name'])->toBe('Bernd')
+            ->and(collect($after)->map(fn (array $row) => array_diff_key($row, ['name' => 1]))->all())
+            ->toBe(collect($before)->map(fn (array $row) => array_diff_key($row, ['name' => 1]))->all());
+    });
+
+    it('keeps a name and alias unique among the other players (D8)', function () {
+        Player::factory()->create(['name' => 'Paul', 'alias' => 'paul_kicker']);
+        $player = Player::factory()->create(['name' => 'Peter', 'alias' => 'peter']);
+
+        $this->actingAs(admin())->put(route('players.update', $player), ['name' => 'Paul', 'alias' => 'paul_kicker'])
+            ->assertInvalid(['name' => 'Einen Mitspieler mit diesem Namen und Alias gibt es schon.']);
+    });
+
+    it('lets a player keep their own name and alias', function () {
+        $player = Player::factory()->create(['name' => 'Paul', 'alias' => 'paul_kicker']);
+
+        $this->actingAs(admin())->put(route('players.update', $player), ['name' => 'Paul', 'alias' => 'paul_kicker'])
+            ->assertValid();
+    });
+
+    it('needs both a name and an alias', function () {
+        $player = Player::factory()->create();
+
+        $this->actingAs(admin())->put(route('players.update', $player), ['name' => '', 'alias' => ''])
+            ->assertInvalid(['name', 'alias']);
+    });
+
+    it('refuses a plain user and sends a guest to the login', function () {
+        $player = Player::factory()->create(['name' => 'BK']);
+
+        $this->actingAs(member())->get(route('players.edit', $player))->assertForbidden();
+        $this->actingAs(member())->put(route('players.update', $player), ['name' => 'X', 'alias' => 'x'])->assertForbidden();
+        auth()->logout();
+        $this->put(route('players.update', $player), ['name' => 'X', 'alias' => 'x'])->assertRedirect(route('login'));
+
+        expect($player->fresh()?->name)->toBe('BK');
     });
 });

@@ -17,6 +17,8 @@ enum Permission: string
 
     // ACC-03 — the league's admin-only actions.
     case CreatePlayers = 'players.create';
+    // PLY-02, D17 — changing a player's name and alias.
+    case UpdatePlayers = 'players.update';
     case CreateSeasons = 'seasons.create';
     case SetSeasonPlayers = 'seasons.set-players';
     // PEN-04 — the interim settlement changes later (ACC-03).
@@ -29,4 +31,10 @@ enum Permission: string
 
     // D16 — the installation's settings (outgoing mail), for admins only.
     case ManageSettings = 'settings.manage';
+
+    // NEWS-03, D17 — changing and deleting another user's news.
+    case ManageNews = 'news.manage';
+
+    // LOG-03, D17 — the history, for admins only.
+    case ViewHistory = 'history.view';
 }

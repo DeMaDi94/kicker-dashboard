@@ -34,11 +34,12 @@ describe('VIS-06 · the heatmap of visits by weekday and hour', () => {
 });
 
 describe('VIS-04 · „Besucher“ in the navigation', () => {
-    it('is the last entry, shown only with visits.view (D14)', () => {
-        const last = NAV_ITEMS[NAV_ITEMS.length - 1];
+    // D14 had it last; LOG-03 puts „Verlauf“ after it (D17).
+    it('is shown only with visits.view, directly before „Verlauf“ (D14, LOG-03)', () => {
+        const visits = NAV_ITEMS.findIndex((item) => item.title === 'Visitors');
 
-        expect(last?.title).toBe('Visitors');
-        expect(last?.permission).toBe('visits.view');
-        expect(last?.sections).toEqual(['/visits']);
+        expect(NAV_ITEMS[visits]?.permission).toBe('visits.view');
+        expect(NAV_ITEMS[visits]?.sections).toEqual(['/visits']);
+        expect(NAV_ITEMS[visits + 1]?.title).toBe('History');
     });
 });

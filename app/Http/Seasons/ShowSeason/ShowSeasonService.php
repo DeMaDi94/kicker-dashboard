@@ -11,9 +11,11 @@ use App\Domain\Seasons\SeasonLength;
 use App\Domain\Standings\StandingRow;
 use App\Domain\Statistics\PenaltyBox;
 use App\Domain\Statistics\SeasonTimeline;
+use App\Http\News\Ports\SeasonNewsPort;
 use App\Models\Player;
 use App\Models\Score;
 use App\Models\Season;
+use App\Models\User;
 
 /**
  * ACC-01 — the public season view: the overall table with points and
@@ -25,14 +27,19 @@ use App\Models\Season;
  * @phpstan-type MatchdayLine array{playerId: int, name: string, alias: string, points: int|null, place: int|null, penaltyCents: int|null}
  * @phpstan-type MatchdayBlock array{number: int, complete: bool, hasPoints: bool, rows: list<MatchdayLine>, highlights: Highlights|null}
  * @phpstan-type Highlights array{winners: list<array{playerId: int, name: string, alias: string}>, lanterns: list<array{playerId: int, name: string, alias: string}>, average: float, penaltyCents: int}
- * @phpstan-type SeasonView array{seasons: list<SeasonOption>, season: array{id: int, name: string, penaltyStartCents: int, penaltyStepCents: int, settlementMatchday: int|null}|null, standings: list<StandingLine>, matchdays: list<MatchdayBlock>, penaltyBox: PenaltyBox|null}
+ *
+ * @phpstan-import-type NewsLine from SeasonNewsPort
+ *
+ * @phpstan-type SeasonView array{seasons: list<SeasonOption>, season: array{id: int, name: string, penaltyStartCents: int, penaltyStepCents: int, settlementMatchday: int|null}|null, news: list<NewsLine>, standings: list<StandingLine>, matchdays: list<MatchdayBlock>, penaltyBox: PenaltyBox|null}
  */
 final class ShowSeasonService
 {
+    public function __construct(private SeasonNewsPort $news) {}
+
     /**
      * @return SeasonView
      */
-    public function __invoke(?Season $season): array
+    public function __invoke(?Season $season, ?User $viewer): array
     {
         $seasons = Season::query()->latest('id')->get(['id', 'name']);
 
@@ -42,7 +49,7 @@ final class ShowSeasonService
         $options = array_values($seasons->map(fn (Season $each): array => ['id' => $each->id, 'name' => $each->name])->all());
 
         if ($season === null) {
-            return ['seasons' => $options, 'season' => null, 'standings' => [], 'matchdays' => [], 'penaltyBox' => null];
+            return ['seasons' => $options, 'season' => null, 'news' => [], 'standings' => [], 'matchdays' => [], 'penaltyBox' => null];
         }
 
         $players = $season->players()->get(['players.id', 'players.name', 'players.alias'])->keyBy('id');
@@ -111,6 +118,8 @@ final class ShowSeasonService
                 'penaltyStepCents' => $season->penalty_step_cents,
                 'settlementMatchday' => $season->settlement_matchday,
             ],
+            // NEWS-02
+            'news' => $this->news->forSeason($season, $viewer),
             'standings' => $standings,
             'matchdays' => $matchdays,
             'penaltyBox' => PenaltyBox::of($timeline),

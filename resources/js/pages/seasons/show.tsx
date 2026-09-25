@@ -19,6 +19,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { NewsPanel } from '@/features/news/news-panel';
+import type { NewsLine } from '@/features/news/types';
 import { MatchdayTable } from '@/features/seasons/matchday-table';
 import { PenaltyBox } from '@/features/seasons/penalty-box';
 import { StandingsTable } from '@/features/seasons/standings-table';
@@ -43,6 +45,7 @@ import { edit as editSettlement } from '@/routes/seasons/settlement';
 type ShowSeasonProps = {
     seasons: SeasonOption[];
     season: SeasonSummary | null;
+    news: NewsLine[];
     standings: StandingLine[];
     matchdays: MatchdayBlock[];
     penaltyBox: PenaltyBoxData | null;
@@ -71,6 +74,7 @@ function initialMatchday(url: string, matchdays: MatchdayBlock[]): number {
 export default function ShowSeason({
     seasons,
     season,
+    news,
     standings,
     matchdays,
     penaltyBox,
@@ -245,6 +249,14 @@ export default function ShowSeason({
                 </Panel>
             ) : (
                 <div className="flex flex-col gap-4">
+                    {(news.length > 0 || auth.user !== null) && (
+                        <NewsPanel
+                            seasonId={season.id}
+                            news={news}
+                            canWrite={auth.user !== null}
+                        />
+                    )}
+
                     <Panel>
                         <PanelHeader title={t('Overall table')} />
                         <StandingsTable

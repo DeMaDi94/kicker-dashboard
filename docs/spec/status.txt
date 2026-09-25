@@ -12,6 +12,7 @@ ACC-02   done
 ACC-03   done
 ACC-04   done
 PLY-01   done
+PLY-02   done
 SEA-01   done
 SEA-02   done
 SEA-03   done
@@ -49,3 +50,9 @@ VIS-03   done
 VIS-04   done
 VIS-05   done
 VIS-06   done
+NEWS-01  done
+NEWS-02  done
+NEWS-03  done
+LOG-01   done
+LOG-02   done
+LOG-03   done

@@ -1,8 +1,9 @@
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { LucideIcon } from 'lucide-react';
-import { ChartLine, Medal, Trophy, Users } from 'lucide-react';
+import { ChartLine, History, Medal, Trophy, Users } from 'lucide-react';
 import { i18nKey } from '@/lib/i18n';
 import { home, records } from '@/routes';
+import { index as history } from '@/routes/history';
 import { index as players } from '@/routes/players';
 import { index as visits } from '@/routes/visits';
 
@@ -47,11 +48,19 @@ export const NAV_ITEMS: ShellNavItem[] = [
         permission: 'players.create',
     },
     {
-        // VIS-04, D14 — the last entry, for admins only.
+        // VIS-04, D14 — for admins only.
         title: i18nKey('Visitors'),
         href: visits(),
         icon: ChartLine,
         sections: ['/visits'],
         permission: 'visits.view',
+    },
+    {
+        // LOG-03 — after „Besucher“, for admins only.
+        title: i18nKey('History'),
+        href: history(),
+        icon: History,
+        sections: ['/history'],
+        permission: 'history.view',
     },
 ];

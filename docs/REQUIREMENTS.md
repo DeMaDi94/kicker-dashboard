@@ -7,8 +7,8 @@ unless a requirement says so.
 | | |
 | --- | --- |
 | Product | Vivalaraza — Tabellen und Strafen der internen kicker-Manager-Liga |
-| Requirements | 42 |
-| Last reviewed | 2026-09-25 (Besucherstatistik VIS-01–06) |
+| Requirements | 49 |
+| Last reviewed | 2026-09-25 (Mitspieler ändern PLY-02, Neuigkeiten NEWS-01–03, Verlauf LOG-01–03) |
 
 Decisions and open questions live in [`DECISIONS.md`](DECISIONS.md); the domain vocabulary in
 [`GLOSSARY.md`](GLOSSARY.md).
@@ -60,6 +60,8 @@ bold id and an em dash; continuation lines are indented two spaces:
 6. Gesamttabelle (`STD`)
 7. Statistiken (`STAT`)
 8. Besucher (`VIS`)
+9. Neuigkeiten (`NEWS`)
+10. Verlauf (`LOG`)
 
 ---
 
@@ -73,7 +75,7 @@ bold id and an em dash; continuation lines are indented two spaces:
   Auswahl früherer Saisons; vorausgewählt ist die zuletzt angelegte Saison.
 - **ACC-02** — Punkte eintragen und ändern dürfen nur angemeldete Benutzer.
 - **ACC-03** — Mitspieler und Saisons anlegen sowie die Mitspieler einer Saison festlegen dürfen
-  nur Admins. Mitspieler werden nur angelegt, nicht bearbeitet oder gelöscht. Eine Saison wird
+  nur Admins. Mitspieler werden angelegt und bearbeitet (PLY-02), nicht gelöscht. Eine Saison wird
   nicht bearbeitet – ausgenommen die Zwischenabrechnung (PEN-04) und die Strafenstaffel
   (SEA-05) –; ein Admin kann sie löschen und wiederherstellen (SEA-06).
 - **ACC-04** — Ein Mitspieler braucht kein Benutzerkonto; Mitspieler und Benutzer sind getrennt.
@@ -83,6 +85,9 @@ bold id and an em dash; continuation lines are indented two spaces:
 *Die Teilnehmer der internen Liga im kicker Manager.*
 
 - **PLY-01** — Ein Mitspieler hat einen Namen und seinen Alias aus dem kicker Manager.
+- **PLY-02** — Ein Admin kann Name und Alias eines Mitspielers ändern. Die Änderung gilt überall,
+  auch in früheren Saisons; Punkte, Platzierungen und Strafen bleiben unberührt. Ein Mitspieler
+  wird nicht gelöscht.
 
 ## 3. Saisons (`SEA`)
 
@@ -230,3 +235,29 @@ erfasst die App nicht.*
   ist die Summe der Tage.
 - **VIS-06** — Sie zeigt die Aufrufe des Zeitraums nach Wochentag (Montag bis Sonntag) und Stunde
   (0–23) als Heatmap und als Balken je Stunde, sowie je Seite (VIS-01), die meisten zuerst.
+
+## 9. Neuigkeiten (`NEWS`)
+
+*Mitteilungen an die Liga zu einer Saison, zum Beispiel über Termine oder Ereignisse.*
+
+- **NEWS-01** — Jeder angemeldete Benutzer kann zu einer Saison Neuigkeiten schreiben: Text ohne
+  Formatierung; Zeilenumbrüche bleiben erhalten, Links sind anklickbar.
+- **NEWS-02** — Die Neuigkeiten stehen ohne Anmeldung lesbar in der Saisonansicht über der
+  Gesamttabelle, die neueste zuerst, jede mit Datum und dem Namen des Verfassers. Die drei
+  neuesten sind sichtbar, ältere hinter „Alle anzeigen“.
+- **NEWS-03** — Eine Neuigkeit ändern oder löschen dürfen ihr Verfasser und jeder Admin.
+
+## 10. Verlauf (`LOG`)
+
+*Wer wann was an den Daten der Liga geändert hat – nur für Admins.*
+
+- **LOG-01** — Die App hält jede Änderung an den Daten der Liga fest: Punkte eintragen und ändern
+  (MD-01, MD-04), Mitspieler anlegen und ändern (PLY-02), Saison anlegen, löschen und
+  wiederherstellen (SEA-01, SEA-06), die Mitspieler einer Saison (SEA-02), Startbetrag und
+  Schrittweite (SEA-05), die Zwischenabrechnung (PEN-04) sowie Neuigkeiten schreiben, ändern und
+  löschen (NEWS-01, NEWS-03). Benutzerkonten und Einstellungen gehören nicht dazu.
+- **LOG-02** — Ein Eintrag nennt Benutzer, Zeitpunkt, Aktion und jeden geänderten Wert mit altem
+  und neuem Wert (z. B. „BK, Spieltag 7: 62 → 65“).
+- **LOG-03** — Den Verlauf sehen nur Admins, unter „Verlauf“ in der Navigation nach „Besucher“,
+  der neueste Eintrag zuerst. Einträge werden nie gelöscht. Zeiten gelten in deutscher Zeit
+  (Europe/Berlin).

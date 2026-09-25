@@ -23,6 +23,8 @@ namespace column — do not invent an area name.
 | STD | Gesamttabelle | `Standings` (domain only) | — |
 | STAT | Statistiken | `Statistics` | `features/statistics`, `pages/statistics` |
 | VIS | Besucher | `Visits` | `features/visits`, `pages/visits` |
+| NEWS | Neuigkeiten | `News` | `features/news` |
+| LOG | Verlauf | `History` | `features/history`, `pages/history` |
 
 ## Core entities
 
@@ -54,6 +56,11 @@ namespace column — do not invent an area name.
 | Besucher (visitor) | `visitor` — the day's mark | Who called, told apart within one day only (VIS-02, VIS-05). Not a `User` and not a `Player`. |
 | Öffentliche Seite (public page) | `PublicPage` | Saisonansicht, Mitspieler, Direktvergleich, Liga-Rekorde (VIS-01). |
 | Zeitraum (period) | `VisitPeriod` | The last 7, 30, 90 or 365 days the visit statistics show, today included (VIS-04). |
+| Neuigkeit (news post) | `NewsItem` | A plain-text message to the league about one season, by the user who wrote it (NEWS-01). Not a matchday highlight (STAT-11). |
+| Verfasser (author) | `author` — `NewsItem::author()` | The user who wrote a news post (NEWS-02, NEWS-03). Not a player. |
+| Verlauf (history) | `HistoryEntry` | One recorded change to the league's data: who, when, the action and each changed value (LOG-01, LOG-02). Not a visit, and not Laravel's log. |
+| Aktion (history action) | `HistoryAction` | What a history entry records, e.g. points saved (LOG-01). |
+| Geänderter Wert (change) | `Change`, `ChangedField` | One value of an entry with its old and new value (LOG-02). |
 | Benutzer (user) | `User` | An account that can sign in. Also the name of the plain role — the enum case `Role::User`. |
 | Rolle (role) | `Role` | What a user is, exactly one per user (B13). Not a permission: code never checks a role. |
 | Berechtigung (permission) | `Permission` | What a role allows, e.g. `users.view`. The only thing code checks. |
@@ -81,3 +88,15 @@ Enum **cases** are English; their stored value is the wire format; their label i
 | `PublicPage` | `Player` | `player` | `Players` — de „Mitspieler“ |
 | `PublicPage` | `HeadToHead` | `compare` | `Head-to-head` — de „Direktvergleich“ |
 | `PublicPage` | `Records` | `records` | `League records` — de „Liga-Rekorde“ |
+| `HistoryAction` | `PointsSaved` | `points.saved` | `Points saved` — de „Punkte gespeichert“ |
+| `HistoryAction` | `PlayerCreated` | `player.created` | `Player created` — de „Mitspieler angelegt“ |
+| `HistoryAction` | `PlayerUpdated` | `player.updated` | `Player changed` — de „Mitspieler geändert“ |
+| `HistoryAction` | `SeasonCreated` | `season.created` | `Season created` — de „Saison angelegt“ |
+| `HistoryAction` | `SeasonDeleted` | `season.deleted` | `Season deleted` — de „Saison gelöscht“ |
+| `HistoryAction` | `SeasonRestored` | `season.restored` | `Season restored` — de „Saison wiederhergestellt“ |
+| `HistoryAction` | `SeasonPlayersChanged` | `season.players` | `Players of the season changed` — de „Mitspieler der Saison geändert“ |
+| `HistoryAction` | `PenaltyScaleChanged` | `season.penalty-scale` | `Penalty scale changed` — de „Strafenstaffel geändert“ |
+| `HistoryAction` | `SettlementChanged` | `season.settlement` | `Interim settlement changed` — de „Zwischenabrechnung geändert“ |
+| `HistoryAction` | `NewsCreated` | `news.created` | `News written` — de „Neuigkeit geschrieben“ |
+| `HistoryAction` | `NewsUpdated` | `news.updated` | `News changed` — de „Neuigkeit geändert“ |
+| `HistoryAction` | `NewsDeleted` | `news.deleted` | `News deleted` — de „Neuigkeit gelöscht“ |

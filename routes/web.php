@@ -3,11 +3,17 @@
 use App\Domain\Seasons\SeasonLength;
 use App\Domain\Users\Permission;
 use App\Domain\Visits\PublicPage;
+use App\Http\History\ShowHistory\ShowHistoryController;
 use App\Http\Matchdays\EditMatchday\EditMatchdayController;
 use App\Http\Matchdays\UpdateMatchday\UpdateMatchdayController;
+use App\Http\News\DeleteNews\DeleteNewsController;
+use App\Http\News\StoreNews\StoreNewsController;
+use App\Http\News\UpdateNews\UpdateNewsController;
 use App\Http\Players\CreatePlayer\CreatePlayerController;
+use App\Http\Players\EditPlayer\EditPlayerController;
 use App\Http\Players\ListPlayers\ListPlayersController;
 use App\Http\Players\StorePlayer\StorePlayerController;
+use App\Http\Players\UpdatePlayer\UpdatePlayerController;
 use App\Http\Seasons\CreateSeason\CreateSeasonController;
 use App\Http\Seasons\DeleteSeason\DeleteSeasonController;
 use App\Http\Seasons\EditPenaltyScale\EditPenaltyScaleController;
@@ -36,13 +42,18 @@ $countVisit = fn (PublicPage $page): string => CountVisitMiddleware::class.':'.$
 Route::get('/', ShowSeasonController::class)->middleware($countVisit(PublicPage::SeasonView))->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // ACC-03 — players and seasons are created by admins only; players are never edited or deleted.
+    // ACC-03 — players and seasons are created by admins only; players are never deleted.
     Route::get('players', ListPlayersController::class)
         ->can(Permission::CreatePlayers->value)->name('players.index');
     Route::get('players/create', CreatePlayerController::class)
         ->can(Permission::CreatePlayers->value)->name('players.create');
     Route::post('players', StorePlayerController::class)
         ->can(Permission::CreatePlayers->value)->name('players.store');
+    // PLY-02 — an admin changes a player's name and alias.
+    Route::get('players/{player}/edit', EditPlayerController::class)
+        ->can(Permission::UpdatePlayers->value)->name('players.edit');
+    Route::put('players/{player}', UpdatePlayerController::class)
+        ->can(Permission::UpdatePlayers->value)->name('players.update');
 
     Route::get('seasons/create', CreateSeasonController::class)
         ->can(Permission::CreateSeasons->value)->name('seasons.create');
@@ -77,9 +88,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('seasons/{season}/matchdays/{matchday}', UpdateMatchdayController::class)
         ->whereIn('matchday', array_map(strval(...), SeasonLength::matchdays()))->name('matchdays.update');
 
+    // NEWS-01 — any signed-in user writes a season's news; NEWS-03 — its
+    // author or an admin changes or deletes it (checked by the Request).
+    Route::post('seasons/{season}/news', StoreNewsController::class)->name('news.store');
+    Route::put('news/{news}', UpdateNewsController::class)->name('news.update');
+    Route::delete('news/{news}', DeleteNewsController::class)->name('news.destroy');
+
     // VIS-04 — the visit statistics, for admins only.
     Route::get('visits', ShowVisitsController::class)
         ->can(Permission::ViewVisits->value)->name('visits.index');
+
+    // LOG-03 — the history, for admins only.
+    Route::get('history', ShowHistoryController::class)
+        ->can(Permission::ViewHistory->value)->name('history.index');
 
     /*
      * The primitive gallery: every components/core primitive in its states,

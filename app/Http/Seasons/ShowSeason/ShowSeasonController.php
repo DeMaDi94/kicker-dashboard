@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Seasons\ShowSeason;
 
 use App\Models\Season;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -13,8 +14,8 @@ use Inertia\Response;
  */
 final class ShowSeasonController
 {
-    public function __invoke(ShowSeasonService $show, ?Season $season = null): Response
+    public function __invoke(Request $request, ShowSeasonService $show, ?Season $season = null): Response
     {
-        return Inertia::render('seasons/show', $show($season));
+        return Inertia::render('seasons/show', $show($season, $request->user()));
     }
 }
