@@ -7,6 +7,7 @@ namespace App\Http\Users\StoreUser;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Domain\Users\Role;
+use App\Models\Setting;
 use App\Models\User;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -40,7 +41,16 @@ final class StoreUserRequest extends FormRequest
             ],
             'role' => ['required', Rule::enum(Role::class)],
             // D15 — the admin chooses between the invitation and a password of their own.
-            'password_setup' => ['required', Rule::in(['invitation', 'password'])],
+            'password_setup' => [
+                'required',
+                Rule::in(['invitation', 'password']),
+                // D16 — no invitation while outgoing mail is switched off.
+                function (string $attribute, mixed $value, Closure $fail): void {
+                    if ($value === 'invitation' && ! Setting::mailEnabled()) {
+                        $fail(__('Email is switched off. Set a password instead.'));
+                    }
+                },
+            ],
             'password' => ['exclude_unless:password_setup,password', ...$this->passwordRules()],
         ];
     }

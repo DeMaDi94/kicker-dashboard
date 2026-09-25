@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia;
 
 describe('B14 · an admin creates a user', function () {
+    beforeEach(fn () => mailOn());
+
     it('shows the form with the roles to choose from', function () {
         $this->actingAs(admin())->get(route('users.create'))
             ->assertOk()
@@ -111,6 +113,8 @@ describe('B14 · an admin creates a user', function () {
 });
 
 describe('D15 · the admin sets the password instead of inviting', function () {
+    beforeEach(fn () => mailOn());
+
     it('creates the user with that password, verified and without a mail', function () {
         Notification::fake();
 

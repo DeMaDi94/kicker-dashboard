@@ -24,7 +24,7 @@ export default function Profile({
     mustVerifyEmail: boolean;
     status?: string;
 }) {
-    const { auth } = usePage<PageProps>().props;
+    const { auth, mailEnabled } = usePage<PageProps>().props;
     const { t } = useTranslation();
 
     return (
@@ -73,6 +73,7 @@ export default function Profile({
                                     {t('Email address')}
                                 </Label>
 
+                                {/* D16 — no mail could confirm a new address. */}
                                 <Input
                                     id="email"
                                     type="email"
@@ -80,9 +81,18 @@ export default function Profile({
                                     defaultValue={auth.user.email}
                                     name="email"
                                     required
+                                    readOnly={!mailEnabled}
                                     autoComplete="username"
                                     placeholder={t('Email address')}
                                 />
+
+                                {!mailEnabled && (
+                                    <p className="text-sm text-brand-muted">
+                                        {t(
+                                            'Your email address cannot be changed while email is switched off.',
+                                        )}
+                                    </p>
+                                )}
 
                                 <InputError
                                     className="mt-2"
@@ -91,6 +101,7 @@ export default function Profile({
                             </div>
 
                             {mustVerifyEmail &&
+                                mailEnabled &&
                                 auth.user.email_verified_at === null && (
                                     <div>
                                         <p className="-mt-4 text-sm text-muted-foreground">

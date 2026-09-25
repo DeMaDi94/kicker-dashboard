@@ -15,6 +15,7 @@ declare module '@inertiajs/core' {
             locales: string[];
             i18n: Record<string, string>;
             navCollapsed: boolean;
+            mailEnabled: boolean;
             [key: string]: unknown;
         };
     }

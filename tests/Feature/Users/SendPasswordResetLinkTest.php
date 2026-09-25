@@ -6,6 +6,8 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
 
 describe('B16 · an admin sends a password reset link', function () {
+    beforeEach(fn () => mailOn());
+
     it('sends the reset mail', function () {
         Notification::fake();
         $user = member();

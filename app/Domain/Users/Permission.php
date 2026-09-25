@@ -26,4 +26,7 @@ enum Permission: string
 
     // VIS-04, D14 — the visit statistics, for admins only.
     case ViewVisits = 'visits.view';
+
+    // D16 — the installation's settings (outgoing mail), for admins only.
+    case ManageSettings = 'settings.manage';
 }

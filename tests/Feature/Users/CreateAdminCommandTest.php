@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 
 describe('B14 · the first admin comes from the command line', function () {
+    beforeEach(fn () => mailOn());
+
     it('creates an admin and sends the invitation', function () {
         Notification::fake();
 

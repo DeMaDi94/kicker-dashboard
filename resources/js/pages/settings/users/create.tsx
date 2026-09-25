@@ -1,4 +1,4 @@
-import { Form, Head, Link } from '@inertiajs/react';
+import { Form, Head, Link, usePage } from '@inertiajs/react';
 import StoreUserController from '@/actions/App/Http/Users/StoreUser/StoreUserController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -23,12 +23,15 @@ type PasswordSetup = 'invitation' | 'password';
 /*
  * B14 — the admin names the account and its role; the new user gets an
  * invitation to choose a password. D15 — or the admin sets the password here;
- * the invitation stays pre-selected.
+ * the invitation stays pre-selected. D16 — while outgoing mail is switched
+ * off, the invitation cannot be chosen and setting the password is.
  */
 export default function CreateUser({ roles, passwordRules }: CreateUserProps) {
     const { t } = useTranslation();
-    const [passwordSetup, setPasswordSetup] =
-        useState<PasswordSetup>('invitation');
+    const { mailEnabled } = usePage().props;
+    const [passwordSetup, setPasswordSetup] = useState<PasswordSetup>(
+        mailEnabled ? 'invitation' : 'password',
+    );
 
     return (
         <>
@@ -82,11 +85,18 @@ export default function CreateUser({ roles, passwordRules }: CreateUserProps) {
                                 <PasswordSetupOption
                                     value="invitation"
                                     checked={passwordSetup === 'invitation'}
+                                    disabled={!mailEnabled}
                                     onSelect={setPasswordSetup}
                                     label={t('Send invitation')}
-                                    hint={t(
-                                        'The new user receives an email with a link to choose a password.',
-                                    )}
+                                    hint={
+                                        mailEnabled
+                                            ? t(
+                                                  'The new user receives an email with a link to choose a password.',
+                                              )
+                                            : t(
+                                                  'Email is switched off, so no invitation can be sent.',
+                                              )
+                                    }
                                 />
                                 <PasswordSetupOption
                                     value="password"
@@ -157,23 +167,26 @@ export default function CreateUser({ roles, passwordRules }: CreateUserProps) {
 function PasswordSetupOption({
     value,
     checked,
+    disabled = false,
     onSelect,
     label,
     hint,
 }: {
     value: PasswordSetup;
     checked: boolean;
+    disabled?: boolean;
     onSelect: (value: PasswordSetup) => void;
     label: string;
     hint: string;
 }) {
     return (
-        <label className="flex cursor-pointer items-start gap-3 rounded-brand border border-brand-line p-3 has-checked:border-brand-accent has-checked:bg-brand-accent-wash">
+        <label className="flex cursor-pointer items-start gap-3 rounded-brand border border-brand-line p-3 has-checked:border-brand-accent has-checked:bg-brand-accent-wash has-disabled:cursor-not-allowed has-disabled:opacity-60">
             <input
                 type="radio"
                 name="password_setup"
                 value={value}
                 checked={checked}
+                disabled={disabled}
                 onChange={() => onSelect(value)}
                 className="mt-1 accent-brand-accent"
             />

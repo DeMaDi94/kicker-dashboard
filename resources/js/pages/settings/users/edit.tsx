@@ -1,4 +1,4 @@
-import { Form, Head, router, setLayoutProps } from '@inertiajs/react';
+import { Form, Head, router, setLayoutProps, usePage } from '@inertiajs/react';
 import UpdateUserController from '@/actions/App/Http/Users/UpdateUser/UpdateUserController';
 import { useConfirm } from '@/components/core/dialogs';
 import { toast } from '@/components/core/toast';
@@ -36,6 +36,7 @@ export default function EditUser({
     demoteRefusal,
 }: EditUserProps) {
     const { t } = useTranslation();
+    const { mailEnabled } = usePage().props;
 
     setLayoutProps({
         breadcrumbs: [
@@ -131,9 +132,19 @@ export default function EditUser({
                         'Send the user an email with a link to choose a new password.',
                     )}
                 />
-                <Button variant="outline" onClick={sendResetLink}>
+                {/* D16 — no reset link while outgoing mail is switched off. */}
+                <Button
+                    variant="outline"
+                    onClick={sendResetLink}
+                    disabled={!mailEnabled}
+                >
                     {t('Send password reset link')}
                 </Button>
+                {!mailEnabled && (
+                    <p className="text-sm text-brand-muted">
+                        {t('Email is switched off, so no link can be sent.')}
+                    </p>
+                )}
             </div>
 
             <div className="space-y-4">

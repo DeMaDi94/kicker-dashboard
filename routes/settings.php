@@ -5,11 +5,13 @@ use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
 use App\Http\Users\CreateUser\CreateUserController;
 use App\Http\Users\DeleteUser\DeleteUserController;
+use App\Http\Users\EditMailSettings\EditMailSettingsController;
 use App\Http\Users\EditUser\EditUserController;
 use App\Http\Users\ListUsers\ListUsersController;
 use App\Http\Users\RestoreUser\RestoreUserController;
 use App\Http\Users\SendPasswordResetLink\SendPasswordResetLinkController;
 use App\Http\Users\StoreUser\StoreUserController;
+use App\Http\Users\UpdateMailSettings\UpdateMailSettingsController;
 use App\Http\Users\UpdateUser\UpdateUserController;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +53,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->can(Permission::DeleteUsers->value)->name('users.destroy');
     Route::post('settings/users/{user}/restore', RestoreUserController::class)
         ->withTrashed()->can(Permission::DeleteUsers->value)->name('users.restore');
+
+    // D16 — outgoing mail, switched on and off by an admin.
+    Route::get('settings/mail', EditMailSettingsController::class)
+        ->can(Permission::ManageSettings->value)->name('mail-settings.edit');
+    Route::patch('settings/mail', UpdateMailSettingsController::class)
+        ->can(Permission::ManageSettings->value)->name('mail-settings.update');
 });
 
 Route::get('.well-known/passkey-endpoints', function () {

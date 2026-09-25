@@ -6,6 +6,7 @@ import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { cn, toUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
+import { edit as editMailSettings } from '@/routes/mail-settings';
 import { edit } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
 import { index as users } from '@/routes/users';
@@ -36,6 +37,13 @@ const usersNavItem: NavItem = {
     icon: null,
 };
 
+/* D16 — shown only to whoever may change the installation's settings. */
+const mailNavItem: NavItem = {
+    title: i18nKey('Email'),
+    href: editMailSettings(),
+    icon: null,
+};
+
 /*
  * The account settings: a title, a short list of sections beside the form —
  * marked the way the navigation rail marks its entries — and the form itself
@@ -48,9 +56,11 @@ export default function SettingsLayout({
     const { isCurrentOrParentUrl } = useCurrentUrl();
     const { t } = useTranslation();
     const { auth } = usePage().props;
-    const sidebarNavItems = auth.permissions.includes('users.view')
-        ? [...accountNavItems, usersNavItem]
-        : accountNavItems;
+    const sidebarNavItems = [
+        ...accountNavItems,
+        ...(auth.permissions.includes('users.view') ? [usersNavItem] : []),
+        ...(auth.permissions.includes('settings.manage') ? [mailNavItem] : []),
+    ];
 
     return (
         <>

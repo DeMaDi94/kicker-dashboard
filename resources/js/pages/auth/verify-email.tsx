@@ -1,5 +1,5 @@
 // Components
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -10,6 +10,7 @@ import { i18nKey } from '@/lib/i18n';
 
 export default function VerifyEmail({ status }: { status?: string }) {
     const { t } = useTranslation();
+    const { mailEnabled } = usePage().props;
 
     return (
         <>
@@ -26,10 +27,22 @@ export default function VerifyEmail({ status }: { status?: string }) {
             <Form {...send.form()} className="space-y-6 text-center">
                 {({ processing }) => (
                     <>
-                        <Button disabled={processing} variant="secondary">
+                        {/* D16 — no verification mail while outgoing mail is switched off. */}
+                        <Button
+                            disabled={processing || !mailEnabled}
+                            variant="secondary"
+                        >
                             {processing && <Spinner />}
                             {t('Resend verification email')}
                         </Button>
+
+                        {!mailEnabled && (
+                            <p className="text-sm text-brand-muted">
+                                {t(
+                                    'Email is switched off, so no link can be sent.',
+                                )}
+                            </p>
+                        )}
 
                         <TextLink
                             href={logout()}

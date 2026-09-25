@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Users\Role;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -64,6 +65,14 @@ function admin(array $attributes = []): User
 function member(array $attributes = []): User
 {
     return User::factory()->withRole(Role::User)->create($attributes);
+}
+
+/**
+ * D16 — outgoing mail switched on; an installation starts with it off.
+ */
+function mailOn(): void
+{
+    Setting::current()->fill(['mail_enabled' => true])->save();
 }
 
 /**

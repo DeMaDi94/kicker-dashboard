@@ -59,6 +59,7 @@ namespace column — do not invent an area name.
 | Berechtigung (permission) | `Permission` | What a role allows, e.g. `users.view`. The only thing code checks. |
 | Gelöschter Benutzer | soft-deleted `User` (`trashed()`) | Deleted, but restorable (B15). Not a permanently removed row. |
 | Einladung (invitation) | `UserInvitation` | The mail a new user sets their password through (B14). Not the password-reset mail. |
+| E-Mail-Versand (outgoing mail) | `Setting::mail_enabled`, `Setting::mailEnabled()` | Whether the app sends any mail at all — the one switch of D16. Not a user's own preference. |
 
 ## Terms of art that stay untranslated
 

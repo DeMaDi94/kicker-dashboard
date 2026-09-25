@@ -18,6 +18,8 @@ class VerificationNotificationTest extends TestCase
         parent::setUp();
 
         $this->skipUnlessFortifyHas(Features::emailVerification());
+
+        mailOn();
     }
 
     public function test_sends_verification_notification(): void

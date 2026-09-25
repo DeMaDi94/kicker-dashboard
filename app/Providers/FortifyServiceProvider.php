@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Actions\Fortify\ResetUserPassword;
 use App\Models\Passkey;
+use App\Models\Setting;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -58,7 +59,8 @@ class FortifyServiceProvider extends ServiceProvider
     private function configureViews(): void
     {
         Fortify::loginView(fn (Request $request) => Inertia::render('auth/login', [
-            'canResetPassword' => Features::enabled(Features::resetPasswords()),
+            // D16 — „Forgot password“ sends a mail, so it is hidden while mail is off.
+            'canResetPassword' => Features::enabled(Features::resetPasswords()) && Setting::mailEnabled(),
             'status' => $request->session()->get('status'),
         ]));
 

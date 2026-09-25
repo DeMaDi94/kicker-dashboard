@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Middleware;
@@ -56,6 +57,8 @@ class HandleInertiaRequests extends Middleware
                than localStorage, so the server-rendered markup already has it
                and the rail does not unfold and snap shut. */
             'navCollapsed' => $request->cookie('nav_collapsed') === '1',
+            /* D16 — the screens that would send a mail say so while it is off. */
+            'mailEnabled' => Setting::mailEnabled(),
         ];
     }
 
