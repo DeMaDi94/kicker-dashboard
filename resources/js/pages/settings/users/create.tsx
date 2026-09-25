@@ -2,6 +2,7 @@ import { Form, Head, Link } from '@inertiajs/react';
 import StoreUserController from '@/actions/App/Http/Users/StoreUser/StoreUserController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import PasswordInput from '@/components/password-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,18 +10,25 @@ import { RoleSelect } from '@/features/users/role-select';
 import type { Role } from '@/features/users/types';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
+import { useState } from 'react';
 import { create, index } from '@/routes/users';
 
 type CreateUserProps = {
     roles: Role[];
+    passwordRules: string;
 };
+
+type PasswordSetup = 'invitation' | 'password';
 
 /*
  * B14 — the admin names the account and its role; the new user gets an
- * invitation to choose a password.
+ * invitation to choose a password. D15 — or the admin sets the password here;
+ * the invitation stays pre-selected.
  */
-export default function CreateUser({ roles }: CreateUserProps) {
+export default function CreateUser({ roles, passwordRules }: CreateUserProps) {
     const { t } = useTranslation();
+    const [passwordSetup, setPasswordSetup] =
+        useState<PasswordSetup>('invitation');
 
     return (
         <>
@@ -31,7 +39,7 @@ export default function CreateUser({ roles }: CreateUserProps) {
                     variant="small"
                     title={t('Create user')}
                     description={t(
-                        'The new user receives an email with a link to choose a password.',
+                        'Name the account, give it a role and choose how its password is set.',
                     )}
                 />
 
@@ -67,6 +75,69 @@ export default function CreateUser({ roles }: CreateUserProps) {
 
                             <RoleSelect roles={roles} error={errors.role} />
 
+                            <fieldset className="grid gap-2">
+                                <legend className="mb-2 text-sm font-medium">
+                                    {t('Password')}
+                                </legend>
+                                <PasswordSetupOption
+                                    value="invitation"
+                                    checked={passwordSetup === 'invitation'}
+                                    onSelect={setPasswordSetup}
+                                    label={t('Send invitation')}
+                                    hint={t(
+                                        'The new user receives an email with a link to choose a password.',
+                                    )}
+                                />
+                                <PasswordSetupOption
+                                    value="password"
+                                    checked={passwordSetup === 'password'}
+                                    onSelect={setPasswordSetup}
+                                    label={t('Set password now')}
+                                    hint={t(
+                                        'No email is sent. Pass the password on to the user yourself.',
+                                    )}
+                                />
+                                <InputError message={errors.password_setup} />
+                            </fieldset>
+
+                            {passwordSetup === 'password' && (
+                                <>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="password">
+                                            {t('Password')}
+                                        </Label>
+                                        <PasswordInput
+                                            id="password"
+                                            name="password"
+                                            required
+                                            autoComplete="new-password"
+                                            placeholder={t('Password')}
+                                            passwordrules={passwordRules}
+                                        />
+                                        <InputError message={errors.password} />
+                                    </div>
+
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="password_confirmation">
+                                            {t('Confirm password')}
+                                        </Label>
+                                        <PasswordInput
+                                            id="password_confirmation"
+                                            name="password_confirmation"
+                                            required
+                                            autoComplete="new-password"
+                                            placeholder={t('Confirm password')}
+                                            passwordrules={passwordRules}
+                                        />
+                                        <InputError
+                                            message={
+                                                errors.password_confirmation
+                                            }
+                                        />
+                                    </div>
+                                </>
+                            )}
+
                             <div className="flex items-center gap-4">
                                 <Button disabled={processing}>
                                     {t('Create user')}
@@ -80,6 +151,37 @@ export default function CreateUser({ roles }: CreateUserProps) {
                 </Form>
             </div>
         </>
+    );
+}
+
+function PasswordSetupOption({
+    value,
+    checked,
+    onSelect,
+    label,
+    hint,
+}: {
+    value: PasswordSetup;
+    checked: boolean;
+    onSelect: (value: PasswordSetup) => void;
+    label: string;
+    hint: string;
+}) {
+    return (
+        <label className="flex cursor-pointer items-start gap-3 rounded-brand border border-brand-line p-3 has-checked:border-brand-accent has-checked:bg-brand-accent-wash">
+            <input
+                type="radio"
+                name="password_setup"
+                value={value}
+                checked={checked}
+                onChange={() => onSelect(value)}
+                className="mt-1 accent-brand-accent"
+            />
+            <span className="grid gap-0.5">
+                <span className="text-sm font-medium">{label}</span>
+                <span className="text-sm text-brand-muted">{hint}</span>
+            </span>
+        </label>
     );
 }
 

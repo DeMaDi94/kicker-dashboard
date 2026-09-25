@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Users\StoreUser;
 
+use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Domain\Users\Role;
 use App\Models\User;
@@ -14,6 +15,7 @@ use Illuminate\Validation\Rule;
 
 final class StoreUserRequest extends FormRequest
 {
+    use PasswordValidationRules;
     use ProfileValidationRules;
 
     /**
@@ -37,6 +39,9 @@ final class StoreUserRequest extends FormRequest
                 },
             ],
             'role' => ['required', Rule::enum(Role::class)],
+            // D15 — the admin chooses between the invitation and a password of their own.
+            'password_setup' => ['required', Rule::in(['invitation', 'password'])],
+            'password' => ['exclude_unless:password_setup,password', ...$this->passwordRules()],
         ];
     }
 
@@ -57,6 +62,7 @@ final class StoreUserRequest extends FormRequest
             name: $this->string('name')->toString(),
             email: $this->string('email')->toString(),
             role: Role::from($this->string('role')->toString()),
+            password: $this->input('password_setup') === 'password' ? $this->string('password')->toString() : null,
         );
     }
 }

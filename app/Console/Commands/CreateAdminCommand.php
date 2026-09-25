@@ -34,6 +34,7 @@ final class CreateAdminCommand extends Command
             'name' => $name,
             'email' => config('fortify.lowercase_usernames') ? mb_strtolower($email) : $email,
             'role' => Role::Admin->value,
+            'password_setup' => 'invitation',
         ];
 
         $validator = Validator::make($input, (new StoreUserRequest)->rules());

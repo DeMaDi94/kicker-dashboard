@@ -14,7 +14,8 @@ describe('B14 · an admin creates a user', function () {
             ->assertOk()
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->component('settings/users/create')
-                ->where('roles', ['admin', 'user']));
+                ->where('roles', ['admin', 'user'])
+                ->has('passwordRules'));
     });
 
     it('creates the user with the chosen role and sends the invitation', function () {
@@ -24,6 +25,7 @@ describe('B14 · an admin creates a user', function () {
             'name' => 'Nora Neu',
             'email' => 'Nora@Example.com',
             'role' => 'user',
+            'password_setup' => 'invitation',
         ])->assertRedirect(route('users.index'));
 
         $user = User::firstWhere('email', 'nora@example.com');
@@ -43,6 +45,7 @@ describe('B14 · an admin creates a user', function () {
             'name' => 'Nora Neu',
             'email' => 'nora@example.com',
             'role' => 'user',
+            'password_setup' => 'invitation',
         ]);
         auth()->logout();
 
@@ -82,6 +85,7 @@ describe('B14 · an admin creates a user', function () {
             'name' => 'Second',
             'email' => 'taken@example.com',
             'role' => 'user',
+            'password_setup' => 'invitation',
         ])->assertInvalid(['email']);
     });
 
@@ -92,15 +96,81 @@ describe('B14 · an admin creates a user', function () {
             'name' => 'Second',
             'email' => 'gone@example.com',
             'role' => 'user',
+            'password_setup' => 'invitation',
         ])->assertInvalid(['email' => __('This email address belongs to a deleted user. Restore that user instead.')]);
     });
 
     it('B13 · refuses a user without the permission', function () {
         $this->actingAs(member())->get(route('users.create'))->assertForbidden();
         $this->actingAs(member())->post(route('users.store'), [
-            'name' => 'X', 'email' => 'x@example.com', 'role' => 'admin',
+            'name' => 'X', 'email' => 'x@example.com', 'role' => 'admin', 'password_setup' => 'invitation',
         ])->assertForbidden();
 
         expect(User::firstWhere('email', 'x@example.com'))->toBeNull();
+    });
+});
+
+describe('D15 · the admin sets the password instead of inviting', function () {
+    it('creates the user with that password, verified and without a mail', function () {
+        Notification::fake();
+
+        $this->actingAs(admin())->post(route('users.store'), [
+            'name' => 'Nora Neu',
+            'email' => 'nora@example.com',
+            'role' => 'user',
+            'password_setup' => 'password',
+            'password' => 'a-chosen-password',
+            'password_confirmation' => 'a-chosen-password',
+        ])->assertRedirect(route('users.index'))
+            ->assertInertiaFlash('toast.message', __('User created. They can sign in with the password you set.'));
+
+        $user = User::firstWhere('email', 'nora@example.com');
+
+        expect($user?->assignedRole())->toBe(Role::User)
+            ->and($user?->email_verified_at)->not->toBeNull();
+        Notification::assertNothingSent();
+
+        auth()->logout();
+        $this->post(route('login.store'), ['email' => 'nora@example.com', 'password' => 'a-chosen-password']);
+        $this->assertAuthenticatedAs($user);
+    });
+
+    it('requires the password, confirmed', function () {
+        $this->actingAs(admin())->post(route('users.store'), [
+            'name' => 'Nora Neu',
+            'email' => 'nora@example.com',
+            'role' => 'user',
+            'password_setup' => 'password',
+            'password' => 'a-chosen-password',
+            'password_confirmation' => 'something-else',
+        ])->assertInvalid(['password']);
+
+        expect(User::firstWhere('email', 'nora@example.com'))->toBeNull();
+    });
+
+    it('ignores a password sent along with the invitation', function () {
+        Notification::fake();
+
+        $this->actingAs(admin())->post(route('users.store'), [
+            'name' => 'Nora Neu',
+            'email' => 'nora@example.com',
+            'role' => 'user',
+            'password_setup' => 'invitation',
+            'password' => 'x',
+        ])->assertSessionHasNoErrors();
+
+        $user = User::firstWhere('email', 'nora@example.com');
+
+        expect($user?->email_verified_at)->toBeNull();
+        Notification::assertSentTo($user, UserInvitation::class);
+    });
+
+    it('requires a choice between invitation and password', function () {
+        $this->actingAs(admin())->post(route('users.store'), [
+            'name' => 'Nora Neu',
+            'email' => 'nora@example.com',
+            'role' => 'user',
+            'password_setup' => 'magic',
+        ])->assertInvalid(['password_setup']);
     });
 });
