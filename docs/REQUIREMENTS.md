@@ -7,8 +7,8 @@ unless a requirement says so.
 | | |
 | --- | --- |
 | Product | Vivalaraza — Tabellen und Strafen der internen kicker-Manager-Liga |
-| Requirements | 36 |
-| Last reviewed | 2026-09-24 (Q1–Q8 eingearbeitet) |
+| Requirements | 42 |
+| Last reviewed | 2026-09-25 (Besucherstatistik VIS-01–06) |
 
 Decisions and open questions live in [`DECISIONS.md`](DECISIONS.md); the domain vocabulary in
 [`GLOSSARY.md`](GLOSSARY.md).
@@ -59,6 +59,7 @@ bold id and an em dash; continuation lines are indented two spaces:
 5. Strafen (`PEN`)
 6. Gesamttabelle (`STD`)
 7. Statistiken (`STAT`)
+8. Besucher (`VIS`)
 
 ---
 
@@ -209,3 +210,23 @@ erfasst die App nicht.*
   kumuliert über die Saison; der Spieltag der Zwischenabrechnung (PEN-04) ist markiert.
 - **STAT-15** — Ein weiterer Liga-Rekord (wie STAT-10): der teuerste Spieltag, an dem das meiste
   Geld in die Kasse ging.
+
+## 8. Besucher (`VIS`)
+
+*Wann die öffentlichen Seiten aufgerufen werden – nur für Admins.*
+
+- **VIS-01** — Die App zählt jeden Aufruf einer öffentlichen Seite: „Saisonansicht“ (`/` und jede
+  Saison), „Mitspieler“ (jede Mitspielerseite), „Direktvergleich“ und „Liga-Rekorde“. Es zählen
+  nur Besucher ohne Anmeldung; Bots und Crawler zählen nicht.
+- **VIS-02** — Gespeichert werden je Aufruf nur die Seite, der Zeitpunkt und ein Kennzeichen, das
+  Besucher desselben Tages unterscheidet und täglich wechselt. IP-Adresse und Browserkennung
+  werden nicht gespeichert; es wird kein Cookie gesetzt.
+- **VIS-03** — Aufrufe, die älter als 12 Monate sind, werden gelöscht.
+- **VIS-04** — Die Besucherstatistik sehen nur Admins, unter „Besucher“ in der Navigation. Sie
+  zeigt einen wählbaren Zeitraum – die letzten 7, 30, 90 oder 365 Tage, heute eingeschlossen;
+  vorausgewählt sind 30 Tage. Alle Zeiten gelten in deutscher Zeit (Europe/Berlin).
+- **VIS-05** — Für den Zeitraum zeigt sie die Summe der Aufrufe und der Besucher sowie einen
+  Graphen der Aufrufe und Besucher je Tag. Besucher werden je Tag gezählt; die Summe des Zeitraums
+  ist die Summe der Tage.
+- **VIS-06** — Sie zeigt die Aufrufe des Zeitraums nach Wochentag (Montag bis Sonntag) und Stunde
+  (0–23) als Heatmap und als Balken je Stunde, sowie je Seite (VIS-01), die meisten zuerst.

@@ -22,6 +22,7 @@ namespace column — do not invent an area name.
 | PEN | Strafen | `Penalties` (domain only) | — |
 | STD | Gesamttabelle | `Standings` (domain only) | — |
 | STAT | Statistiken | `Statistics` | `features/statistics`, `pages/statistics` |
+| VIS | Besucher | `Visits` | `features/visits`, `pages/visits` |
 
 ## Core entities
 
@@ -49,6 +50,9 @@ namespace column — do not invent an area name.
 | Liga-Rekorde (league records) | `LeagueRecords`, `LeagueRecord`, `RecordHolder` | STAT-10. |
 | Strafenkasse (penalty box) | `PenaltyBox` | What a season's penalties add up to, and who paid what (STAT-12). |
 | Gesamttabelle (overall table) | `Standings` | The season's ranking by points over the complete matchdays (STD-01). |
+| Aufruf (visit) | `Visit` | One counted request of a public page by a guest (VIS-01). Not a visitor. |
+| Besucher (visitor) | `visitor` — the day's mark | Who called, told apart within one day only (VIS-02, VIS-05). Not a `User` and not a `Player`. |
+| Öffentliche Seite (public page) | `PublicPage` | Saisonansicht, Mitspieler, Direktvergleich, Liga-Rekorde (VIS-01). |
 | Benutzer (user) | `User` | An account that can sign in. Also the name of the plain role — the enum case `Role::User`. |
 | Rolle (role) | `Role` | What a user is, exactly one per user (B13). Not a permission: code never checks a role. |
 | Berechtigung (permission) | `Permission` | What a role allows, e.g. `users.view`. The only thing code checks. |
@@ -71,3 +75,7 @@ Enum **cases** are English; their stored value is the wire format; their label i
 | --- | --- | --- | --- |
 | `Role` | `Admin` | `admin` | `Admin` — de „Administrator“ |
 | `Role` | `User` | `user` | `User` — de „Benutzer“ |
+| `PublicPage` | `SeasonView` | `season` | `Season view` — de „Saisonansicht“ |
+| `PublicPage` | `Player` | `player` | `Players` — de „Mitspieler“ |
+| `PublicPage` | `HeadToHead` | `compare` | `Head-to-head` — de „Direktvergleich“ |
+| `PublicPage` | `Records` | `records` | `League records` — de „Liga-Rekorde“ |
