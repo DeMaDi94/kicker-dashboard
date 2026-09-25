@@ -39,6 +39,7 @@ Requires PHP 8.5, Node 22, Composer 2 and `jq` (for the Claude hooks). See
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | The decisions in force (`B*` blueprint, `D*` project) and the questions still open |
 | [`docs/GLOSSARY.md`](docs/GLOSSARY.md) | Domain term → identifier, and area prefix → namespace |
 | [`docs/STACK.md`](docs/STACK.md) | Exact installed versions and the conventions set up front |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Hosting options, cost estimate and go-live steps (proposal) |
 | [`docs/spec/status.txt`](docs/spec/status.txt) | Implementation status, one line per requirement |
 | [`docs/spec/COVERAGE.md`](docs/spec/COVERAGE.md) | Generated report — which tests cite which requirement |
 | `app/Domain/` | The requirements' rules, framework-free, by area |
