@@ -1,5 +1,5 @@
 /*
- * The legend above a graph with two series (STAT-04, STAT-09), so identity is
+ * The legend above a graph with two series (STAT-04, STAT-09, VIS-05), so identity is
  * never carried by colour alone.
  */
 export function ChartLegend({

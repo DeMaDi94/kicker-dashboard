@@ -9,9 +9,9 @@ Researched 2026-09-25. Prices change — check the providers' pricing pages befo
 
 - **PHP only at runtime.** One Laravel monolith (B1); Node is needed only to build the assets
   (`npm run build`).
-- **No worker and no cron.** Nothing in `app/` is queued and `routes/console.php` schedules
-  nothing, so `QUEUE_CONNECTION=sync` is enough today. Revisit when a queued job or a scheduled
-  command is added.
+- **No worker, but the scheduler.** Nothing in `app/` is queued, so `QUEUE_CONNECTION=sync` is
+  enough. `routes/console.php` prunes visits older than 12 months nightly (VIS-03, D14), so
+  `php artisan schedule:run` must run every minute (cron, or the host's scheduler toggle).
 - **Outgoing mail.** Password reset and the admin invitation (B14) send mail, so an SMTP service
   is required.
 - **HTTPS.** Passkeys (B2) need a secure context.

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 /*
  * One figure with its label — the form a single headline number takes
- * instead of a chart (STAT-03, STAT-07, STAT-08).
+ * instead of a chart (STAT-03, STAT-07, STAT-08, VIS-05).
  */
 export function StatTile({
     label,

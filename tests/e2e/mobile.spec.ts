@@ -11,6 +11,8 @@ const PAGES = [
     '/seasons/create',
     '/settings/profile',
     '/settings/users',
+    // VIS-04 — the visit statistics; the heatmap scrolls inside its panel.
+    '/visits',
 ];
 
 test.use({ viewport: { width: 320, height: 640 } });

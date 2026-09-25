@@ -23,4 +23,7 @@ enum Permission: string
     case SetSeasonSettlement = 'seasons.set-settlement';
     // SEA-06 — deleting a season; restoring one needs it too.
     case DeleteSeasons = 'seasons.delete';
+
+    // VIS-04, D14 — the visit statistics, for admins only.
+    case ViewVisits = 'visits.view';
 }

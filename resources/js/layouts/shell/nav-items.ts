@@ -1,9 +1,10 @@
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { LucideIcon } from 'lucide-react';
-import { Medal, Trophy, Users } from 'lucide-react';
+import { ChartLine, Medal, Trophy, Users } from 'lucide-react';
 import { i18nKey } from '@/lib/i18n';
 import { home, records } from '@/routes';
 import { index as players } from '@/routes/players';
+import { index as visits } from '@/routes/visits';
 
 /**
  * One entry of the navigation rail. `title` is a translation key, rendered
@@ -44,5 +45,13 @@ export const NAV_ITEMS: ShellNavItem[] = [
         sections: ['/players'],
         // ACC-03
         permission: 'players.create',
+    },
+    {
+        // VIS-04, D14 — the last entry, for admins only.
+        title: i18nKey('Visitors'),
+        href: visits(),
+        icon: ChartLine,
+        sections: ['/visits'],
+        permission: 'visits.view',
     },
 ];

@@ -2,6 +2,7 @@
 
 use App\Domain\Seasons\SeasonLength;
 use App\Domain\Users\Permission;
+use App\Domain\Visits\PublicPage;
 use App\Http\Matchdays\EditMatchday\EditMatchdayController;
 use App\Http\Matchdays\UpdateMatchday\UpdateMatchdayController;
 use App\Http\Players\CreatePlayer\CreatePlayerController;
@@ -22,10 +23,17 @@ use App\Http\Seasons\UpdateSeasonSettlement\UpdateSeasonSettlementController;
 use App\Http\Statistics\ComparePlayers\ComparePlayersController;
 use App\Http\Statistics\ShowPlayer\ShowPlayerController;
 use App\Http\Statistics\ShowRecords\ShowRecordsController;
+use App\Http\Visits\CountVisit\CountVisitMiddleware;
+use App\Http\Visits\ShowVisits\ShowVisitsController;
 use Illuminate\Support\Facades\Route;
 
+/*
+ * VIS-01 — a guest's visit of a public page is counted.
+ */
+$countVisit = fn (PublicPage $page): string => CountVisitMiddleware::class.':'.$page->value;
+
 // D1 / ACC-01 — `/` is the public season view; no sign-in needed to read.
-Route::get('/', ShowSeasonController::class)->name('home');
+Route::get('/', ShowSeasonController::class)->middleware($countVisit(PublicPage::SeasonView))->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // ACC-03 — players and seasons are created by admins only; players are never edited or deleted.
@@ -69,6 +77,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('seasons/{season}/matchdays/{matchday}', UpdateMatchdayController::class)
         ->whereIn('matchday', array_map(strval(...), SeasonLength::matchdays()))->name('matchdays.update');
 
+    // VIS-04 — the visit statistics, for admins only.
+    Route::get('visits', ShowVisitsController::class)
+        ->can(Permission::ViewVisits->value)->name('visits.index');
+
     /*
      * The primitive gallery: every components/core primitive in its states,
      * inside the real shell. It carries no data and is never registered in
@@ -80,11 +92,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // ACC-01 — every season is readable without signing in.
-Route::get('seasons/{season}', ShowSeasonController::class)->name('seasons.show');
+Route::get('seasons/{season}', ShowSeasonController::class)->middleware($countVisit(PublicPage::SeasonView))->name('seasons.show');
 
 // STAT-01, STAT-09, STAT-10 — the statistics are public too.
-Route::get('players/{player}', ShowPlayerController::class)->whereNumber('player')->name('players.show');
-Route::get('seasons/{season}/compare', ComparePlayersController::class)->name('seasons.compare');
-Route::get('records', ShowRecordsController::class)->name('records');
+Route::get('players/{player}', ShowPlayerController::class)->whereNumber('player')
+    ->middleware($countVisit(PublicPage::Player))->name('players.show');
+Route::get('seasons/{season}/compare', ComparePlayersController::class)
+    ->middleware($countVisit(PublicPage::HeadToHead))->name('seasons.compare');
+Route::get('records', ShowRecordsController::class)
+    ->middleware($countVisit(PublicPage::Records))->name('records');
 
 require __DIR__.'/settings.php';

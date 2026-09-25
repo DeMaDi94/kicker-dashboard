@@ -43,9 +43,9 @@ STAT-12  done
 STAT-13  done
 STAT-14  wont-do      product owner 2026-09-24: the two penalty-box graphs made no sense and were removed; the box shows totals and payers only (STAT-12)
 STAT-15  done
-VIS-01   planned
-VIS-02   planned
-VIS-03   planned
-VIS-04   planned
-VIS-05   planned
-VIS-06   planned
+VIS-01   done
+VIS-02   done
+VIS-03   done
+VIS-04   done
+VIS-05   done
+VIS-06   done

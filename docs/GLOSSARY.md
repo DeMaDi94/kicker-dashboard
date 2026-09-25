@@ -53,6 +53,7 @@ namespace column — do not invent an area name.
 | Aufruf (visit) | `Visit` | One counted request of a public page by a guest (VIS-01). Not a visitor. |
 | Besucher (visitor) | `visitor` — the day's mark | Who called, told apart within one day only (VIS-02, VIS-05). Not a `User` and not a `Player`. |
 | Öffentliche Seite (public page) | `PublicPage` | Saisonansicht, Mitspieler, Direktvergleich, Liga-Rekorde (VIS-01). |
+| Zeitraum (period) | `VisitPeriod` | The last 7, 30, 90 or 365 days the visit statistics show, today included (VIS-04). |
 | Benutzer (user) | `User` | An account that can sign in. Also the name of the plain role — the enum case `Role::User`. |
 | Rolle (role) | `Role` | What a user is, exactly one per user (B13). Not a permission: code never checks a role. |
 | Berechtigung (permission) | `Permission` | What a role allows, e.g. `users.view`. The only thing code checks. |

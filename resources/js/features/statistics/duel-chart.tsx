@@ -8,7 +8,7 @@ import {
     YAxis,
 } from 'recharts';
 import { useTranslation } from '@/hooks/use-translation';
-import { ChartLegend } from './chart-legend';
+import { ChartLegend } from '@/components/core/chart-legend';
 import { AXIS_TICK, CHART, ChartTooltip } from '@/components/core/chart';
 import type { HeadToHead } from './types';
 

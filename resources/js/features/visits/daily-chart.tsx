@@ -7,43 +7,44 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
+import { AXIS_TICK, CHART, ChartTooltip } from '@/components/core/chart';
+import { ChartLegend } from '@/components/core/chart-legend';
 import { useTranslation } from '@/hooks/use-translation';
 import { formatNumber } from '@/lib/number';
-import { ChartLegend } from '@/components/core/chart-legend';
-import { AXIS_TICK, CHART, ChartTooltip } from '@/components/core/chart';
-import type { MatchdayLine } from './types';
+import { longDate, shortDate } from './dates';
+import type { VisitDay } from './types';
 
 /*
- * STAT-04 — the player's points per matchday as a line, the league average of
- * each matchday as a dashed reference line on the same axis.
+ * VIS-05 — the visits and the visitors of each day of the period, as two
+ * lines on one axis.
  */
-export function PointsChart({ lines }: { lines: MatchdayLine[] }) {
+export function DailyChart({ days }: { days: VisitDay[] }) {
     const { t, locale } = useTranslation();
 
     return (
         <div>
             <ChartLegend
                 items={[
-                    { label: t('Points'), color: CHART.one },
-                    {
-                        label: t('League average'),
-                        color: CHART.reference,
-                        dashed: true,
-                    },
+                    { label: t('Visits'), color: CHART.one },
+                    { label: t('Visitors'), color: CHART.two },
                 ]}
             />
             <div className="h-56 px-1 pb-2">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
-                        data={lines}
+                        data={days}
                         margin={{ top: 12, right: 12, bottom: 0, left: 0 }}
                     >
                         <CartesianGrid vertical={false} stroke={CHART.grid} />
                         <XAxis
-                            dataKey="matchday"
+                            dataKey="date"
                             tick={AXIS_TICK}
                             tickLine={false}
                             axisLine={{ stroke: CHART.grid }}
+                            tickFormatter={(date: string) =>
+                                shortDate(date, locale)
+                            }
+                            minTickGap={24}
                         />
                         <YAxis
                             width={36}
@@ -55,30 +56,29 @@ export function PointsChart({ lines }: { lines: MatchdayLine[] }) {
                         <Tooltip
                             cursor={{ stroke: CHART.grid }}
                             content={({ active, label }) => {
-                                const line = lines.find(
-                                    (each) => each.matchday === label,
+                                const day = days.find(
+                                    (each) => each.date === label,
                                 );
 
-                                return active && line ? (
+                                return active && day ? (
                                     <ChartTooltip
-                                        title={t('Matchday :number', {
-                                            number: line.matchday,
-                                        })}
+                                        title={longDate(day.date, locale)}
                                         rows={[
                                             {
-                                                label: t('Points'),
-                                                value: line.points,
+                                                label: t('Visits'),
+                                                value: formatNumber(
+                                                    day.visits,
+                                                    locale,
+                                                ),
                                                 color: CHART.one,
                                             },
                                             {
-                                                label: t('League average'),
+                                                label: t('Visitors'),
                                                 value: formatNumber(
-                                                    line.leagueAverage,
+                                                    day.visitors,
                                                     locale,
-                                                    1,
                                                 ),
-                                                color: CHART.reference,
-                                                dashed: true,
+                                                color: CHART.two,
                                             },
                                         ]}
                                     />
@@ -86,17 +86,16 @@ export function PointsChart({ lines }: { lines: MatchdayLine[] }) {
                             }}
                         />
                         <Line
-                            dataKey="points"
+                            dataKey="visits"
                             stroke={CHART.one}
                             strokeWidth={2}
-                            dot={{ r: 4, fill: CHART.one, strokeWidth: 0 }}
+                            dot={false}
                             isAnimationActive={false}
                         />
                         <Line
-                            dataKey="leagueAverage"
-                            stroke={CHART.reference}
+                            dataKey="visitors"
+                            stroke={CHART.two}
                             strokeWidth={2}
-                            strokeDasharray="4 3"
                             dot={false}
                             isAnimationActive={false}
                         />

@@ -10,7 +10,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { DuelChart } from '@/features/statistics/duel-chart';
-import { StatTile } from '@/features/statistics/stat-tile';
+import { StatTile } from '@/components/core/stat-tile';
 import type {
     HeadToHead,
     Option,

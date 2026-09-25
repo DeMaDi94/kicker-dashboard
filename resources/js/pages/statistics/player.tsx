@@ -13,7 +13,7 @@ import { FormStrip } from '@/features/statistics/form-strip';
 import { PenaltyChart } from '@/features/statistics/penalty-chart';
 import { PlaceChart } from '@/features/statistics/place-chart';
 import { PointsChart } from '@/features/statistics/points-chart';
-import { StatTile } from '@/features/statistics/stat-tile';
+import { StatTile } from '@/components/core/stat-tile';
 import type {
     CareerStats,
     Option,
