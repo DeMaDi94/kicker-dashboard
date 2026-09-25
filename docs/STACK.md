@@ -95,3 +95,4 @@ hook refuses them.
 | `npm run test:e2e` | Playwright, boots its own server |
 | `php artisan migrate:fresh --seed` | Reset the database |
 | `php artisan users:create-admin` | Create an admin and send the invitation — the first one of an installation (B14) |
+| `php artisan users:set-password` | Set an existing user's password and mark the address verified, when the invitation cannot arrive (D13) |
