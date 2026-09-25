@@ -32,6 +32,17 @@
 
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
+        {{-- MD-07, D18 — a messenger's preview of a link to a complete matchday --}}
+        @isset($preview)
+            <meta property="og:type" content="website">
+            <meta property="og:title" content="{{ $preview['title'] }}">
+            <meta property="og:description" content="{{ $preview['description'] }}">
+            <meta property="og:url" content="{{ $preview['url'] }}">
+            <meta property="og:image" content="{{ asset('og-image.png') }}">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
+        @endisset
+
         @fonts
 
         @viteReactRefresh

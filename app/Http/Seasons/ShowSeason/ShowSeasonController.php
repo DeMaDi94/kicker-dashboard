@@ -14,8 +14,12 @@ use Inertia\Response;
  */
 final class ShowSeasonController
 {
-    public function __invoke(Request $request, ShowSeasonService $show, ?Season $season = null): Response
+    public function __invoke(Request $request, ShowSeasonService $show, MatchdayPreview $preview, ?Season $season = null): Response
     {
-        return Inertia::render('seasons/show', $show($season, $request->user()));
+        $view = $show($season, $request->user());
+
+        // MD-07 — the preview tags go into the HTML itself: a messenger runs no script.
+        return Inertia::render('seasons/show', $view)
+            ->withViewData('preview', $preview($view, $request->integer('matchday')));
     }
 }

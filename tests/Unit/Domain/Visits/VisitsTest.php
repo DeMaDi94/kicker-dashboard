@@ -43,6 +43,9 @@ describe('VIS-01 · bots and crawlers do not count (D14)', function () {
         'python-requests/2.31',
         'Go-http-client/2.0',
         'CCBot CRAWLER',
+        // D18 — a messenger's link preview (MD-07) is no visit.
+        'WhatsApp/2.23.20.0 A',
+        'TelegramBot (like TwitterBot)',
     ]);
 });
 

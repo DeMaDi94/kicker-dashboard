@@ -125,3 +125,30 @@ it('follows a change of points (MD-04)', function () {
             ->where('matchdays.0.rows.0.name', 'Anna')
             ->where('matchdays.0.rows.0.place', 1));
 });
+
+describe('MD-07 · the preview of a link to a complete matchday (D18)', function () {
+    it('names the matchday, its winners and „Rote Laterne“ with their points, and the fixed image', function () {
+        config(['app.name' => 'Vivalaraza']);
+        $season = leagueSeason();
+        enterPoints($season, 7, ['Anna' => 29, 'Bert' => 84, 'Cleo' => 84]);
+
+        $this->get(route('seasons.show', ['season' => $season, 'matchday' => 7]))
+            ->assertOk()
+            ->assertSee('<meta property="og:title" content="Vivalaraza 2026/27 · Spieltag 7">', false)
+            ->assertSee('<meta property="og:description" content="Tagessieger: Bert, Cleo (84 Punkte) · Rote Laterne: Anna (29 Punkte)">', false)
+            ->assertSee('<meta property="og:url" content="'.route('seasons.show', ['season' => $season, 'matchday' => 7]).'">', false)
+            ->assertSee('<meta property="og:image" content="'.asset('og-image.png').'">', false);
+
+        expect(public_path('og-image.png'))->toBeFile();
+    });
+
+    it('has no preview without a matchday in the address, or for one not complete (MD-02)', function (string $query) {
+        $season = leagueSeason();
+        enterPoints($season, 7, ['Anna' => 29, 'Bert' => 84, 'Cleo' => 84]);
+        enterPoints($season, 8, ['Anna' => 50]);
+
+        $this->get(route('seasons.show', $season).$query)
+            ->assertOk()
+            ->assertDontSee('og:title', false);
+    })->with(['none' => '', 'incomplete' => '?matchday=8', 'empty' => '?matchday=9', 'unknown' => '?matchday=99']);
+});

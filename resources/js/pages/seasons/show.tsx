@@ -32,6 +32,10 @@ import type {
     StandingLine,
 } from '@/features/seasons/types';
 import { seasonTrail } from '@/features/seasons/season-trail';
+import {
+    matchdayShareText,
+    ShareMatchdayButton,
+} from '@/features/seasons/share-matchday';
 import { useTranslation } from '@/hooks/use-translation';
 import { i18nKey } from '@/lib/i18n';
 import { formatCents } from '@/lib/money';
@@ -93,6 +97,23 @@ export default function ShowSeason({
         initialMatchday(url, matchdays),
     );
     const matchday = matchdays.find((each) => each.number === matchdayNumber);
+    /* D18 — the link opens this season on this matchday, not `/`. */
+    const shareText =
+        season === null || matchday === undefined
+            ? null
+            : matchdayShareText({
+                  app: props.name,
+                  seasonName: season.name,
+                  matchday,
+                  url: new URL(
+                      show(season.id, {
+                          query: { matchday: matchday.number },
+                      }).url,
+                      window.location.origin,
+                  ).href,
+                  t,
+                  locale,
+              });
     const can = (permission: string) => auth.permissions.includes(permission);
     const confirm = useConfirm();
 
@@ -293,6 +314,9 @@ export default function ShowSeason({
                                     ))}
                                 </SelectContent>
                             </Select>
+                            {shareText !== null && (
+                                <ShareMatchdayButton text={shareText} />
+                            )}
                             {auth.user !== null && (
                                 <Button size="sm" asChild>
                                     <Link

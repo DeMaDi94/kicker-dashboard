@@ -24,6 +24,8 @@ MD-02    done
 MD-03    done
 MD-04    done
 MD-05    done
+MD-06    done
+MD-07    done
 PEN-01   done
 PEN-02   done
 PEN-03   done

@@ -39,6 +39,8 @@ namespace column — do not invent an area name.
 | Punkte (points) | `Score` / `points` | A player's points on one matchday from the kicker Manager (MD-01). Not the place. |
 | Spieltagswertung (matchday ranking) | `readMatchdayRanking`, `KickerRow` | The block of the copied kicker league page with each name's points on one matchday (MD-05). Not the „Saisonwertung“, kicker's season total. |
 | Abgeschlossener Spieltag | complete matchday (`MatchdayPlaces::isComplete`) | Every player of the season has points (MD-02). |
+| Teilen (share) | `matchdayShareText`, `ShareMatchdayButton` | A complete matchday handed on as text through the device's share menu or the clipboard (MD-06). Not the kicker import (MD-05). |
+| Link-Vorschau (link preview) | `MatchdayPreview` | The Open Graph title, description and image a messenger shows for a link to a complete matchday (MD-07, D18). |
 | Platz (place) | `place` | Rank on a matchday or in the overall table, counted densely (MD-03, D5). |
 | Strafe (penalty) | `penalty`, in cents | What a place pays per complete matchday (PEN-01). |
 | Startbetrag / Schrittweite | `penaltyStartCents` / `penaltyStepCents` — `PenaltyScale` | The lowest score's penalty and the amount each higher score pays less (PEN-01). |

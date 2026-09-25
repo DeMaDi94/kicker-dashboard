@@ -1,5 +1,6 @@
 {
     "2FA recovery codes": "Wiederherstellungscodes",
+    ":app :season · Matchday :number": ":app :season · Spieltag :number",
     ":browser on :os": ":browser auf :os",
     ":count matchdays": ":count Spieltage",
     ":count points": ":count Punkte",
@@ -55,6 +56,7 @@
     "Confirming...": "Wird bestätigt …",
     "Continue": "Weiter",
     "Continue setup": "Einrichtung fortsetzen",
+    "Copied": "Kopiert",
     "Copied league page": "Kopierte Liga-Seite",
     "Could not load the view „:view“: :message": "Fehler beim Laden der Ansicht „:view“: :message",
     "Counted per day": "Je Tag gezählt",
@@ -144,6 +146,7 @@
     "Matchday": "Spieltag",
     "Matchday :number": ":number. Spieltag",
     "Matchday winner": "Tagessieger",
+    "Matchday winner: :names (:points points)": "Tagessieger: :names (:points Punkte)",
     "Matchday wins": "Spieltagssiege",
     "Middle": "mittel",
     "Most expensive matchday": "Teuerster Spieltag",
@@ -247,6 +250,7 @@
     "Restore": "Wiederherstellen",
     "Role": "Rolle",
     "Rote Laterne": "Rote Laterne",
+    "Rote Laterne: :names (:points points)": "Rote Laterne: :names (:points Punkte)",
     "Save": "Speichern",
     "Save points": "Punkte speichern",
     "Search name or email": "Name oder E-Mail suchen",
@@ -272,6 +276,7 @@
     "Set password": "Passwort festlegen",
     "Set password now": "Passwort jetzt setzen",
     "Settings": "Einstellungen",
+    "Share": "Teilen",
     "Show all": "Alle anzeigen",
     "Show password": "Passwort anzeigen",
     "Sign in with a passkey": "Mit Passkey anmelden",
@@ -356,5 +361,6 @@
     "matchdays": "Spieltage",
     "matchdays ahead": "Spieltage vorn",
     "or you can": "oder Du kannst Dich",
-    "or, enter the code manually": "oder Code manuell eingeben"
+    "or, enter the code manually": "oder Code manuell eingeben",
+    "Ø :average points · :amount into the box": "Ø :average Punkte · :amount in die Kasse"
 }

@@ -7,8 +7,8 @@ unless a requirement says so.
 | | |
 | --- | --- |
 | Product | Vivalaraza — Tabellen und Strafen der internen kicker-Manager-Liga |
-| Requirements | 49 |
-| Last reviewed | 2026-09-25 (Mitspieler ändern PLY-02, Neuigkeiten NEWS-01–03, Verlauf LOG-01–03) |
+| Requirements | 51 |
+| Last reviewed | 2026-09-25 (Spieltag teilen MD-06, Link-Vorschau MD-07) |
 
 Decisions and open questions live in [`DECISIONS.md`](DECISIONS.md); the domain vocabulary in
 [`GLOSSARY.md`](GLOSSARY.md).
@@ -132,6 +132,15 @@ kopierten Liga-Seite übernommen.*
   Punkte über den Alias (PLY-01) den Mitspielern zu und trägt sie in die Eingabefelder ein;
   gespeichert wird erst mit „Punkte speichern“. Mitspieler ohne Punkte im Text und Namen im Text
   ohne passenden Mitspieler nennt die App; deren Felder bleiben unverändert.
+- **MD-06** — Jeden abgeschlossenen Spieltag (MD-02) kann jeder mit „Teilen“ weitergeben, auch
+  ohne Anmeldung. Geteilt wird ein Text mit dem ganzen Tagesergebnis: die Kopfzeile
+  „Vivalaraza 2026/27 · Spieltag 7“, je Mitspieler in der Reihenfolge des Spieltags eine Zeile mit
+  Platz, Name, Punkten und Strafe („1. BK 84 · 0,00 €“), danach „Ø 57,3 Punkte · 27,50 € in die
+  Kasse“ und zuletzt der Link, der die Saisonansicht auf diesem Spieltag öffnet. Wo das Gerät kein
+  Teilen-Menü hat, kopiert die App den Text und meldet „Kopiert“.
+- **MD-07** — Ein geteilter Link auf einen abgeschlossenen Spieltag zeigt in Messengern eine
+  Vorschau: als Titel die Kopfzeile aus MD-06, als Beschreibung „Tagessieger: BK (84 Punkte) ·
+  Rote Laterne: FK (29 Punkte)“ – bei Gleichstand alle Namen –, dazu ein festes Bild der App.
 
 ## 5. Strafen (`PEN`)
 
