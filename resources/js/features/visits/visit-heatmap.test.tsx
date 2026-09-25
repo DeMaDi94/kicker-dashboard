@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { NAV_ITEMS } from '@/layouts/shell/nav-items';
 import { VisitHeatmap } from './visit-heatmap';
@@ -18,9 +18,7 @@ describe('VIS-06 · the heatmap of visits by weekday and hour', () => {
         expect(rows).toHaveLength(7);
         expect(rows[0]).toHaveTextContent(/^Mon/);
         expect(rows[6]).toHaveTextContent(/^Sun/);
-        expect(
-            within(screen.getAllByRole('row')[0]).getAllByRole('columnheader'),
-        ).toHaveLength(25);
+        expect(screen.getAllByRole('columnheader')).toHaveLength(25);
     });
 
     it('gives every cell its count in words, not only in its shade', () => {
